@@ -14,6 +14,11 @@ namespace JBoyerLibaray.FileSystemHelper
             return File.ReadAllLines(filePath);
         }
 
+        public string ReadAllText(string filePath)
+        {
+            return File.ReadAllText(filePath);
+        }
+
         public void WriteAllText(string filePath, string content)
         {
             File.WriteAllText(filePath, content);
