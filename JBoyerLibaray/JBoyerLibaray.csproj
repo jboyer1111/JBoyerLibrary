@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomHandleErrorAttribute.cs" />
     <Compile Include="DeckOfCards\Card.cs" />
     <Compile Include="DeckOfCards\CardComparer.cs" />
     <Compile Include="DeckOfCards\CardSuitThenValueComparer.cs" />
@@ -69,8 +71,12 @@
     <Compile Include="DnDDiceRoller\DnDFormula.cs" />
     <Compile Include="DnDDiceRoller\DnDFormulaCalc.cs" />
     <Compile Include="DnDDiceRoller\TopBottom.cs" />
+    <Compile Include="Exceptions\CouldNotConvertToNumber.cs" />
+    <Compile Include="Exceptions\ExceptionHelper.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="FileSystemHelper\FileSystemHelper.cs" />
+    <Compile Include="FileSystem\FileResultHelper.cs" />
+    <Compile Include="FileSystem\FileSystemHelper.cs" />
+    <Compile Include="FileSystem\IFileSystemHelper.cs" />
     <Compile Include="RespectBeginingNumberFilenameSort.cs" />
     <Compile Include="RespectNumbersFilenameComparer.cs" />
     <Compile Include="ThueMorse.cs" />

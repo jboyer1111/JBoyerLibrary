@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JBoyerLibaray.FileSystemHelper
+namespace JBoyerLibaray.FileSystem
 {
-    public class FileSystemHelper
+    public class FileSystemHelper : IFileSystemHelper
     {
         public string[] ReadAllLines(string filePath)
         {
