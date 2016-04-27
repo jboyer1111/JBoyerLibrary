@@ -21,7 +21,11 @@ namespace JBoyerLibaray.Extensions
         public static bool Like(this string toSearch, string toFind)
         {
             // Cleans up tofind string to work with regex
-            string regString = String.Format(@"\A{0}\z", new Regex(@"\.|\$|\^|\{|\[|\(|\||\)|\*|\+|\?|\\").Replace(toFind, ch => @"\" + ch).Replace('_', '.').Replace("%", ".*"));
+            Regex regCleanup = new Regex(@"\.|\$|\^|\{|\[|\(|\||\)|\*|\+|\?|\\");
+            string regCleanedStr = regCleanup.Replace(toFind, ch => @"\" + ch);
+
+            // Replace Sql Wild Cards To Regex wild cards
+            string regString = String.Format(@"\A{0}\z", regCleanedStr.Replace('_', '.').Replace("%", ".*"));
 
             return new Regex(regString, RegexOptions.Singleline).IsMatch(toSearch);
         }

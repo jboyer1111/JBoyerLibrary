@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using JBoyerLibaray.Extensions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace JBoyerLibaray.Dice
 
         public new int Roll()
         {
-            return _numbers[_rand.Next(0, _numbers.Count)];
+            return _numbers.Random();
         }
     }
 }

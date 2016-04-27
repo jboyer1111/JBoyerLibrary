@@ -35,6 +35,13 @@ namespace JBoyerLibaray.Extensions
             itemArray.CopyTo(objects, 0);
 
             return objects;
-        } 
+        }
+
+        public static T Random<T>(this IEnumerable<T> items)
+        {
+            List<T> list = new List<T>(items);
+
+            return list[_rand.Next(0, list.Count())];
+        }
     }
 }
