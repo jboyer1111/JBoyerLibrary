@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
@@ -78,6 +79,8 @@
     <Compile Include="FileSystem\FileResultHelper.cs" />
     <Compile Include="FileSystem\FileSystemHelper.cs" />
     <Compile Include="FileSystem\IFileSystemHelper.cs" />
+    <Compile Include="MengasSponge\Spongeify.cs" />
+    <Compile Include="MengasSponge\SpongeifySettings.cs" />
     <Compile Include="RespectBeginingNumberFilenameSort.cs" />
     <Compile Include="RespectNumbersFilenameComparer.cs" />
     <Compile Include="ThueMorse.cs" />

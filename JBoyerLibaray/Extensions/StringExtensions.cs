@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -68,6 +69,15 @@ namespace JBoyerLibaray.Extensions
             chars[0] = chars[0].ToString().ToUpper().ToCharArray()[0];
             string result = String.Join(String.Empty, chars);
             return result;
+        }
+
+        public static string AddToEndOfFilename(this string filePath, string endOfFileName)
+        {
+            var filename = Path.GetFileName(filePath);
+            var filenameWOExt = Path.GetFileNameWithoutExtension(filePath);
+            var ext = Path.GetExtension(filePath);
+
+            return filePath.Replace(filename, filenameWOExt + endOfFileName + ext);
         }
     }
 }
