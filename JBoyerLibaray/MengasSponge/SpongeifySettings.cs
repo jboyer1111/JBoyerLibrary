@@ -9,9 +9,12 @@ namespace JBoyerLibaray.MengasSponge
 {
     public class SpongeifySettings
     {
-        private Color _color = Color.Transparent;
-        public Color Color { get { return _color; } }
-        
+        private Color _holeColor = Color.Transparent;
+        public Color HoleColor { get { return _holeColor; } }
+
+        private Color _baseColor = Color.White;
+        public Color BaseColor { get { return _baseColor; } }
+
         private SpongeifySettings()
         {
 
