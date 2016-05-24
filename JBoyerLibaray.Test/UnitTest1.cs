@@ -15,29 +15,25 @@ namespace JBoyerLibaray.Test
         [TestMethod]
         public void TestMethod1()
         {
-            List<string> tests = new List<string>();
-            for (int i = 0; i < 10; i++)
+            List<int> tests = new List<int>()
             {
-                tests.Add(ThueMorse.GetSquenceLengthOf(i));
-            }
-        }
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                3,
+                3,
+                3,
+                3
+            };
+            
 
-        [TestMethod]
-        public void TestColors()
-        {
-            ImageTransparencyHelper imageHelper = new ImageTransparencyHelper();
-            string imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "ScrumbleBeeOnTransparentBackground.png");
+            var shuffled = tests.Shuffle();
 
-            Image image = Image.FromFile(imagePath);
-            var newImage = ImageTransparencyHelper.RemoveHalfTransparency(image);
-            newImage.Save(imagePath.AddToEndOfFilename(".Trans"));
-        }
-
-        [TestMethod]
-        public void TestCreateImage()
-        {
-            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Sponge.png");
-            MengasSponge.Spongeify.CreateImage(8).Save(filePath, ImageFormat.Png);
+            var mode = shuffled.Mode();
         }
     }
 }

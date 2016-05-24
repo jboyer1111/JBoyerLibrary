@@ -79,5 +79,15 @@ namespace JBoyerLibaray.Extensions
 
             return filePath.Replace(filename, filenameWOExt + endOfFileName + ext);
         }
+
+        public static Stream ToStream(this string str)
+        {
+            Stream stream = new MemoryStream();
+            using (StreamWriter streamWriter = new StreamWriter(stream, Encoding.Unicode, str.Length, true) { AutoFlush = true })
+            {
+                streamWriter.Write(str);
+            }
+            return stream;
+        }
     }
 }

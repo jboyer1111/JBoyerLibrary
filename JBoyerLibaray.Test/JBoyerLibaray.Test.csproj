@@ -72,6 +72,9 @@
     <Compile Include="DnDDiceRollerTest\FakeRandomMax.cs" />
     <Compile Include="DnDDiceRollerTest\DnDFormulaTests.cs" />
     <Compile Include="DeckOfCardsTests\MultiDeckTests.cs" />
+    <Compile Include="ExtensionsTest\ListExtensionTests.cs" />
+    <Compile Include="ExtensionsTest\StreamExtensionTests.cs" />
+    <Compile Include="ExtensionsTest\StringExtentionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeckOfCardsTests\SetupFunctions.cs" />
     <Compile Include="TaskTest\UnitTest1.cs" />

@@ -79,6 +79,8 @@
     <Compile Include="Exceptions\CouldNotConvertToNumber.cs" />
     <Compile Include="Exceptions\ExceptionHelper.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
+    <Compile Include="FileSystem\FileHelper.cs" />
     <Compile Include="FileSystem\FileResultHelper.cs" />
     <Compile Include="FileSystem\FileSystemHelper.cs" />
     <Compile Include="FileSystem\IFileSystemHelper.cs" />
