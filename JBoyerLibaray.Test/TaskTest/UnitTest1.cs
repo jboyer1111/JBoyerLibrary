@@ -8,7 +8,7 @@ namespace JBoyerLibaray.Test.TaskTest
     [TestClass]
     public class UnitTest1
     {
-        private const string TransformTestOuputPath = @"D:\TestSite\JBoyerLibaray.Test\TaskTest\InputXML2.xml"; 
+        private const string TransformTestOuputPath = @"D:\MyLibrary\JBoyerLibaray.Test\TaskTest\InputXML2.xml"; 
 
         [TestCleanup]
         public void CleanUpFiles()
@@ -23,8 +23,8 @@ namespace JBoyerLibaray.Test.TaskTest
             //Arrange
             TransConfig trans = new TransConfig()
             { 
-                ConfigPath = @"D:\TestSite\JBoyerLibaray.Test\TaskTest\InputXML.xml",
-                TransFormConfig = @"D:\TestSite\JBoyerLibaray.Test\TaskTest\Transfrom.xslt",
+                ConfigPath = @"D:\MyLibrary\JBoyerLibaray.Test\TaskTest\InputXML.xml",
+                TransFormConfig = @"D:\MyLibrary\JBoyerLibaray.Test\TaskTest\Transfrom.xslt",
                 OutputPath = TransformTestOuputPath
             };
             string expected = String.Format("<?xml version=\"1.0\" encoding=\"utf-8\"?>{0}<configuration>{0}  <startup> {0}    <supportedRuntime version=\"v4.0\" sku=\".NETFramework,Version=v4.5\" />{0}  </startup>{0}  <appSettings>{0}    <add key=\"HasTransformed\" value=\"true\"/>{0}  </appSettings>{0}</configuration>", Environment.NewLine);
