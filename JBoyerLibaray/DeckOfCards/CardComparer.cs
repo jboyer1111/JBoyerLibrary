@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace JBoyerLibaray.DeckOfCards
 {
-    public class CardComparer
+    public static class CardComparer
     {
         private static CardSuitThenValueComparer _suitThenValue = new CardSuitThenValueComparer();
 
