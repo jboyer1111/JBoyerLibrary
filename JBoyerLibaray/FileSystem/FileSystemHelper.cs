@@ -24,7 +24,12 @@ namespace JBoyerLibaray.FileSystem
             File.WriteAllText(filePath, content);
         }
 
-        public FileStream GetFileStream(string filePath, FileMode fileMode, FileAccess fileAccess)
+        public void AppendAllText(string filePath, string content)
+        {
+            File.AppendAllText(filePath, content);
+        }
+
+        public Stream GetFileStream(string filePath, FileMode fileMode, FileAccess fileAccess)
         {
             return new FileStream(filePath, fileMode, fileAccess);
         }

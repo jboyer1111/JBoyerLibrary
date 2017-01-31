@@ -45,6 +45,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -76,6 +77,8 @@
     <Compile Include="DnDDiceRoller\DnDFormula.cs" />
     <Compile Include="DnDDiceRoller\DnDFormulaCalc.cs" />
     <Compile Include="DnDDiceRoller\TopBottom.cs" />
+    <Compile Include="ErrorLog.cs" />
+    <Compile Include="StringCipher.cs" />
     <Compile Include="Exceptions\CouldNotConvertToNumber.cs" />
     <Compile Include="Exceptions\ExceptionHelper.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Task\TransConfig.cs" />
     <Compile Include="Task\Add2Numbers.cs" />
+    <Compile Include="WebUtilHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
