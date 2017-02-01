@@ -102,7 +102,13 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Task\TransConfig.cs" />
     <Compile Include="Task\Add2Numbers.cs" />
-    <Compile Include="WebUtilHelper.cs" />
+    <Compile Include="UnitTests\FakeContollerContext.cs" />
+    <Compile Include="UnitTests\FakeHttpContext.cs" />
+    <Compile Include="UnitTests\FakeHttpRequest.cs" />
+    <Compile Include="UnitTests\FakeHttpResponse.cs" />
+    <Compile Include="UnitTests\FakeHttpServerUtility.cs" />
+    <Compile Include="UnitTests\FakeHttpSessionState.cs" />
+    <Compile Include="UnitTests\UnitTestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
