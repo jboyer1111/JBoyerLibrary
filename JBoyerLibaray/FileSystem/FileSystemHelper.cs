@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JBoyerLibaray.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -43,6 +44,26 @@ namespace JBoyerLibaray.FileSystem
             {
                 stream.CopyTo(fileStream);
             }
+        }
+
+        public IEnumerable<FileInfo> GetFilesInDir(string dirPath)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
+            if (!dirInfo.Exists)
+            {
+                throw ExceptionHelper.CreateArgumentException(() => dirPath, "Directory does not exist");
+            }
+            return dirInfo.GetFiles();
+        }
+
+        public IEnumerable<DirectoryInfo> GetDirctoriesInDir(string dirPath)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(dirPath);
+            if (!dirInfo.Exists)
+            {
+                throw ExceptionHelper.CreateArgumentException(() => dirPath, "Directory does not exist");
+            }
+            return dirInfo.GetDirectories();
         }
     }
 }
