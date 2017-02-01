@@ -66,8 +66,12 @@ namespace JBoyerLibaray.Extensions
         public static string CapitalizeFirstChar(this string word)
         {
             var chars = word.ToLower().ToCharArray();
-            chars[0] = chars[0].ToString().ToUpper().ToCharArray()[0];
+            chars[0] = chars[0].ToString().ToUpper().ToCharArray().First();
             string result = String.Join(String.Empty, chars);
+
+            string test = word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower();
+
+
             return result;
         }
 
