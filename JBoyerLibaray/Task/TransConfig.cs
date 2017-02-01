@@ -41,7 +41,7 @@ namespace JBoyerLibaray.Task
                     }
                 }
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
