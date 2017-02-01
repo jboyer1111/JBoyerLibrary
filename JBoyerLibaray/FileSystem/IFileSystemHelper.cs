@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace JBoyerLibaray.FileSystem
@@ -12,5 +13,7 @@ namespace JBoyerLibaray.FileSystem
         Stream GetFileStream(string filePath, FileMode fileMode, FileAccess fileAccess);
         void SaveStreamToFile(string filePath, Stream stream);
         void SaveStreamToFile(string filePath, Stream stream, bool overwrite);
+        IEnumerable<FileInfo> GetFilesInDir(string dirPath);
+        IEnumerable<DirectoryInfo> GetDirctoriesInDir(string dirPath);
     }
 }
