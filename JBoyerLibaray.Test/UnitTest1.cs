@@ -6,6 +6,9 @@ using System.Drawing;
 using System.IO;
 using JBoyerLibaray.Extensions;
 using System.Drawing.Imaging;
+using JBoyerLibaray.UnitTests;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace JBoyerLibaray.Test
 {
@@ -15,25 +18,16 @@ namespace JBoyerLibaray.Test
         [TestMethod]
         public void TestMethod1()
         {
-            List<int> tests = new List<int>()
-            {
-                1,
-                1,
-                1,
-                2,
-                2,
-                2,
-                2,
-                3,
-                3,
-                3,
-                3
-            };
-            
+            var controller = new FakeController();
 
-            var shuffled = tests.Shuffle();
-
-            var mode = shuffled.Mode();
+            UnitTestHelper.SetUpForUnitTests(controller, new RouteCollection(), new FakeUser("Bob"), false);
         }
+
+
+    }
+
+    public class FakeController : Controller
+    {
+
     }
 }

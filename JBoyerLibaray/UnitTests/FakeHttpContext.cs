@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 
@@ -8,10 +9,11 @@ namespace JBoyerLibaray.UnitTests
 {
     public class FakeHttpContext : HttpContextBase
     {
-        HttpRequestBase _request;
-        HttpResponseBase _response;
-        HttpServerUtilityBase _server;
-        HttpSessionStateBase _session;
+        private HttpRequestBase _request;
+        private HttpResponseBase _response;
+        private HttpServerUtilityBase _server;
+        private HttpSessionStateBase _session;
+        private IPrincipal _user;
 
         public FakeHttpContext(bool isAjaxRequest)
         {
@@ -19,6 +21,7 @@ namespace JBoyerLibaray.UnitTests
             _response = new FakeHttpResponse();
             _server = new FakeHttpServerUtility();
             _session = new FakeHttpSessionState();
+            _user = FakeUser.Anonymous();
         }
 
         public override HttpRequestBase Request
@@ -57,6 +60,22 @@ namespace JBoyerLibaray.UnitTests
         {
             var returnObj = DependencyResolver.Current.GetService(serviceType);
             return returnObj;
+        }
+
+        public override IPrincipal User
+        {
+            get
+            {
+                return _user;
+            }
+        }
+
+        public void LoginUser(IPrincipal user)
+        {
+            if (user.Identity.IsAuthenticated)
+            {
+                _user = user;
+            }
         }
     }
 }

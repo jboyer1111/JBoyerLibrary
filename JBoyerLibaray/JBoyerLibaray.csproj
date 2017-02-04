@@ -39,9 +39,17 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Visual Studio 2015\Projects\TestSite\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Web.XmlTransform, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.5.30.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Visual Studio 2015\Projects\TestSite\packages\Moq.4.5.30\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -108,6 +116,8 @@
     <Compile Include="UnitTests\FakeHttpResponse.cs" />
     <Compile Include="UnitTests\FakeHttpServerUtility.cs" />
     <Compile Include="UnitTests\FakeHttpSessionState.cs" />
+    <Compile Include="UnitTests\FakeIdentity.cs" />
+    <Compile Include="UnitTests\FakeUser.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
