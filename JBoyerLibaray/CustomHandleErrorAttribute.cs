@@ -49,7 +49,7 @@ namespace JBoyerLibaray
 
                     var errorLog = new ErrorLog(errorLogPath);
 
-                    errorLog.Write(filterContext.Exception);
+                    errorLog.Write(filterContext.RequestContext.HttpContext.User, filterContext.Exception);
                 }
                 else
                 {

@@ -16,17 +16,22 @@ namespace JBoyerLibaray.Test
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void FakeControllerTesting()
         {
-            var controller = new FakeController();
+            var controllerContext = new FakeControllerContext(new FakeCon(), false);
 
-            UnitTestHelper.SetUpForUnitTests(controller, new RouteCollection(), new FakeUser("Bob"), false);
+            
+
+
+
+
+
         }
 
 
     }
 
-    public class FakeController : Controller
+    public class FakeCon : Controller
     {
 
     }

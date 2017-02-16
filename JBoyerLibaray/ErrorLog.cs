@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,7 +31,7 @@ namespace JBoyerLibaray
 
         #region Public Methods
 
-        public void Write(string message)
+        public void Write(IPrincipal user, string message)
         {
             if (String.IsNullOrWhiteSpace(message))
             {
@@ -52,27 +53,28 @@ namespace JBoyerLibaray
             var abbrv = name.Split(' ').Aggregate("", (s, i) => s += i.First().ToString().ToUpper());
 
             var formattedMessage = String.Format(
-                "{0}\r\n{1}\r\n\r\n",
+                "{0} {1}:\r\n{2}\r\n\r\n",
                 String.Format(
                     "{0:MM-dd-yyyy hh:mm:ss} {1} {2}:",
                     date,
                     date.Hour > 12 ? "PM" : "AM",
                     abbrv
                 ),
+                user.Identity.IsAuthenticated ? user.Identity.Name : "Unknown",
                 message
             );
 
             _fileSystemHelper.AppendAllText(_errorLogPath, formattedMessage);
         }
 
-        public void Write(Exception exception)
+        public void Write(IPrincipal user, Exception exception)
         {
             if (exception == null)
             {
                 return;
             }
             
-            Write(exception.ToString());
+            Write(user, exception.ToString());
         }
 
         #endregion

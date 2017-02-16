@@ -14,14 +14,6 @@ namespace JBoyerLibaray.UnitTests
 {
     public static class UnitTestHelper
     {
-        //public static void SetUpForUnitTests(this Controller controller, RouteCollection routes, bool isAjax)
-        //{   
-        //    var controllerContext = new FakeControllerContext(controller, isAjax);
-
-        //    controller.ControllerContext = controllerContext;
-        //    controller.Url = new UrlHelper(new RequestContext(controllerContext.HttpContext, new RouteData()), routes);
-        //}
-
         public static void SetUpForUnitTests(this Controller controller, RouteCollection routes, IPrincipal user, bool isAjax)
         {
             var controllerContext = new FakeControllerContext(controller, isAjax);
@@ -32,26 +24,9 @@ namespace JBoyerLibaray.UnitTests
             controller.Url = new UrlHelper(new RequestContext(controllerContext.HttpContext, new RouteData()), routes);
         }
 
-        public static IDataReader MockIDataReader<T>(IEnumerable<T> items)
+        public static EnumerableDataReader ToDataReader<T>(this IEnumerable<T> collection)
         {
-            // This var stores current position in 'ojectsToEmulate' list
-            int pointer = -1;
-
-            List<T> itemsIndexable = items.ToList();
-
-            var mockDataReader = new Mock<IDataReader>();
-            
-            mockDataReader.Setup(x => x.Read())
-                // Return 'True' while list still has an item
-                .Returns(() => pointer < itemsIndexable.Count - 1)
-                // Go to next position
-                .Callback(() => pointer++);
-
-            //mockDataReader.Setup(x => x[It.IsAny<string>()])
-            //    // Again, use lazy initialization via lambda expression
-            //    .Returns<string>(s => itemsIndexable[pointer]);
-
-            return mockDataReader.Object;
+            return new EnumerableDataReader(collection);
         }
     }
 }
