@@ -110,6 +110,7 @@
     <Compile Include="DnDDiceRoller\DnDFormulaCalc.cs" />
     <Compile Include="DnDDiceRoller\TopBottom.cs" />
     <Compile Include="ErrorLog.cs" />
+    <Compile Include="Extensions\NumberExtentions.cs" />
     <Compile Include="StringCipher.cs" />
     <Compile Include="Exceptions\CouldNotConvertToNumber.cs" />
     <Compile Include="Exceptions\ExceptionHelper.cs" />
@@ -136,6 +137,8 @@
     <Compile Include="Task\Add2Numbers.cs" />
     <Compile Include="UnitTests\DynamicProperties.cs" />
     <Compile Include="UnitTests\EnumerableDataReader.cs" />
+    <Compile Include="UnitTests\Database\FakeCommand.cs" />
+    <Compile Include="UnitTests\Database\FakeParameterCollection.cs" />
     <Compile Include="UnitTests\FakeContollerContext.cs" />
     <Compile Include="UnitTests\FakeHttpContext.cs" />
     <Compile Include="UnitTests\FakeHttpRequest.cs" />

@@ -79,6 +79,25 @@ namespace JBoyerLibaray
             else
             {
                 base.OnException(filterContext);
+
+                if (!filterContext.ExceptionHandled && filterContext.RequestContext.HttpContext.IsCustomErrorEnabled)
+                {
+                    filterContext.ExceptionHandled = true;
+
+                    filterContext.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                    filterContext.Result = new ViewResult()
+                    {
+                        ViewName = "~/Views/Shared/Error.cshtml",
+                        ViewData = new ViewDataDictionary(filterContext.Controller.ViewData)
+                        {
+                            Model = new HandleErrorInfo(
+                                filterContext.Exception,
+                                filterContext.RequestContext.RouteData.Values["controller"].ToString(),
+                                filterContext.RequestContext.RouteData.Values["action"].ToString()
+                            )
+                        }
+                    };
+                }
             }
         }
     }
