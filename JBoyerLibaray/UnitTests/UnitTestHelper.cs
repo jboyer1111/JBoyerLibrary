@@ -28,5 +28,12 @@ namespace JBoyerLibaray.UnitTests
         {
             return new EnumerableDataReader(collection);
         }
+
+        public static EnumerableDataReader ToDataReader<T>(this IEnumerable<T> collection, Func<T, bool> predicate)
+        {
+            Type type = EnumerableDataReader.CalculateType(collection);
+
+            return new EnumerableDataReader(collection.Where(predicate), type);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JBoyerLibaray.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -11,112 +12,178 @@ namespace JBoyerLibaray.UnitTests.Database
     {
         #region Private Variables
 
+        private List<IDataParameter> _parameters;
+
         #endregion
 
         #region Public Properties
+
+        public int Count
+        {
+            get
+            {
+                return _parameters.Count();
+            }
+        }
+
+        public bool IsSynchronized
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public object SyncRoot
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        public System.Collections.IEnumerator GetEnumerator()
+        {
+            return _parameters.GetEnumerator();
+        }
+
+        public bool IsFixedSize
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public bool IsReadOnly
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         #endregion
 
         #region Constructor
 
+        public FakeParameterCollection()
+        {
+            _parameters = new List<IDataParameter>();
+        }
+
         #endregion
 
         #region Public Methods
 
-        #endregion
-
-        #region Private Methods
-
-        #endregion
-
-
-
-
-
-
-
-
         public bool Contains(string parameterName)
         {
-            throw new NotImplementedException();
+            return _parameters.Select(p => p.ParameterName).Contains(parameterName);
         }
 
         public int IndexOf(string parameterName)
         {
-            throw new NotImplementedException();
+            return _parameters.Select(p => p.ParameterName).ToList().IndexOf(parameterName);
         }
 
         public void RemoveAt(string parameterName)
         {
-            throw new NotImplementedException();
+            if (!Contains(parameterName))
+            {
+                return;
+            }
+
+            var parameter = _parameters.Where(p => p.ParameterName == parameterName).FirstOrDefault();
+            _parameters.Remove(parameter);
         }
 
         public object this[string parameterName]
         {
             get
             {
-                throw new NotImplementedException();
+                if (!Contains(parameterName))
+                {
+                    return null;
+                }
+
+                return _parameters.Where(p => p.ParameterName == parameterName).Select(p => p.Value).FirstOrDefault();
             }
             set
             {
-                throw new NotImplementedException();
-            }
-        }
+                if (!Contains(parameterName))
+                {
+                    throw ExceptionHelper.CreateArgumentException(() => parameterName, "Parameter not in list");
+                }
 
-        public int Add(object value)
-        {
-            throw new NotImplementedException();
+                var parameter = _parameters.Where(p => p.ParameterName == parameterName).FirstOrDefault();
+                parameter.Value = value;
+            }
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            _parameters.Clear();
         }
 
         public bool Contains(object value)
         {
-            throw new NotImplementedException();
+            return _parameters.Select(p => p.Value).Contains(value);
         }
 
         public int IndexOf(object value)
         {
-            throw new NotImplementedException();
+            return _parameters.Select(p => p.Value).ToList().IndexOf(value);
+        }
+
+        public int Add(object value)
+        {
+            var parameter = value as IDataParameter;
+            if (parameter == null)
+            {
+                throw ExceptionHelper.CreateArgumentOutOfRangeException(() => value, "value is not a data parameter", value);
+            }
+
+            _parameters.Add(parameter);
+
+            return _parameters.IndexOf(parameter);
         }
 
         public void Insert(int index, object value)
         {
-            throw new NotImplementedException();
-        }
+            var parameter = value as IDataParameter;
+            if (parameter == null)
+            {
+                throw ExceptionHelper.CreateArgumentOutOfRangeException(() => value, "value is not a data parameter", value);
+            }
 
-        public bool IsFixedSize
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public bool IsReadOnly
-        {
-            get { throw new NotImplementedException(); }
+            _parameters.Insert(index, parameter);
         }
 
         public void Remove(object value)
         {
-            throw new NotImplementedException();
+            var parameter = value as IDataParameter;
+            if (parameter == null)
+            {
+                throw ExceptionHelper.CreateArgumentOutOfRangeException(() => value, "value is not a data parameter", value);
+            }
+
+            _parameters.Remove(parameter);
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            _parameters.RemoveAt(index);
         }
 
         public object this[int index]
         {
             get
             {
-                throw new NotImplementedException();
+                return _parameters[index].Value;
             }
             set
             {
-                throw new NotImplementedException();
+                _parameters[index].Value = value;
             }
         }
 
@@ -125,24 +192,7 @@ namespace JBoyerLibaray.UnitTests.Database
             throw new NotImplementedException();
         }
 
-        public int Count
-        {
-            get { throw new NotImplementedException(); }
-        }
+        #endregion
 
-        public bool IsSynchronized
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public object SyncRoot
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public System.Collections.IEnumerator GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

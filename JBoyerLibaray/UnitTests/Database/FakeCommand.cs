@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
@@ -12,6 +14,7 @@ namespace JBoyerLibaray.UnitTests.Database
         #region Private Variables
 
         private IDataParameterCollection _parameters;
+        private Dictionary<string, IEnumerable<object>> _testData;
 
         #endregion
 
@@ -38,21 +41,16 @@ namespace JBoyerLibaray.UnitTests.Database
 
         #region Constructor
 
-        public FakeCommand(IDbConnection connection)
+        public FakeCommand(IDbConnection connection, Dictionary<string, IEnumerable<object>> testData)
         {
             Connection = connection;
             _parameters = new FakeParameterCollection();
+            _testData = testData;
         }
 
         #endregion
 
         #region Public Methods
-
-        
-
-        
-
-        #endregion
 
         public int ExecuteNonQuery()
         {
@@ -66,22 +64,46 @@ namespace JBoyerLibaray.UnitTests.Database
 
         public IDataReader ExecuteReader()
         {
-            throw new NotImplementedException();
+            var lowerCommandText = CommandText.ToLowerInvariant();
+            Regex getAllReg = new Regex(@"^select [*] from (\S+)$");
+            Regex getSingleRecord = new Regex(@"^select [*] from (\S+) where id = @id$");
+
+            if (getAllReg.IsMatch(lowerCommandText))
+            {
+                var match = getAllReg.Match(lowerCommandText);
+
+                var tableName = match.Groups[1].Value;
+
+                return _testData[tableName].ToDataReader();
+            }
+            else if (getSingleRecord.IsMatch(lowerCommandText))
+            {
+                var match = getSingleRecord.Match(lowerCommandText);
+
+                var tableName = match.Groups[1].Value;
+                int id = (int)_parameters["id"];
+
+                var test = _testData[tableName];
+
+                return _testData[tableName].ToDataReader(o => (int)o.GetType().GetProperty("Id").GetValue(o, null) == id);
+            }
+
+            return null;
         }
 
         public IDataReader ExecuteReader(CommandBehavior behavior)
         {
-            throw new NotImplementedException();
+            return ExecuteReader();
         }
 
         public void Cancel()
         {
-            throw new NotImplementedException();
+            // Do nothing
         }
 
         public IDbDataParameter CreateParameter()
         {
-            throw new NotImplementedException();
+            return new FakeParameter();
         }
 
         public void Prepare()
@@ -93,5 +115,8 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             // Do nothing
         }
+
+        #endregion
+
     }
 }

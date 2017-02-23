@@ -23,27 +23,7 @@ namespace JBoyerLibaray.UnitTests
         /// <param name="collection">IEnumerable&lt;>. For IEnumerable use other constructor and specify type.</param>
         public EnumerableDataReader(IEnumerable collection)
         {
-            // THANKS DANIEL!
-            foreach (Type intface in collection.GetType().GetInterfaces())
-            {
-                if (intface.IsGenericType && intface.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-                {
-                    _type = intface.GetGenericArguments()[0];
-                }
-            }
-
-            if (_type == null && collection.GetType().IsGenericType)
-            {
-                _type = collection.GetType().GetGenericArguments()[0];
-
-            }
-
-
-            if (_type == null)
-            {
-                throw new ArgumentException(
-                    "collection must be IEnumerable<>. Use other constructor for IEnumerable and specify type");
-            }
+            _type = CalculateType(collection);
 
             SetFields(_type);
 
@@ -110,6 +90,34 @@ namespace JBoyerLibaray.UnitTests
         public override bool NextResult()
         {
             return false;
+        }
+
+        public static Type CalculateType(IEnumerable collection)
+        {
+            Type type = null;
+            
+            // THANKS DANIEL!
+            foreach (Type intface in collection.GetType().GetInterfaces())
+            {
+                if (intface.IsGenericType && intface.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+                {
+                    type = intface.GetGenericArguments()[0];
+                }
+            }
+
+            if (type == null && collection.GetType().IsGenericType)
+            {
+                type = collection.GetType().GetGenericArguments()[0];
+
+            }
+
+
+            if (type == null)
+            {
+                throw new ArgumentException("Collection must be IEnumerable<>. Use other constructor for IEnumerable and specify type");
+            }
+
+            return type;
         }
     }
 }
