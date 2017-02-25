@@ -64,7 +64,7 @@ namespace JBoyerLibaray
                 message
             );
 
-            _fileSystemHelper.AppendAllText(_errorLogPath, formattedMessage);
+            _fileSystemHelper.File.AppendAllText(_errorLogPath, formattedMessage);
         }
 
         public void Write(IPrincipal user, Exception exception)

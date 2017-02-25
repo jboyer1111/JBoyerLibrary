@@ -92,6 +92,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileSystem\DirectoryWrapper.cs" />
+    <Compile Include="FileSystem\FileWrapper.cs" />
+    <Compile Include="FileSystem\IDirectoryWrapper.cs" />
+    <Compile Include="FileSystem\IFileWrapper.cs" />
     <Compile Include="MutableKeyValuePair.cs" />
     <Compile Include="CustomHandleErrorAttribute.cs" />
     <Compile Include="DeckOfCards\Card.cs" />

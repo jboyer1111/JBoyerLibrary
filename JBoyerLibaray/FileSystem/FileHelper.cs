@@ -21,7 +21,7 @@ namespace JBoyerLibaray.FileSystem
 
         public bool IsTiff(string filePath)
         {
-            using (var fileStream = _fileSystemHelper.GetFileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (var fileStream = _fileSystemHelper.File.Open(filePath, FileMode.Open, FileAccess.Read))
             {
                 return IsTiff(fileStream);
             }
@@ -79,7 +79,7 @@ namespace JBoyerLibaray.FileSystem
 
         public bool IsPDF(string filePath)
         {
-            using (var fileStream = _fileSystemHelper.GetFileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (var fileStream = _fileSystemHelper.File.Open(filePath, FileMode.Open, FileAccess.Read))
             {
                 return IsPDF(fileStream);
             }
