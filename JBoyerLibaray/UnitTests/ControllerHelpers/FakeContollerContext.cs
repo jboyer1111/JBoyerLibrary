@@ -22,6 +22,11 @@ namespace JBoyerLibaray.UnitTests
 
         public void LoginUser(IPrincipal user)
         {
+            if (user == null || user.Identity == null)
+            {
+                return;
+            }
+
             if (user.Identity.IsAuthenticated)
             {
                 (HttpContext as FakeHttpContext).LoginUser(user);

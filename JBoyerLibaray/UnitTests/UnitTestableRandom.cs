@@ -12,7 +12,7 @@ namespace JBoyerLibaray.UnitTests
 
         private int _index = 0;
         private int[] _numbers;
-        private int _byteIndex = 0;
+        //private int _byteIndex = 0;
         private byte[] _bytes;
 
         #endregion

@@ -66,7 +66,7 @@ namespace JBoyerLibaray.UnitTests.Database
 
         public void Close()
         {
-            _state = ConnectionState.Open;
+            _state = ConnectionState.Closed;
         }
 
         public IDbCommand CreateCommand()

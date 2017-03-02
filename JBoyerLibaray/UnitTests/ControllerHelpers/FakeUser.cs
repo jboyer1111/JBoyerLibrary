@@ -40,6 +40,11 @@ namespace JBoyerLibaray.UnitTests
             _roles.Add(role);
         }
 
+        public void AddRoles(string[] roles)
+        {
+            _roles.AddRange(roles);
+        }
+
         public static FakeUser Anonymous()
         {
             return new FakeUser();

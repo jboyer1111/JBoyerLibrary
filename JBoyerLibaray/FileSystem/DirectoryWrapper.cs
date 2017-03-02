@@ -63,7 +63,7 @@ namespace JBoyerLibaray.FileSystem
             // Copy all subdirectories
             foreach (var dir in sourceDirInfo.GetDirectories())
             {
-                CopyDir(dir.FullName, Path.Combine(targetDirInfo.FullName, dir.Name), merge);
+                Copy(dir.FullName, Path.Combine(targetDirInfo.FullName, dir.Name), merge);
             }
         }
 

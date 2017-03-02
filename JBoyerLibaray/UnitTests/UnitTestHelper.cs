@@ -14,6 +14,16 @@ namespace JBoyerLibaray.UnitTests
 {
     public static class UnitTestHelper
     {
+        public static void SetUpForUnitTests(this Controller controller, RouteCollection routes)
+        {
+            SetUpForUnitTests(controller, routes, false);
+        }
+
+        public static void SetUpForUnitTests(this Controller controller, RouteCollection routes, bool isAjax)
+        {
+            SetUpForUnitTests(controller, routes, null, isAjax);
+        }
+
         public static void SetUpForUnitTests(this Controller controller, RouteCollection routes, IPrincipal user, bool isAjax)
         {
             var controllerContext = new FakeControllerContext(controller, isAjax);

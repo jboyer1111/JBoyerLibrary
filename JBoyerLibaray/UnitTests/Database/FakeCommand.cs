@@ -81,7 +81,8 @@ namespace JBoyerLibaray.UnitTests.Database
                 var match = getSingleRecord.Match(lowerCommandText);
 
                 var tableName = match.Groups[1].Value;
-                int id = (int)_parameters["id"];
+                var idParameter = _parameters["id"] as IDbDataParameter;
+                int id = (int)idParameter.Value;
 
                 var test = _testData[tableName];
 

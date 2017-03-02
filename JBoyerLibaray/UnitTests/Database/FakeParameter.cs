@@ -17,7 +17,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             int size = 0;
             DbType dbType;
-            if (!DbType.TryParse(value.GetType().Name, out dbType))
+            if (value == null || !DbType.TryParse(value.GetType().Name, out dbType))
             {
                 dbType = DbType.String;
             }
