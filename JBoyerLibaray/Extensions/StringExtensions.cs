@@ -91,7 +91,19 @@ namespace JBoyerLibaray.Extensions
             {
                 streamWriter.Write(str);
             }
+            stream.Seek(0);
+
             return stream;
+        }
+
+        public static string SplitCamelCase(this string word, char delimitar = ' ')
+        {
+            var reg = new Regex(@"
+                (?<=[A-Z])(?=[A-Z][a-z]) |
+                 (?<=[^A-Z])(?=[A-Z]) |
+                 (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
+
+            return reg.Replace(word, delimitar.ToString());
         }
     }
 }

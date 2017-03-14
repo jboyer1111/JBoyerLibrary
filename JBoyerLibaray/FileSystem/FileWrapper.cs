@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JBoyerLibaray.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -50,22 +51,22 @@ namespace JBoyerLibaray.FileSystem
             File.Copy(sourceFileName, destFileName, overwrite);
 		}
 
-        public FileStream Create(string path)
+        public Stream Create(string path)
 		{
             return File.Create(path);
 		}
 
-        public FileStream Create(string path, int bufferSize)
+        public Stream Create(string path, int bufferSize)
 		{
             return File.Create(path, bufferSize);
 		}
 
-        public FileStream Create(string path, int bufferSize, FileOptions options)
+        public Stream Create(string path, int bufferSize, FileOptions options)
 		{
             return File.Create(path, bufferSize, options);
 		}
 
-        public FileStream Create(string path, int bufferSize, FileOptions options, FileSecurity fileSecurity)
+        public Stream Create(string path, int bufferSize, FileOptions options, FileSecurity fileSecurity)
 		{
             return File.Create(path, bufferSize, options, fileSecurity);
         }
@@ -145,22 +146,22 @@ namespace JBoyerLibaray.FileSystem
             File.Move(sourceFileName, destFileName);
 		}
 
-        public FileStream Open(string path, FileMode mode)
+        public Stream Open(string path, FileMode mode)
 		{
             return File.Open(path, mode);
 		}
 
-        public FileStream Open(string path, FileMode mode, FileAccess access)
+        public Stream Open(string path, FileMode mode, FileAccess access)
 		{
             return File.Open(path, mode, access);
         }
 
-        public FileStream Open(string path, FileMode mode, FileAccess access, FileShare share)
+        public Stream Open(string path, FileMode mode, FileAccess access, FileShare share)
 		{
             return File.Open(path, mode, access, share);
         }
 
-        public FileStream OpenRead(string path)
+        public Stream OpenRead(string path)
 		{
             return File.OpenRead(path);
 		}
@@ -170,7 +171,7 @@ namespace JBoyerLibaray.FileSystem
             return File.OpenText(path);
 		}
 
-        public FileStream OpenWrite(string path)
+        public Stream OpenWrite(string path)
 		{
             return File.OpenWrite(path);
 		}
@@ -218,6 +219,23 @@ namespace JBoyerLibaray.FileSystem
         public void Replace(string sourceFileName, string destinationFileName, string destinationBackupFileName, bool ignoreMetadataErrors)
 		{
             File.Replace(sourceFileName, destinationFileName, destinationBackupFileName, ignoreMetadataErrors);
+        }
+
+        public void SaveStream(string path, Stream stream)
+        {
+            using (var fileStream = Create(path))
+            {
+                try
+                {
+                    stream.Seek(0);
+                }
+                catch
+                {
+                    // Do nothing stream is unseekable
+                }
+
+                stream.CopyTo(fileStream);
+            }
         }
 
         public void SetAccessControl(string path, FileSecurity fileSecurity)

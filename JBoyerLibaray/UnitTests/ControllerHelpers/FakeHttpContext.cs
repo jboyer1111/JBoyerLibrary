@@ -15,11 +15,11 @@ namespace JBoyerLibaray.UnitTests
         private HttpSessionStateBase _session;
         private IPrincipal _user;
 
-        public FakeHttpContext(bool isAjaxRequest)
+        public FakeHttpContext(Controller controller, bool isAjaxRequest)
         {
             _request = new FakeHttpRequest(isAjaxRequest);
             _response = new FakeHttpResponse();
-            _server = new FakeHttpServerUtility();
+            _server = new FakeHttpServerUtility(controller);
             _session = new FakeHttpSessionState();
             _user = FakeUser.Anonymous();
         }

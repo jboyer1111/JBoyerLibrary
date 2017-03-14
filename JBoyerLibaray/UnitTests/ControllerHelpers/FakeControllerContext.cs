@@ -13,9 +13,9 @@ namespace JBoyerLibaray.UnitTests
 {
     public class FakeControllerContext : ControllerContext
     {
-        public FakeControllerContext(ControllerBase controller) : this(controller, false) { }
+        public FakeControllerContext(Controller controller) : this(controller, false) { }
 
-        public FakeControllerContext(ControllerBase controller, bool isAjaxRequest) : base(new FakeHttpContext(isAjaxRequest), new RouteData(), controller)
+        public FakeControllerContext(Controller controller, bool isAjaxRequest) : base(new FakeHttpContext(controller, isAjaxRequest), new RouteData(), controller)
         {
             
         }

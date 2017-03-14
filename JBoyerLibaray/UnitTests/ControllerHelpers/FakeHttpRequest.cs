@@ -50,7 +50,7 @@ namespace JBoyerLibaray.UnitTests
         {
             get
             {
-                return "/";
+                return "/Test/";
             }
         }
 
@@ -58,7 +58,7 @@ namespace JBoyerLibaray.UnitTests
         {
             get
             {
-                return "/";
+                return "/Test/";
             }
         }
 
