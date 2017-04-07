@@ -7,7 +7,7 @@ using JBoyerLibaray.DeckOfCards;
 namespace JBoyerLibaray.Test.DeckOfCardsTests
 {
     [TestClass]
-    public class MultiDeckTests : JBoyerLibaray.Test.DeckOfCardsTests.SetupFunctions
+    public class MultiDeckTests : DeckStrings
     {
         [TestMethod]
         public void MulitDeckHasMoreCardsThanADeck()

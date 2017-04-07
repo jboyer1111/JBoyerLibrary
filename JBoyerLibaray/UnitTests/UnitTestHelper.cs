@@ -45,5 +45,19 @@ namespace JBoyerLibaray.UnitTests
 
             return new EnumerableDataReader(collection.Where(predicate), type);
         }
+
+        public static ExceptionContext CreateExceptionContext(this Controller controller, string action, Exception exception)
+        {
+            return CreateExceptionContext(controller, action, exception, false);
+        }
+
+        public static ExceptionContext CreateExceptionContext(this Controller controller, string action, Exception exception, bool isAjax)
+        {
+            var fakeControllerContext = new FakeControllerContext(controller, isAjax);
+            fakeControllerContext.AddRouteData("controller", "test");
+            fakeControllerContext.AddRouteData("action", action);
+
+            return new ExceptionContext(fakeControllerContext, exception);
+        }
     }
 }

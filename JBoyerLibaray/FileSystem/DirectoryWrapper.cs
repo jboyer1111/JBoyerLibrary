@@ -242,6 +242,11 @@ namespace JBoyerLibaray.FileSystem
             return Directory.GetParent(path);
         }
 
+        public string GetParentPath(string path)
+        {
+            return Directory.GetParent(path).FullName;
+        }
+
         public void Move(string sourceDirName, string destDirName)
         {
             Directory.Move(sourceDirName, destDirName);

@@ -36,7 +36,7 @@ namespace JBoyerLibaray.UnitTests
         {
             get
             {
-                return base.Response;
+                return _response;
             }
         }
 
@@ -80,6 +80,15 @@ namespace JBoyerLibaray.UnitTests
             if (user.Identity.IsAuthenticated)
             {
                 _user = user;
+            }
+        }
+
+        public override bool IsCustomErrorEnabled
+        {
+            get
+            {
+                // This should always be true inside a unit test
+                return true;
             }
         }
     }

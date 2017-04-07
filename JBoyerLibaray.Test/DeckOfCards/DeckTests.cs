@@ -7,7 +7,7 @@ using JBoyerLibaray.DeckOfCards;
 namespace JBoyerLibaray.Test.DeckOfCardsTests
 {
     [TestClass]
-    public class DeckTests : SetupFunctions
+    public class DeckTests : DeckStrings
     {
         [TestMethod]
         public void DeckEqualsMethod()
@@ -251,7 +251,7 @@ namespace JBoyerLibaray.Test.DeckOfCardsTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "")]
+        [ExpectedException(typeof(ArgumentException), "")]
         public void ParseDeckThrowsErrorWhenInvalidString()
         {
             //Arrange

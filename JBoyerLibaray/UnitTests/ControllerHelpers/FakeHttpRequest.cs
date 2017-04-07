@@ -10,6 +10,7 @@ namespace JBoyerLibaray.UnitTests
     {
         NameValueCollection _collection;
         NameValueCollection _form;
+        byte[] _fileBytes = new byte[] { };
 
         public FakeHttpRequest(bool isAjaxRequest)
         {
@@ -88,6 +89,29 @@ namespace JBoyerLibaray.UnitTests
             {
                 return new Uri("http://localhost/", UriKind.Absolute);
             }
+        }
+
+        public override byte[] BinaryRead(int count)
+        {
+            if (_fileBytes.Length < count)
+            {
+                return _fileBytes;
+            }
+
+            return _fileBytes.Take(count).ToArray();
+        }
+
+        public override int ContentLength
+        {
+            get
+            {
+                return _fileBytes.Length;
+            }
+        }
+
+        public void AddFileToRequest(byte[] fileBytes)
+        {
+            _fileBytes = fileBytes;
         }
     }
 }

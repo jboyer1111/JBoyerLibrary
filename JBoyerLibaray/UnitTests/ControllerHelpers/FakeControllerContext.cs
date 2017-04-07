@@ -20,6 +20,18 @@ namespace JBoyerLibaray.UnitTests
             
         }
 
+        public void AddRouteData(string key, string value)
+        {
+            RouteData.Values.Add(key, value);
+        }
+
+        public void AddFileToReqeust(byte[] fileBytes)
+        {
+            var fakeReqeust = HttpContext.Request as FakeHttpRequest;
+
+            fakeReqeust.AddFileToRequest(fileBytes);
+        }
+
         public void LoginUser(IPrincipal user)
         {
             if (user == null || user.Identity == null)

@@ -7,14 +7,27 @@ using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
 using System.IO;
+using JBoyerLibaray.FileSystem;
 
 namespace JBoyerLibaray
 {
     public class CustomHandleErrorAttribute : HandleErrorAttribute
     {
+        private IFileSystemHelper _fileSystemHelper;
+
+        public CustomHandleErrorAttribute() : this(new FileSystemHelper()) { }
+
+        public CustomHandleErrorAttribute(IFileSystemHelper fileSystemHelper)
+        {
+            _fileSystemHelper = fileSystemHelper;
+        }
+
         public override void OnException(ExceptionContext filterContext)
         {
-            if (filterContext == null) { return; }
+            if (filterContext == null)
+            {
+                return;
+            }
 
             try
             {
@@ -29,13 +42,14 @@ namespace JBoyerLibaray
                         )
                     );
 
-                    if (!Directory.Exists(configSetting))
+                    if (!_fileSystemHelper.Directory.Exists(configSetting))
                     {
                         // We cannot log things on the build server, so builds fail when integration tests are run.
-                        DirectoryInfo di = Directory.GetParent(configSetting);
-                        if (di.Exists)
+                        var parentPath = _fileSystemHelper.Directory.GetParentPath(configSetting);
+                        
+                        if (_fileSystemHelper.Directory.Exists(parentPath))
                         {
-                            Directory.CreateDirectory(configSetting);
+                            _fileSystemHelper.Directory.CreateDirectory(configSetting);
                         }
                         else
                         {
@@ -53,7 +67,7 @@ namespace JBoyerLibaray
                 }
                 else
                 {
-                    Trace.WriteLine(filterContext.Exception.Message);                    
+                    Trace.WriteLine(filterContext.Exception.Message);
                 }
             }
             catch (Exception e)

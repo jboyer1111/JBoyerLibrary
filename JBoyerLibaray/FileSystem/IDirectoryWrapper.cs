@@ -44,6 +44,7 @@ namespace JBoyerLibaray.FileSystem
         DateTime GetLastWriteTimeUtc(string path);
         string[] GetLogicalDrives();
         DirectoryInfo GetParent(string path);
+        string GetParentPath(string path);
         void Move(string sourceDirName, string destDirName);
         void SetAccessControl(string path, DirectorySecurity directorySecurity);
         void SetCreationTime(string path, DateTime creationTime);

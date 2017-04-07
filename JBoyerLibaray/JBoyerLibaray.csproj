@@ -156,6 +156,7 @@
     <Compile Include="UnitTests\ControllerHelpers\FakeUser.cs" />
     <Compile Include="UnitTests\Database\FakeTrasaction.cs" />
     <Compile Include="UnitTests\Database\ObjectDataReader.cs" />
+    <Compile Include="UnitTests\ReturnsQueue.cs" />
     <Compile Include="UnitTests\UnitTestableRandom.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />
   </ItemGroup>

@@ -1,3 +1,4 @@
+using JBoyerLibaray.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         #endregion
 
-        #region Public Variables
+        #region Public Properites
 
         public string Rank
         {
@@ -37,40 +38,38 @@ namespace JBoyerLibaray.DeckOfCards
         {
             get
             {
-                switch (_rank)
+                if (_rank == "Ace")
                 {
-                    case "Ace":
-                        if (_aceIsHigh)
-                        {
-                            return 14;
-                        }
-                        return 1;
-                    case "2":
-                        return 2;
-                    case "3":
-                        return 3;
-                    case "4":
-                        return 4;
-                    case "5":
-                        return 5;
-                    case "6":
-                        return 6;
-                    case "7":
-                        return 7;
-                    case "8":
-                        return 8;
-                    case "9":
-                        return 9;
-                    case "10":
-                        return 10;
-                    case "Jack":
-                        return 11;
-                    case "Queen":
-                        return 12;
-                    case "King":
-                        return 13;
-                    default:
+                    if (_aceIsHigh)
+                    {
+                        return 14;
+                    }
+                    return 1;
+                }
+                else if (_rank == "King")
+                {
+                    return 13;
+                }
+                else if (_rank == "Queen")
+                {
+                    return 12;
+                }
+                else if (_rank == "Jack")
+                {
+                    return 11;
+                }
+                else
+                {
+                    int result = 0;
+                    Int32.TryParse(_rank, out result);
+
+                    // Higher values require face card Ranks
+                    if (result > 10)
+                    {
                         return 0;
+                    }
+
+                    return result;
                 }
             }
         }
@@ -81,6 +80,16 @@ namespace JBoyerLibaray.DeckOfCards
 
         public Card(string suit, string rank)
         {
+            if (String.IsNullOrWhiteSpace(suit))
+            {
+                throw ExceptionHelper.CreateArgumentException(() => suit, "Cannot be null, empty, or whitespace.");
+            }
+
+            if (String.IsNullOrWhiteSpace(rank))
+            {
+                throw ExceptionHelper.CreateArgumentException(() => rank, "Cannot be null, empty, or whitespace.");
+            }
+
             _suit = suit;
             _rank = rank;
         }
@@ -101,26 +110,41 @@ namespace JBoyerLibaray.DeckOfCards
         public override bool Equals(object obj)
         {
             if (obj is Card)
+            {
                 return Equals((Card)obj);
-            else
-                return false;
+            }
+
+            return false;
         }
 
         public bool Equals(Card other)
         {
+            // Null check
             if (other == null)
+            {
                 return false;
+            }
+
+            // Refrence check
             if (ReferenceEquals(other, this))
+            {
                 return true;
+            }
+
+            // Type check. I my cards are only equal if they are same type
+            // Sub types are not allowed to be equal to inheritied types
             if (other.GetType() != this.GetType())
+            {
                 return false;
-            Card rhs = other as Card;
-            return this.Suit == rhs.Suit && this.Value == rhs.Value;
+            }
+            
+            // Check is suit and value are the same
+            return this.Suit == other.Suit && this.Value == other.Value;
         }
 
         public override int GetHashCode()
         {
-            return this.Suit.GetHashCode() ^ this.Value.GetHashCode();
+            return this.GetType().GetHashCode() ^ this.Suit.GetHashCode() ^ this.Value.GetHashCode();
         }
 
         public static bool Equals(Card card1, Card card2)
@@ -144,12 +168,23 @@ namespace JBoyerLibaray.DeckOfCards
 
         public static Card Parse(string card)
         {
-            if (card == null)
-                throw new ArgumentNullException();
+            if (String.IsNullOrWhiteSpace(card))
+            {
+                throw ExceptionHelper.CreateArgumentException(() => card, "Cannot be null, empty, or whitespace");
+            }
+
+            // Clean up extra whitespace
             card = card.Trim();
-            string[] cardInfo = Regex.Split(card, "of");
+
+            // Require card text to be suit of rank
+            string[] cardInfo = Regex.Split(card, " of ");
+
+            // Make sure string was split correctly
             if (cardInfo.Count() != 2)
-                throw new Exception(string.Format("Unable to parse '{0}' into type of card", card));
+            {
+                throw ExceptionHelper.CreateArgumentException(() => card, String.Format("Unable to parse '{0}' into type of card", card));
+            }
+            
             return new Card(cardInfo[1].Trim(), cardInfo[0].Trim());
         }
 
