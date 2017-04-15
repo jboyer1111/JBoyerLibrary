@@ -1,4 +1,5 @@
-﻿using JBoyerLibaray.FileSystem;
+﻿using JBoyerLibaray.Exceptions;
+using JBoyerLibaray.FileSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +15,34 @@ namespace JBoyerLibaray
 
         private string _errorLogPath;
         private IFileSystemHelper _fileSystemHelper;
+        private ITimeProvider _timeProvider;
 
         #endregion
 
         #region Constructor
 
-        public ErrorLog(string filePath) : this(filePath, new FileSystemHelper()) { }
+        public ErrorLog(string filePath) : this(filePath, new FileSystemHelper(), new TimeProvider()) { }
 
-        public ErrorLog(string filePath, IFileSystemHelper fileSystemHelper)
+        public ErrorLog(string filePath, IFileSystemHelper fileSystemHelper, ITimeProvider timeProvider)
         {
+            if (String.IsNullOrWhiteSpace(filePath))
+            {
+                throw ExceptionHelper.CreateArgumentException(() => filePath, "Cannot be null, empty, or whitespace.");
+            }
+
+            if (fileSystemHelper == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => fileSystemHelper);
+            }
+
+            if (timeProvider == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => timeProvider);
+            }
+
             _errorLogPath = filePath;
             _fileSystemHelper = fileSystemHelper;
+            _timeProvider = timeProvider;
         }
 
         #endregion
@@ -38,7 +56,7 @@ namespace JBoyerLibaray
                 return;
             }
 
-            var date = DateTime.Now;
+            var date = _timeProvider.Now;
 
             string name;
             if (date.IsDaylightSavingTime())
@@ -60,7 +78,7 @@ namespace JBoyerLibaray
                     date.Hour > 12 ? "PM" : "AM",
                     abbrv
                 ),
-                user.Identity.IsAuthenticated ? user.Identity.Name : "Unknown",
+                user != null && user.Identity.IsAuthenticated ? user.Identity.Name : "Unknown",
                 message
             );
 

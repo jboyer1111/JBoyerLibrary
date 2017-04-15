@@ -8,19 +8,35 @@ using System.Web.Mvc;
 using System.Configuration;
 using System.IO;
 using JBoyerLibaray.FileSystem;
+using JBoyerLibaray.Exceptions;
 
 namespace JBoyerLibaray
 {
     public class CustomHandleErrorAttribute : HandleErrorAttribute
     {
+        #region Private Variables
+
         private IFileSystemHelper _fileSystemHelper;
 
-        public CustomHandleErrorAttribute() : this(new FileSystemHelper()) { }
+        #endregion
 
+        #region Constructor
+
+        public CustomHandleErrorAttribute() : this(new FileSystemHelper()) { }
+        
         public CustomHandleErrorAttribute(IFileSystemHelper fileSystemHelper)
         {
+            if (fileSystemHelper == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => fileSystemHelper);
+            }
+
             _fileSystemHelper = fileSystemHelper;
         }
+
+        #endregion
+
+        #region Public Methods
 
         public override void OnException(ExceptionContext filterContext)
         {
@@ -29,53 +45,7 @@ namespace JBoyerLibaray
                 return;
             }
 
-            try
-            {
-                var configSetting = ConfigurationManager.AppSettings["ErrorLogPath"];
-                if (!String.IsNullOrEmpty(configSetting))
-                {
-                    var errorLogPath = Path.Combine(
-                        configSetting,
-                        String.Format(
-                            "ErrorLog {0:MM-dd-yyyy}.txt",
-                            DateTime.Now
-                        )
-                    );
-
-                    if (!_fileSystemHelper.Directory.Exists(configSetting))
-                    {
-                        // We cannot log things on the build server, so builds fail when integration tests are run.
-                        var parentPath = _fileSystemHelper.Directory.GetParentPath(configSetting);
-                        
-                        if (_fileSystemHelper.Directory.Exists(parentPath))
-                        {
-                            _fileSystemHelper.Directory.CreateDirectory(configSetting);
-                        }
-                        else
-                        {
-                            // This will be caught below
-                            throw new DirectoryNotFoundException(String.Format(
-                                "The parent folder for the path '{0}' does not exist.",
-                                configSetting
-                            ));
-                        }
-                    }
-
-                    var errorLog = new ErrorLog(errorLogPath);
-
-                    errorLog.Write(filterContext.RequestContext.HttpContext.User, filterContext.Exception);
-                }
-                else
-                {
-                    Trace.WriteLine(filterContext.Exception.Message);
-                }
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine("Reporting Error: " + filterContext.Exception.Message);
-
-                Trace.WriteLine("Error Log Error: " + e.Message);
-            }
+            logError(filterContext);
 
             if (filterContext.HttpContext.Request.IsAjaxRequest())
             {
@@ -87,7 +57,7 @@ namespace JBoyerLibaray
                 {
                     Data = filterContext.Exception.ToString().Trim(),
                     ContentType = "application/json",
-                    JsonRequestBehavior = JsonRequestBehavior.DenyGet
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
             }
             else
@@ -98,7 +68,7 @@ namespace JBoyerLibaray
                 {
                     filterContext.ExceptionHandled = true;
 
-                    filterContext.HttpContext.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                    filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     filterContext.Result = new ViewResult()
                     {
                         ViewName = "~/Views/Shared/Error.cshtml",
@@ -114,5 +84,62 @@ namespace JBoyerLibaray
                 }
             }
         }
+
+        #endregion
+
+        #region Private Methods
+
+        private void logError(ExceptionContext filterContext)
+        {
+            try
+            {
+                var configSetting = ConfigurationManager.AppSettings["ErrorLogPath"];
+                if (!String.IsNullOrWhiteSpace(configSetting))
+                {
+                    var errorLogPath = Path.Combine(
+                        configSetting,
+                        String.Format(
+                            "ErrorLog {0:MM-dd-yyyy}.txt",
+                            DateTime.Now
+                        )
+                    );
+
+                    if (!_fileSystemHelper.Directory.Exists(configSetting))
+                    {
+                        // We cannot log things on the build server, so builds fail when integration tests are run.
+                        var parentPath = _fileSystemHelper.Directory.GetParentPath(configSetting);
+
+                        if (_fileSystemHelper.Directory.Exists(parentPath))
+                        {
+                            _fileSystemHelper.Directory.CreateDirectory(configSetting);
+                        }
+                        else
+                        {
+                            // This will be caught below
+                            throw new DirectoryNotFoundException(String.Format(
+                                "The parent folder for the path '{0}' does not exist.",
+                                configSetting
+                            ));
+                        }
+                    }
+
+                    var errorLog = new ErrorLog(errorLogPath, _fileSystemHelper, new TimeProvider());
+
+                    errorLog.Write(filterContext.RequestContext.HttpContext.User, filterContext.Exception);
+                }
+                else
+                {
+                    Trace.WriteLine(filterContext.Exception.Message);
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("Reporting Error: " + filterContext.Exception.Message);
+
+                Trace.WriteLine("Error Log Error: " + e.Message);
+            }
+        }
+
+        #endregion
     }
 }

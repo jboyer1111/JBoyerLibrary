@@ -54,7 +54,7 @@ namespace JBoyerLibaray.UnitTests
         public static ExceptionContext CreateExceptionContext(this Controller controller, string action, Exception exception, bool isAjax)
         {
             var fakeControllerContext = new FakeControllerContext(controller, isAjax);
-            fakeControllerContext.AddRouteData("controller", "test");
+            fakeControllerContext.AddRouteData("controller", controller.GetType().Name.Replace("Controller", ""));
             fakeControllerContext.AddRouteData("action", action);
 
             return new ExceptionContext(fakeControllerContext, exception);

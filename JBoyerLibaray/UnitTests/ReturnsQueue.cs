@@ -21,6 +21,7 @@ namespace JBoyerLibaray.UnitTests
 
         public ReturnsQueue(T defaultItem)
         {
+            _queue = new Queue<T>();
             _constructorFunc = () => defaultItem;
         }
 

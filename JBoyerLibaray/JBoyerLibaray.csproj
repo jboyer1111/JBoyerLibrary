@@ -92,6 +92,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITimeProvider.cs" />
+    <Compile Include="TimeProvider.cs" />
     <Compile Include="FileSystem\DirectoryWrapper.cs" />
     <Compile Include="FileSystem\FileWrapper.cs" />
     <Compile Include="FileSystem\IDirectoryWrapper.cs" />
@@ -131,7 +133,6 @@
     <Compile Include="RespectBeginingNumberFilenameSort.cs" />
     <Compile Include="RespectNumbersFilenameComparer.cs" />
     <Compile Include="ThueMorse.cs" />
-    <Compile Include="PascalTriangle.cs" />
     <Compile Include="PasswordGenerator\CharicterList.cs" />
     <Compile Include="PasswordGenerator\CharType.cs" />
     <Compile Include="PasswordGenerator\PasswordGenerator.cs" />

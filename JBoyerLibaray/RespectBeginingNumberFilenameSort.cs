@@ -9,11 +9,30 @@ namespace JBoyerLibaray
 {
     public class RespectBeginingNumberFilenameSort : IComparer<string>
     {
+        private Regex _reg = new Regex(@"^\d+");
+
         public int Compare(string x, string y)
         {
-            Regex reg = new Regex(@"^\d+");
-            Match xMatch = reg.Match(x);
-            Match yMatch = reg.Match(y);
+            // Check if values are both null
+            if (x == null && y == null)
+            {
+                return 0;
+            }
+
+            // Check if x is null
+            if (x == null)
+            {
+                return -1;
+            }
+
+            // Check if y is null
+            if (y == null)
+            {
+                return 1;
+            }
+
+            Match xMatch = _reg.Match(x);
+            Match yMatch = _reg.Match(y);
             string xStr = null;
             string yStr = null;
             if (xMatch.Success)

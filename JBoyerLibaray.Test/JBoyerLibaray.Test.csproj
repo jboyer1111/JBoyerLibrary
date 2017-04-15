@@ -96,7 +96,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -115,6 +117,9 @@
     <Compile Include="DeckOfCards\DeckStrings.cs" />
     <Compile Include="TaskTest\UnitTest1.cs" />
     <Compile Include="CustomHandleErrorAttributeTests.cs" />
+    <Compile Include="ErrorLogTests.cs" />
+    <Compile Include="MutableKeyValuePairTests.cs" />
+    <Compile Include="RespectBeginingNumberFilenameSortTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JBoyerLibaray\JBoyerLibaray.csproj">
