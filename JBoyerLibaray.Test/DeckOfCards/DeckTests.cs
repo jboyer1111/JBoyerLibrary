@@ -2,29 +2,216 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using JBoyerLibaray.DeckOfCards;
 
-namespace JBoyerLibaray.Test.DeckOfCardsTests
+namespace JBoyerLibaray.DeckOfCards
 {
     [TestClass]
     public class DeckTests : DeckStrings
     {
+
+        #region Constructor Tests
+        
         [TestMethod]
-        public void DeckEqualsMethod()
+        public void Deck_Constructor()
+        {
+            // Arrange
+
+            // Act
+            new Deck();
+
+            // Assert
+        }
+
+        #endregion
+
+        #region Property Tests
+
+        [TestMethod]
+        public void Deck_AceIsHighIsFalseByDefault()
+        {
+            // Arrange
+
+            // Act
+            var result = new Deck().AceIsHigh;
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void Deck_AceIsHighIsUpdateable()
+        {
+            // Arrange
+            var deck = new Deck();
+
+            // Act
+            deck.AceIsHigh = true;
+
+            // Assert
+            Assert.IsTrue(deck.AceIsHigh);
+        }
+
+        [TestMethod]
+        public void Deck_AceIsHighUpdatesCardSettingsAsWell()
+        {
+            // Arrange
+            var deck = Deck.GetUnShuffledDeck();
+            var card = deck.First();
+
+            // Act
+            var before = card.Value;
+
+            deck.AceIsHigh = true;
+
+            var after = card.Value;
+
+            // Assert
+            Assert.AreNotEqual(before, after);
+            Assert.AreEqual(1, before);
+            Assert.AreEqual(14, after);
+        }
+
+        [TestMethod]
+        public void Deck_CardCountGivesCountOne()
+        {
+            // Arrange
+
+            // Act
+            var result = new Deck();
+
+            // Assert
+            Assert.AreEqual(52, result.CardCount);
+            Assert.AreEqual(result.Count(), result.CardCount);
+        }
+
+        [TestMethod]
+        public void Deck_CardCountGivesCountTwo()
+        {
+            // Arrange
+            var result = new Deck();
+
+            // Act
+            result.DrawCards(10);
+
+            // Assert
+            Assert.AreEqual(42, result.CardCount);
+            Assert.AreEqual(result.Count(), result.CardCount);
+        }
+
+        [TestMethod]
+        public void Deck_CardsReturnsDeckAsIEnumerable()
+        {
+            // Arrange
+            var deck = Deck.GetUnShuffledDeck();
+
+            // Act
+            IEnumerable<Card> cards = Deck.GetUnShuffledDeck();
+
+            // Assert
+            Assert.IsNotNull(cards);
+            Assert.IsTrue(cards.SequenceEqual(deck.Cards));
+        }
+
+        #endregion
+
+        #region Equals Tests
+
+        [TestMethod]
+        public void Deck_EqualsOverrideMethodReturnsTrueWhenEqual()
+        {
+            // Arrange
+            Deck deck1 = Deck.GetUnShuffledDeck();
+            object deck2 = Deck.GetUnShuffledDeck();
+
+            // Act
+
+            // Assert
+            Assert.IsTrue(deck1.Equals(deck2));
+        }
+
+        [TestMethod]
+        public void Deck_EqualsOverrideMethodReturnsFalseWhenNotEqual()
+        {
+            // Arrange
+            Deck deck1 = Deck.GetUnShuffledDeck();
+            object deck2 = new Deck();
+
+            // Act
+
+            // Assert
+            Assert.IsTrue(deck1.Equals(deck2));
+        }
+
+        [TestMethod]
+        public void Deck_EqualsOverrideMethodReturnsFalseWhenObjectIsNotDeck()
+        {
+            // Arrange
+            Deck deck1 = Deck.GetUnShuffledDeck();
+            object deck2 = "";
+
+            // Act
+
+            // Assert
+            Assert.IsFalse(deck1.Equals(deck2));
+        }
+
+        [TestMethod]
+        public void Deck_EqualsMethodReturnsTrueWhenEqual()
         {
             //Arrange
-            Deck deck = Deck.GetUnShuffledDeck();
+            Deck deck1 = Deck.GetUnShuffledDeck();
             Deck deck2 = Deck.GetUnShuffledDeck();
 
             //Act
             //No action is required
 
             //Assert
-            Assert.IsTrue(deck.Equals(deck2));
+            Assert.IsTrue(deck1.Equals(deck2));
         }
 
         [TestMethod]
-        public void DeckEqualsOpperator()
+        public void Deck_EqualsMethodReturnsTrueWhenReferenceEquals()
+        {
+            //Arrange
+            Deck deck1 = new Deck();
+
+            //Act
+            //No action is required
+
+            //Assert
+            Assert.IsTrue(deck1.Equals(deck1));
+        }
+
+        [TestMethod]
+        public void Deck_EqualsMethodReturnsFalseWhenOrderIsDifferenct()
+        {
+            //Arrange
+            Deck deck1 = Deck.GetUnShuffledDeck();
+            Deck deck2 = new Deck();
+
+            //Act
+            //No action is required
+
+            //Assert
+            Assert.IsFalse(deck1.Equals(deck2));
+        }
+
+        [TestMethod]
+        public void Deck_EqualsMethodReturnsFalseWhenDeckIsNull()
+        {
+            //Arrange
+            Deck deck1 = new Deck();
+            Deck deck2 = null;
+
+            //Act
+            //No action is required
+
+            //Assert
+            Assert.IsFalse(deck1.Equals(deck2));
+        }
+
+        [TestMethod]
+        public void Deck_EqualsOpperator()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -38,7 +225,21 @@ namespace JBoyerLibaray.Test.DeckOfCardsTests
         }
 
         [TestMethod]
-        public void DeckEqualsStaticMethod()
+        public void Deck_NotEqualsOpperator()
+        {
+            //Arrange
+            Deck deck = Deck.GetUnShuffledDeck();
+            Deck deck2 = Deck.GetUnShuffledDeck();
+
+            //Act
+            //No action is required
+
+            //Assert
+            Assert.IsFalse(deck != deck2);
+        }
+
+        [TestMethod]
+        public void Deck_EqualsStaticMethod()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -50,6 +251,39 @@ namespace JBoyerLibaray.Test.DeckOfCardsTests
             //Assert
             Assert.IsTrue(Deck.Equals(deck, deck2));
         }
+
+        #endregion
+
+        #region HashCode Tests
+
+        [TestMethod]
+        public void Deck_GetHashCodeReturnsSameHashCodeWhenEqual()
+        {
+            // Arrange
+            Deck deck1 = Deck.GetUnShuffledDeck();
+            Deck deck2 = Deck.GetUnShuffledDeck();
+
+            // Act
+
+            // Assert
+            Assert.AreEqual(deck1.GetHashCode(), deck2.GetHashCode());
+        }
+
+        [TestMethod]
+        public void Deck_GetHashCodeReturnsDifferenctHashCodeWhenNotEqual()
+        {
+            // Arrange
+            Deck deck1 = Deck.GetUnShuffledDeck();
+            Deck deck2 = Deck.GetUnShuffledDeck();
+
+            // Act
+            deck2.Shuffle();
+
+            // Assert
+            Assert.AreEqual(deck1.GetHashCode(), deck2.GetHashCode());
+        }
+
+        #endregion
 
         [TestMethod]
         public void SuffleDeckAcutallyShuffles()

@@ -3,7 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +61,26 @@ namespace JBoyerLibaray.UnitTests
             fakeControllerContext.AddRouteData("action", action);
 
             return new ExceptionContext(fakeControllerContext, exception);
+        }
+
+        public static Stream Serialize(object source)
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new MemoryStream();
+            formatter.Serialize(stream, source);
+            return stream;
+        }
+
+        public static T Deserialize<T>(Stream stream)
+        {
+            IFormatter formatter = new BinaryFormatter();
+            stream.Position = 0;
+            return (T)formatter.Deserialize(stream);
+        }
+
+        public static T Clone<T>(object source)
+        {
+            return Deserialize<T>(Serialize(source));
         }
     }
 }

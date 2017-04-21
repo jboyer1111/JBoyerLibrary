@@ -11,10 +11,12 @@ namespace JBoyerLibaray
     {
         public static string GetSquenceLengthOf(int length)
         {
+            // If zero or negative number return null
             if (length <= 0)
             {
                 return null;
             }
+
             if (length == 1)
             {
                 return "A";
@@ -51,6 +53,7 @@ namespace JBoyerLibaray
 
                 return GetSquenceLengthOf(newSequence, length);
             }
+
             return sequence.Substring(0, length);
         }
 

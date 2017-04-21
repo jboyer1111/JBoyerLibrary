@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JBoyerLibaray", "JBoyerLibaray\JBoyerLibaray.csproj", "{6A63882F-3155-4935-82AB-3B8D5F4BDBA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JBoyerLibaray.Test", "JBoyerLibaray.Test\JBoyerLibaray.Test.csproj", "{B7FDA0A7-E335-49AE-A1FF-94631A81A4B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "JBoyerLibaray.Test\UnitTests.csproj", "{B7FDA0A7-E335-49AE-A1FF-94631A81A4B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntergrationTests", "IntergrationTests\IntergrationTests.csproj", "{7EE2B491-FC28-47B6-9CB2-F846AD4EE49D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,12 @@ Global
 		{B7FDA0A7-E335-49AE-A1FF-94631A81A4B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7FDA0A7-E335-49AE-A1FF-94631A81A4B3}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{B7FDA0A7-E335-49AE-A1FF-94631A81A4B3}.Test|Any CPU.Build.0 = Test|Any CPU
+		{7EE2B491-FC28-47B6-9CB2-F846AD4EE49D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EE2B491-FC28-47B6-9CB2-F846AD4EE49D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EE2B491-FC28-47B6-9CB2-F846AD4EE49D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EE2B491-FC28-47B6-9CB2-F846AD4EE49D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EE2B491-FC28-47B6-9CB2-F846AD4EE49D}.Test|Any CPU.ActiveCfg = Release|Any CPU
+		{7EE2B491-FC28-47B6-9CB2-F846AD4EE49D}.Test|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
