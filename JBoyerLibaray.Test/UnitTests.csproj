@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JBoyerLibaray</RootNamespace>
-    <AssemblyName>JBoyerLibaray.Test</AssemblyName>
+    <AssemblyName>UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -107,9 +107,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DeckOfCards\CardValueThenSuitComparerTests.cs" />
     <Compile Include="DeckOfCards\CardTests.cs" />
     <Compile Include="DeckOfCards\DeckTests.cs" />
+    <Compile Include="DeckOfCards\EmptyDeckExceptionTests.cs" />
     <Compile Include="DeckOfCards\TestCard.cs" />
+    <Compile Include="DeckOfCards\CardSuitThenValueComparerTests.cs" />
+    <Compile Include="DeckOfCards\EmptyHandExceptionTests.cs" />
+    <Compile Include="DeckOfCards\DifferentOrderEquatorTests.cs" />
     <Compile Include="DiceTest\UnitTest1.cs" />
     <Compile Include="DnDDiceRollerTest\FakeRandomMax.cs" />
     <Compile Include="DnDDiceRollerTest\DnDFormulaTests.cs" />
@@ -124,6 +129,8 @@
     <Compile Include="ErrorLogTests.cs" />
     <Compile Include="MutableKeyValuePairTests.cs" />
     <Compile Include="RespectBeginingNumberFilenameSortTests.cs" />
+    <Compile Include="RespectNumbersFilenameComparerTests.cs" />
+    <Compile Include="ThueMorseTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JBoyerLibaray\JBoyerLibaray.csproj">

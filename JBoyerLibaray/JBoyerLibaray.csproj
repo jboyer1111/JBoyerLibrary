@@ -92,6 +92,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeckOfCards\EmptyDeckException.cs" />
+    <Compile Include="DeckOfCards\EmptyHandException.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="TimeProvider.cs" />
     <Compile Include="FileSystem\DirectoryWrapper.cs" />
@@ -118,7 +120,6 @@
     <Compile Include="DnDDiceRoller\TopBottom.cs" />
     <Compile Include="ErrorLog.cs" />
     <Compile Include="Extensions\NumberExtentions.cs" />
-    <Compile Include="StringCipher.cs" />
     <Compile Include="Exceptions\CouldNotConvertToNumber.cs" />
     <Compile Include="Exceptions\ExceptionHelper.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
@@ -137,7 +138,7 @@
     <Compile Include="PasswordGenerator\CharType.cs" />
     <Compile Include="PasswordGenerator\PasswordGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DeckOfCards\CustomExpections.cs" />
+    <Compile Include="DeckOfCards\NotEnoughCardsException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Task\TransConfig.cs" />
     <Compile Include="Task\Add2Numbers.cs" />
