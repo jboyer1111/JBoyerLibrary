@@ -105,5 +105,10 @@ namespace JBoyerLibaray.Extensions
 
             return reg.Replace(word, delimitar.ToString());
         }
+
+        public static bool Contains(this string container, string match, StringComparison stringComparison)
+        {
+            return container.IndexOf(match, 0, stringComparison) != -1;
+        }
     }
 }
