@@ -114,7 +114,6 @@
     <Compile Include="DeckOfCards\IDeck.cs" />
     <Compile Include="DeckOfCards\MultiDeck.cs" />
     <Compile Include="Dice\Die.cs" />
-    <Compile Include="Dice\WeightedDie.cs" />
     <Compile Include="DnDDiceRoller\DnDFormula.cs" />
     <Compile Include="DnDDiceRoller\DnDFormulaCalc.cs" />
     <Compile Include="DnDDiceRoller\TopBottom.cs" />

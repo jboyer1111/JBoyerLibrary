@@ -111,7 +111,7 @@
     <Compile Include="DeckOfCards\CardSuitThenValueComparerTests.cs" />
     <Compile Include="DeckOfCards\EmptyHandExceptionTests.cs" />
     <Compile Include="DeckOfCards\DifferentOrderEquatorTests.cs" />
-    <Compile Include="DiceTest\UnitTest1.cs" />
+    <Compile Include="Dice\DieTests.cs" />
     <Compile Include="DnDDiceRollerTest\FakeRandomMax.cs" />
     <Compile Include="DnDDiceRollerTest\DnDFormulaTests.cs" />
     <Compile Include="DeckOfCards\MultiDeckTests.cs" />
