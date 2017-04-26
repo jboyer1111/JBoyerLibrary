@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JBoyerLibaray.Exceptions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,12 +69,15 @@ namespace JBoyerLibaray.DeckOfCards
 
         private Deck(params DeckOptions[] options)
         {
+            // Setup variagbles
             _cards = new List<Card>(52);
             _rand = new Random();
+
             if (!options.Contains(DeckOptions.Empty))
             {
                 populateDeckLogic();
             }
+
             if (!options.Contains(DeckOptions.UnShuffled))
             {
                 Shuffle();
@@ -109,45 +113,52 @@ namespace JBoyerLibaray.DeckOfCards
             {
                 throw new EmptyDeckException("Your deck is empty you cannot draw from an empty deck");
             }
+
+            // Get the card and remove it from list
             Card card = _cards[0];
             _cards.RemoveAt(0);
+
             return card;
         }
 
         public Card[] DrawCards(int amount)
         {
-            if (amount < 2)
+            if (amount < 1)
             {
-                throw new ArgumentException("This function is made to draw more than 1 card if you wish to draw 1 card use Draw() to do so.");
+                throw ExceptionHelper.CreateArgumentException(() => amount, "You must draw at least one card");
             }
+
             if (amount > CardCount)
             {
                 throw new NotEnoughCardsException(String.Format("You do not have enough cards in the deck to draw {0} cards", amount));
             }
-            List<Card> cardsDrawn = new List<Card>();
+
+            Card[] drawnCards = new Card[amount];
             for (int i = 0; i < amount; i++)
             {
-                cardsDrawn.Add(Draw());
+                drawnCards[i] = Draw();
             }
-            return cardsDrawn.ToArray();
+
+            return drawnCards;
         }
 
         public Card[] DrawUpToCards(int amount)
         {
-            if (amount < 2)
+            if (amount < 1)
             {
-                throw new ArgumentException("This function is made to draw more than 1 card if you wish to draw 1 card use Draw() to do so.");
+                throw ExceptionHelper.CreateArgumentException(() => amount, "You must draw at least one card");
             }
-            List<Card> cardsDrawn = new List<Card>();
+
+            List<Card> drawnCards = new List<Card>();
             for (int i = 0; i < amount; i++)
             {
-                cardsDrawn.Add(Draw());
+                drawnCards.Add(Draw());
                 if (CardCount == 0)
                 {
                     break;
                 }
             }
-            return cardsDrawn.ToArray();
+            return drawnCards.ToArray();
         }
 
         public void Shuffle()
@@ -176,29 +187,46 @@ namespace JBoyerLibaray.DeckOfCards
         public override bool Equals(object obj)
         {
             if (obj is Deck)
+            {
                 return Equals((Deck)obj);
-            else
-                return false;
+            }
+
+            return false;
         }
 
         public override int GetHashCode()
         {
-            return _cards.GetHashCode();
+            // http://stackoverflow.com/questions/1646807/quick-and-simple-hash-code-combinations
+
+            int hash = 1009;
+            foreach (var card in _cards)
+            {
+                hash = (hash * 9176) + card.GetHashCode();
+            }
+            
+            return hash;
         }
 
-        public bool Equals(Deck other)
+        public bool Equals(Deck deck2)
         {
-            if (CardCount != other.CardCount)
+            if (deck2 == null)
             {
                 return false;
             }
+
+            if (CardCount != deck2.CardCount)
+            {
+                return false;
+            }
+
             for (int i = 0; i < _cards.Count; i++)
             {
-                if (!_cards[i].Equals(other.Cards.ElementAt(i)))
+                if (!_cards[i].Equals(deck2.Cards.ElementAt(i)))
                 {
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -214,12 +242,12 @@ namespace JBoyerLibaray.DeckOfCards
 
         public static bool operator ==(Deck deck1, Deck deck2)
         {
-            return deck1.Equals(deck2);
+            return object.Equals(deck1, deck2);
         }
 
         public static bool operator !=(Deck deck1, Deck deck2)
         {
-            return !deck1.Equals(deck2);
+            return !object.Equals(deck1, deck2);
         }
 
         #endregion
@@ -293,6 +321,6 @@ namespace JBoyerLibaray.DeckOfCards
 
             return sb.ToString();
         }
-        
+
     }
 }

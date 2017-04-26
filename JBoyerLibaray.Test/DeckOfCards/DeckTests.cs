@@ -22,6 +22,19 @@ namespace JBoyerLibaray.DeckOfCards
             // Assert
         }
 
+        [TestMethod]
+        public void Deck_DecksAreAutoMaticlyShuffled()
+        {
+            //Arrange
+            Deck deck = new Deck();
+
+            //Act
+            //No action is required
+
+            //Assert
+            Assert.AreNotEqual(UNSHUFFLEDDECK, deck.ToString());
+        }
+
         #endregion
 
         #region Property Tests
@@ -139,7 +152,7 @@ namespace JBoyerLibaray.DeckOfCards
             // Act
 
             // Assert
-            Assert.IsTrue(deck1.Equals(deck2));
+            Assert.IsFalse(deck1.Equals(deck2));
         }
 
         [TestMethod]
@@ -280,41 +293,51 @@ namespace JBoyerLibaray.DeckOfCards
             deck2.Shuffle();
 
             // Assert
-            Assert.AreEqual(deck1.GetHashCode(), deck2.GetHashCode());
+            Assert.AreNotEqual(deck1.GetHashCode(), deck2.GetHashCode());
         }
 
         #endregion
 
+        #region Public Method Tests
+
         [TestMethod]
-        public void SuffleDeckAcutallyShuffles()
+        public void Deck_SuffleDeckAcutallyShuffles()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
-            Deck deck2 = Deck.GetUnShuffledDeck();
+
+            string before = deck.ToString();
 
             //Act
-            deck2.Shuffle();
+            deck.Shuffle();
+
+            string after = deck.ToString();
 
             //Assert
-            Assert.IsFalse(deck2.Equals(deck));
+            Assert.AreNotEqual(before, after);
         }
 
         [TestMethod]
-        public void DecksAreAutoMaticlyShuffled()
+        public void Deck_DrawCardRemovesCardFromDeck()
         {
             //Arrange
-            Deck deck = new Deck();
-            Deck deck2 = Deck.GetUnShuffledDeck();
+            Deck deck = Deck.GetUnShuffledDeck();
+
+            var before = deck.CardCount;
 
             //Act
-            //No action is required
+            deck.Draw();
+
+            var after = deck.CardCount;
 
             //Assert
-            Assert.IsFalse(deck2.Equals(deck));
+            Assert.AreEqual(52, before);
+            Assert.IsTrue(before > after);
+            Assert.AreEqual(51, after);
         }
 
         [TestMethod]
-        public void DrawCardRemovesCardFromDeck()
+        public void Deck_DrawCardRemovesCardFromTheTopOfTheDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -323,91 +346,57 @@ namespace JBoyerLibaray.DeckOfCards
             deck.Draw();
 
             //Assert
-            Assert.AreNotEqual<int>(52, deck.CardCount);
+            Assert.AreEqual(UNSHUFFLEDDECKFIRSTCARDMISSING, deck.ToString());
         }
 
         [TestMethod]
-        public void DrawCardRemovesOnlyOneCard()
+        public void Deck_DrawCardsRemovesCardsFormDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
 
-            //Act
-            deck.Draw();
-
-            //Assert
-            Assert.AreEqual<int>(51, deck.CardCount);
-        }
-
-        [TestMethod]
-        public void DrawCardRemovesCardFromTheTopOfTheDeck()
-        {
-            //Arrange
-            Deck deck = Deck.GetUnShuffledDeck();
-            
-            //Act
-            deck.Draw();
-
-            //Assert
-            Assert.AreEqual<string>(UNSHUFFLEDDECKFIRSTCARDMISSING, deck.ToString());
-        }
-
-        [TestMethod]
-        public void DrawCardsRemovesCardsFormDeck()
-        {
-            //Arrange
-            Deck deck = Deck.GetUnShuffledDeck();
-
-            //Act
-            deck.DrawCards(2);
-
-            //Assert
-            Assert.AreNotEqual<int>(52, deck.CardCount);
-        }
-
-        [TestMethod]
-        public void DrawCardsRemoveCorrectAmountOfCards()
-        {
-            //Arrange
-            Deck deck = Deck.GetUnShuffledDeck();
+            var before = deck.CardCount;
 
             //Act
             deck.DrawCards(4);
 
-            //Assert
-            Assert.AreEqual<int>(48, deck.CardCount);
-        }
+            var after = deck.CardCount;
 
+            //Assert
+            Assert.AreEqual(52, before);
+            Assert.IsTrue(before > after);
+            Assert.AreEqual(48, after);
+        }
 
         [TestMethod]
         public void DrawCardsRemocesCardsFromTopOfTheDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
-            
+
             //Act
             deck.DrawCards(4);
-            
+
             //Assert
-            Assert.AreEqual<string>(UNSHUFFLEDDECKFIRSTFOURCARDMISSING, deck.ToString());
+            Assert.AreEqual(UNSHUFFLEDDECKFIRSTFOURCARDMISSING, deck.ToString());
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "This function is made to draw more than 1 card if you wish to draw 1 card use Draw() to do so.")]
-        public void DrawCardsCorrectlyThrowsErrorToNotAllowOneCardsDraw()
+        [ExpectedException(typeof(ArgumentException))]
+        public void Deck_DrawCardsThrowsExceptionIfArgIsLessThan1()
         {
             //Arrange
             Deck deck = new Deck();
 
             //Act
-            deck.DrawCards(1);
+            deck.DrawCards(0);
 
             //Assert Throws Exception
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotEnoughCardsException), "You do not have enough cards in the deck to draw 53 cards")]
-        public void DrawsCardsThrowsErrorIfNotEnoughCardsInDeck()
+        [ExpectedException(typeof(NotEnoughCardsException))]
+        public void Deck_DrawsCardsThrowsErrorIfNotEnoughCardsInDeck()
         {
             //Arrange
             Deck deck = new Deck();
@@ -417,6 +406,21 @@ namespace JBoyerLibaray.DeckOfCards
 
             //Assert Throws Exception
         }
+
+
+
+        #endregion
+
+        #region Static Method Tests
+
+        #endregion
+
+
+
+
+
+
+
 
         [TestMethod]
         public void CopyDeckMakesCopiesDeckToANewReference()
