@@ -1,5 +1,7 @@
 ﻿using JBoyerLibaray.Exceptions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace JBoyerLibaray.Extensions
@@ -53,74 +55,64 @@ namespace JBoyerLibaray.Extensions
 
         public static string TimeInMillisecondsToHumanReadableString(this int milliseconds)
         {
-            TimeSpan totalTime = TimeSpan.FromMilliseconds(System.Convert.ToDouble(milliseconds));
-            StringBuilder totalTimeToWait = new StringBuilder();
+            TimeSpan totalTime = TimeSpan.FromMilliseconds(Convert.ToDouble(milliseconds));
+            List<string> timeParts = new List<string>();
 
+            // Get pieces
             if (totalTime.Days > 0)
             {
-                totalTimeToWait.AppendFormat("{0} day", totalTime.Days);
-
-                if (totalTime.Days > 1)
-                {
-                    totalTimeToWait.Append("s");
-                }
+                timeParts.Add(pluralFormat(totalTime.Days, "day"));
             }
 
             if (totalTime.Hours > 0)
             {
-                if (totalTimeToWait.Length > 0)
-                {
-                    totalTimeToWait.Append(", ");
-                }
-
-                totalTimeToWait.AppendFormat("{0} hour", totalTime.Hours);
-
-                if (totalTime.Hours > 1)
-                {
-                    totalTimeToWait.Append("s");
-                }
+                timeParts.Add(pluralFormat(totalTime.Hours, "hour"));
             }
 
             if (totalTime.Minutes > 0)
             {
-                if (totalTimeToWait.Length > 0)
-                {
-                    totalTimeToWait.Append(", ");
-                }
-
-                totalTimeToWait.AppendFormat("{0} minute", totalTime.Minutes);
-
-                if (totalTime.Minutes > 1)
-                {
-                    totalTimeToWait.Append("s");
-                }
+                timeParts.Add(pluralFormat(totalTime.Minutes, "minute"));
             }
 
             if (totalTime.Seconds > 0)
             {
-                if (totalTimeToWait.Length > 0)
+                timeParts.Add(pluralFormat(totalTime.Seconds, "second"));
+            }
+            else if (timeParts.Count == 0)
+            {
+                if (totalTime.Milliseconds > 0)
                 {
-                    totalTimeToWait.Append(", ");
+                    timeParts.Add(String.Format("{0} seconds", totalTime.TotalSeconds));
                 }
-
-                totalTimeToWait.AppendFormat("{0} second", totalTime.Seconds);
-
-                if (totalTime.Seconds > 1)
+                else
                 {
-                    totalTimeToWait.Append("s");
+                    timeParts.Add("0 seconds");
                 }
+            }
+
+            if (timeParts.Count > 2)
+            {
+                return String.Join(", ", timeParts.Take(timeParts.Count - 1)) + ", and " + timeParts.Last();
+            }
+            else if (timeParts.Count == 2)
+            {
+                return String.Join(" and ", timeParts);
             }
             else
             {
-                if (totalTimeToWait.Length == 0)
-                {
-                    totalTimeToWait.Append("0 seconds");
-                }
+                return timeParts.First();
             }
-
-            return totalTimeToWait.ToString();
         }
 
+        private static string pluralFormat(int number, string unit)
+        {
+            return String.Format(
+                "{0} {1}{2}",
+                number,
+                unit,
+                number != 1 ? "s" : ""
+            );
+        }
 
         /// <summary>
         /// Converts   1 -> A
@@ -136,7 +128,7 @@ namespace JBoyerLibaray.Extensions
             {
                 throw ExceptionHelper.CreateArgumentException(() => column, "Excel file naming scheme only works on postive numbers");
             }
-            
+
             string columnString = "";
             decimal columnNumber = column;
 

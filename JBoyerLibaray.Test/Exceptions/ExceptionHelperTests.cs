@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.Exceptions
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ExceptionHelperTests
     {
         [TestMethod]
@@ -65,6 +67,21 @@ namespace JBoyerLibaray.Exceptions
         }
 
         [TestMethod]
+        public void ExceptionHelper_CreateArgumentExceptionNullMessage()
+        {
+            // Arrange
+            string ArgName = "";
+
+            // Act
+            var result = ExceptionHelper.CreateArgumentException(() => ArgName, null);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(ArgumentException));
+            Assert.AreEqual("\r\nParameter name: ArgName", result.Message);
+        }
+
+        [TestMethod]
         public void ExceptionHelper_CreateArgumentOutOfRangeException()
         {
             // Arrange
@@ -80,6 +97,21 @@ namespace JBoyerLibaray.Exceptions
         }
 
         [TestMethod]
+        public void ExceptionHelper_CreateArgumentOutOfRangeExceptionNullMessage()
+        {
+            // Arrange
+            string ArgName = "";
+
+            // Act
+            var result = ExceptionHelper.CreateArgumentOutOfRangeException(() => ArgName, null, "Object Value");
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(ArgumentOutOfRangeException));
+            Assert.AreEqual("\r\nParameter name: ArgName\r\nActual value was Object Value.", result.Message);
+        }
+
+        [TestMethod]
         public void ExceptionHelper_CreateArgumentInvalidException()
         {
             // Arrange
@@ -92,6 +124,21 @@ namespace JBoyerLibaray.Exceptions
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(ArgumentInvalidException));
             Assert.AreEqual("Message\r\nParameter name: ArgName\r\nActual value was Object Value.", result.Message);
+        }
+
+        [TestMethod]
+        public void ExceptionHelper_CreateArgumentInvalidExceptionNullMessage()
+        {
+            // Arrange
+            string ArgName = "";
+
+            // Act
+            var result = ExceptionHelper.CreateArgumentInvalidException(() => ArgName, null, "Object Value");
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(ArgumentInvalidException));
+            Assert.AreEqual("\r\nParameter name: ArgName\r\nActual value was Object Value.", result.Message);
         }
     }
 }

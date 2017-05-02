@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -81,6 +83,21 @@ namespace JBoyerLibaray.UnitTests
         public static T Clone<T>(object source)
         {
             return Deserialize<T>(Serialize(source));
+        }
+
+        public static void ExecuteInCulture(string name, Action action)
+        {
+            var prev = Thread.CurrentThread.CurrentCulture;
+            try
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("tr-TR");
+
+                action();
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = prev;
+            }
         }
     }
 }

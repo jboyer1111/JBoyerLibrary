@@ -96,6 +96,7 @@
     <Compile Include="DeckOfCards\EmptyDeckException.cs" />
     <Compile Include="DeckOfCards\EmptyHandException.cs" />
     <Compile Include="Exceptions\ArgumentInvalidException.cs" />
+    <Compile Include="Extensions\CharExtentions.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="TimeProvider.cs" />
     <Compile Include="FileSystem\DirectoryWrapper.cs" />
