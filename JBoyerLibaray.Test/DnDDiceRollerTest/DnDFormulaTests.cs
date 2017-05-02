@@ -3,10 +3,12 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JBoyerLibaray.DnDDiceRoller;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.Test.DnDDiceRollerTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DnDFormulaTests
     {
         [TestMethod]

@@ -1,80 +1,79 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using JBoyerLibaray.UnitTests;
 using System.Diagnostics.CodeAnalysis;
+using JBoyerLibaray.UnitTests;
 
-namespace JBoyerLibaray.DeckOfCards
+namespace JBoyerLibaray.Exceptions
 {
     [TestClass]
     [ExcludeFromCodeCoverage]
-    public class EmptyDeckExceptionTests
+    public class CouldNotConvertToNumberTests
     {
         private readonly Exception _innerException;
 
-        public EmptyDeckExceptionTests()
+        public CouldNotConvertToNumberTests()
         {
             _innerException = new Exception("Inner Exception Message");
         }
 
         [TestMethod]
-        public void EmptyDeckException_ConstructorNoArg()
+        public void CouldNotConvertToNumber_ConstructorNoArg()
         {
             // Arrange
 
             // Act
-            new EmptyDeckException();
+            new CouldNotConvertToNumber();
 
             // Assert
             // No assert. Just making sure it does not throw exception.
         }
 
         [TestMethod]
-        public void EmptyDeckException_ConstructorOneArg()
+        public void CouldNotConvertToNumber_ConstructorOneArg()
         {
             // Arrange
 
             // Act
-            new EmptyDeckException("Exception Message");
+            new CouldNotConvertToNumber("Exception Message");
 
             // Assert
             // No assert. Just making sure it does not throw exception.
         }
 
         [TestMethod]
-        public void EmptyDeckException_ConstructorTwoArgs()
+        public void CouldNotConvertToNumber_ConstructorTwoArgs()
         {
             // Arrange
 
             // Act
-            new EmptyDeckException("Exception Message", _innerException);
+            new CouldNotConvertToNumber("Exception Message", _innerException);
 
             // Assert
             // No assert. Just making sure it does not throw exception.
         }
 
         [TestMethod]
-        public void EmptyDeckException_AbleToSeriablizeException()
+        public void CouldNotConvertToNumber_AbleToSeriablizeException()
         {
             // Arrange
-            var emptyDeckException = new EmptyDeckException("Exception Message", _innerException);
+            var CouldNotConvertToNumber = new CouldNotConvertToNumber("Exception Message", _innerException);
 
             // Act
-            var result = UnitTestHelper.Serialize(emptyDeckException);
+            var result = UnitTestHelper.Serialize(CouldNotConvertToNumber);
 
             // Assert
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
-        public void EmptyDeckException_AbleToCreateExceptionFromSerizedInfo()
+        public void CouldNotConvertToNumber_AbleToCreateExceptionFromSerizedInfo()
         {
             // Arrange
-            var emptyDeckException = new EmptyDeckException("Exception Message", _innerException);
-            var info = UnitTestHelper.Serialize(emptyDeckException);
+            var CouldNotConvertToNumber = new CouldNotConvertToNumber("Exception Message", _innerException);
+            var info = UnitTestHelper.Serialize(CouldNotConvertToNumber);
 
             // Act
-            var result = UnitTestHelper.Deserialize<EmptyDeckException>(info);
+            var result = UnitTestHelper.Deserialize<CouldNotConvertToNumber>(info);
 
             // Assert
             Assert.IsNotNull(result);

@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class RespectNumbersFilenameComparerTests
     {
         [TestMethod]

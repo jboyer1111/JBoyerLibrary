@@ -11,20 +11,21 @@ namespace JBoyerLibaray.DeckOfCards
 
         public bool Equals(Deck x, Deck y)
         {
-            var a = Deck.Copy(x);
-            var b = Deck.Copy(y);
-            a.Sort(CardComparer.SuitThenValue);
-            b.Sort(CardComparer.SuitThenValue);
+            var xSorted = Deck.Copy(x);
+            var ySorted = Deck.Copy(y);
+            xSorted.Sort(CardComparer.SuitThenValue);
+            ySorted.Sort(CardComparer.SuitThenValue);
 
-            return a == b;
+            return xSorted == ySorted;
         }
 
         public int GetHashCode(Deck obj)
         {
-            var a = Deck.Copy(obj);
-            a.Sort(CardComparer.SuitThenValue);
+            var objSorted = Deck.Copy(obj);
 
-            return a.GetHashCode();
+            objSorted.Sort(CardComparer.SuitThenValue);
+
+            return objSorted.GetHashCode();
         }
     }
 }

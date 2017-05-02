@@ -1,10 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JBoyerLibaray.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.Test.ExtensionsTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class StringExtentionTests
     {
         [TestMethod]

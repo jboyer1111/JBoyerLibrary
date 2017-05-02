@@ -92,5 +92,23 @@ namespace JBoyerLibaray.Extensions
 
             return groups.Where(g => g.Count == maxCount).Select(g => g.Group).ToList();
         }
+
+        public static int GetHashCodeAggregate<T>(this IEnumerable<T> source)
+        {
+            return source.GetHashCodeAggregate(17);
+        }
+
+        public static int GetHashCodeAggregate<T>(this IEnumerable<T> source, int hash)
+        {
+            unchecked
+            {
+                foreach (var item in source)
+                {
+                    hash = hash * 31 + item.GetHashCode();
+                }
+            }
+
+            return hash;
+        }
     }
 }

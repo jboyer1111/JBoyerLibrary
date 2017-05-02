@@ -3,10 +3,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using JBoyerLibaray.Extensions;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.Test.ExtensionsTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class StreamExtensionTests
     {
         [TestMethod]

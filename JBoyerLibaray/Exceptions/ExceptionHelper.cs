@@ -25,7 +25,12 @@ namespace JBoyerLibaray.Exceptions
 
         public static ArgumentOutOfRangeException CreateArgumentOutOfRangeException<T>(Expression<Func<T>> expressionDelegate, string message, object actualValue)
         {
-            return new ArgumentOutOfRangeException(message ?? "", actualValue, GetMemberName(expressionDelegate));
+            return new ArgumentOutOfRangeException(GetMemberName(expressionDelegate), actualValue, message ?? "");
+        }
+
+        public static ArgumentInvalidException CreateArgumentInvalidException<T>(Expression<Func<T>> expressionDelegate, string message, object actualValue)
+        {
+            return new ArgumentInvalidException(GetMemberName(expressionDelegate), actualValue, message ?? "");
         }
 
         public static string GetMemberName<T>(Expression<Func<T>> expressionDelegate)

@@ -92,8 +92,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeckOfCards\DeckOptions.cs" />
     <Compile Include="DeckOfCards\EmptyDeckException.cs" />
     <Compile Include="DeckOfCards\EmptyHandException.cs" />
+    <Compile Include="Exceptions\ArgumentInvalidException.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="TimeProvider.cs" />
     <Compile Include="FileSystem\DirectoryWrapper.cs" />
@@ -108,11 +110,9 @@
     <Compile Include="DeckOfCards\CardValueThenSuitComparer.cs" />
     <Compile Include="DeckOfCards\Deck.cs" />
     <Compile Include="DeckOfCards\DeckEquator.cs" />
-    <Compile Include="DeckOfCards\DeckOptions.cs" />
     <Compile Include="DeckOfCards\DifferentOrderEquator.cs" />
     <Compile Include="DeckOfCards\ICard.cs" />
     <Compile Include="DeckOfCards\IDeck.cs" />
-    <Compile Include="DeckOfCards\MultiDeck.cs" />
     <Compile Include="Dice\Die.cs" />
     <Compile Include="DnDDiceRoller\DnDFormula.cs" />
     <Compile Include="DnDDiceRoller\DnDFormulaCalc.cs" />
@@ -161,9 +161,7 @@
     <Compile Include="UnitTests\UnitTestableRandom.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EventHandlers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

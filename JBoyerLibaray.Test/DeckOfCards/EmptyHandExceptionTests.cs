@@ -2,10 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using JBoyerLibaray.UnitTests;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.DeckOfCards
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class EmptyHandExceptionTests
     {
         private readonly Exception _innerException;

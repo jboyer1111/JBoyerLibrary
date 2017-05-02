@@ -4,10 +4,12 @@ using JBoyerLibaray.FileSystem;
 using Moq;
 using System.Security.Principal;
 using JBoyerLibaray.UnitTests;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ErrorLogTests
     {
         [TestMethod]

@@ -14,10 +14,12 @@ using System.Diagnostics;
 using Moq;
 using JBoyerLibaray.FileSystem;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class CustomHandleErrorAttributeTests
     {
 

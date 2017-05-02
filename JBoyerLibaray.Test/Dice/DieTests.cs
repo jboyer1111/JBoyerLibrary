@@ -2,10 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.Dice
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DieTests
     {
 

@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 namespace JBoyerLibaray.DeckOfCards
 {
 
+    [Serializable]
     public class NotEnoughCardsException : Exception, ISerializable
     {
         public NotEnoughCardsException() { }

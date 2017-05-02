@@ -1,4 +1,5 @@
 ﻿using JBoyerLibaray.Exceptions;
+using JBoyerLibaray.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -158,6 +159,7 @@ namespace JBoyerLibaray.DeckOfCards
                     break;
                 }
             }
+
             return drawnCards.ToArray();
         }
 
@@ -196,15 +198,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         public override int GetHashCode()
         {
-            // http://stackoverflow.com/questions/1646807/quick-and-simple-hash-code-combinations
-
-            int hash = 1009;
-            foreach (var card in _cards)
-            {
-                hash = (hash * 9176) + card.GetHashCode();
-            }
-            
-            return hash;
+            return _cards.GetHashCodeAggregate();
         }
 
         public bool Equals(Deck deck2)
@@ -280,15 +274,25 @@ namespace JBoyerLibaray.DeckOfCards
 
         public static Deck Parse(string cards)
         {
-            if (cards == null)
-                throw new ArgumentNullException();
+            if (String.IsNullOrEmpty(cards))
+            {
+                throw ExceptionHelper.CreateArgumentException(() => cards, "Cannot be null, empty, or whitespace");
+            }
+            
+            // Remove white space
             cards = cards.Trim();
+
+            // Create empty deck
             Deck result = new Deck(DeckOptions.Empty);
+
+            // Get a list of all the card parts to the deck string
             List<string> stringCardList = new List<string>(cards.Split(','));
             foreach (var card in stringCardList)
             {
+                // Use Card.Parse Method to create card objects
                 result._cards.Add(Card.Parse(card));
             }
+
             return result;
         }
 
@@ -321,6 +325,5 @@ namespace JBoyerLibaray.DeckOfCards
 
             return sb.ToString();
         }
-
     }
 }

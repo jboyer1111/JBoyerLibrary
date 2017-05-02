@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JBoyerLibaray.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,11 +41,21 @@ namespace JBoyerLibaray
 
         public DateTime GetTimezoneTime(TimeZoneInfo timeZoneInfo)
         {
+            if (timeZoneInfo == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => timeZoneInfo);
+            }
+
             return TimeZoneInfo.ConvertTimeFromUtc(UtcNow, timeZoneInfo);
         }
 
         public DateTime GetTimezoneTime(TimeZone timeZone)
         {
+            if (timeZone == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => timeZone);
+            }
+
             return timeZone.ToLocalTime(UtcNow);
         }
 

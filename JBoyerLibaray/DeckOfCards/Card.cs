@@ -144,17 +144,14 @@ namespace JBoyerLibaray.DeckOfCards
 
         public override int GetHashCode()
         {
-            // http://stackoverflow.com/questions/1646807/quick-and-simple-hash-code-combinations
-
-            int hash = 1009;
-            int[] vals = new int[] { this.GetType().GetHashCode(), this.Suit.GetHashCode(), this.Value.GetHashCode() };
-
-            foreach (var i in vals)
+            unchecked
             {
-                hash = (hash * 9176) + i;
+                int hash = 17;
+                hash = hash * 31 + GetType().GetHashCode();
+                hash = hash * 31 + Suit.GetHashCode();
+                hash = hash * 31 + Value.GetHashCode();
+                return hash;
             }
-
-            return hash;
         }
 
         public static bool Equals(Card card1, Card card2)

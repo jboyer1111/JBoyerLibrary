@@ -6,25 +6,16 @@ using System.Web;
 
 namespace JBoyerLibaray.Exceptions
 {
+    [Serializable]
     public class CouldNotConvertToNumber : Exception, ISerializable
     {
-        public CouldNotConvertToNumber() : base()
-        {
+        public CouldNotConvertToNumber() : base() { }
 
-        }
-        public CouldNotConvertToNumber(string message) : base (message)
-        {
+        public CouldNotConvertToNumber(string message) : base (message) { }
 
-        }
-        public CouldNotConvertToNumber(string message, Exception inner) : base (message, inner)
-        {
-            
-        }
+        public CouldNotConvertToNumber(string message, Exception inner) : base (message, inner) { }
 
         // This constructor is needed for serialization.
-        protected CouldNotConvertToNumber(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            
-        }
+        protected CouldNotConvertToNumber(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

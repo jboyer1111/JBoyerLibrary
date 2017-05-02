@@ -2,10 +2,12 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JBoyerLibaray.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.Test.ExtensionsTest
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ListExtensionTests
     {
         private string[] _items = new string[] { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};

@@ -2,10 +2,13 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.DeckOfCards
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class DeckTests : DeckStrings
     {
 
@@ -82,6 +85,24 @@ namespace JBoyerLibaray.DeckOfCards
             Assert.AreNotEqual(before, after);
             Assert.AreEqual(1, before);
             Assert.AreEqual(14, after);
+        }
+
+        [TestMethod]
+        public void Deck_AceIsHighDoesNothingWhenSameValue()
+        {
+            // Arrange
+            var deck = Deck.GetUnShuffledDeck();
+            var card = deck.First();
+
+            // Act
+            var before = card.Value;
+
+            deck.AceIsHigh = false;
+
+            var after = card.Value;
+
+            // Assert
+            Assert.AreEqual(before, after);
         }
 
         [TestMethod]
@@ -210,6 +231,20 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
+        public void Deck_EqualsMethodReturnsFalseWhenNotSameCountOfCardsLeft()
+        {
+            //Arrange
+            Deck deck1 = Deck.GetUnShuffledDeck();
+            Deck deck2 = Deck.GetUnShuffledDeck();
+
+            //Act
+            deck2.Draw();
+
+            //Assert
+            Assert.IsFalse(deck1.Equals(deck2));
+        }
+
+        [TestMethod]
         public void Deck_EqualsMethodReturnsFalseWhenDeckIsNull()
         {
             //Arrange
@@ -264,6 +299,21 @@ namespace JBoyerLibaray.DeckOfCards
             //Assert
             Assert.IsTrue(Deck.Equals(deck, deck2));
         }
+
+        [TestMethod]
+        public void Deck_EqualsWithCompare()
+        {
+            //Arrange
+            Deck deck = Deck.GetUnShuffledDeck();
+            Deck deck2 = Deck.GetUnShuffledDeck();
+
+            //Act
+            //No action is required
+
+            //Assert
+            Assert.IsTrue(Deck.Equals(deck, deck2, EqualityComparer<Deck>.Default));
+        }
+
 
         #endregion
 
@@ -350,6 +400,20 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
+        [ExpectedException(typeof(EmptyDeckException))]
+        public void Deck_DrawThrowsExceptionWhenEmtpy()
+        {
+            // Arrange
+            Deck deck = Deck.GetUnShuffledDeck();
+            deck.DrawCards(52);
+
+            // Act
+            deck.Draw();
+
+            // Assert
+        }
+
+        [TestMethod]
         public void Deck_DrawCardsRemovesCardsFormDeck()
         {
             //Arrange
@@ -369,7 +433,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void DrawCardsRemocesCardsFromTopOfTheDeck()
+        public void Deck_DrawCardsRemocesCardsFromTopOfTheDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -407,50 +471,66 @@ namespace JBoyerLibaray.DeckOfCards
             //Assert Throws Exception
         }
 
-
-
-        #endregion
-
-        #region Static Method Tests
-
-        #endregion
-
-
-
-
-
-
-
-
         [TestMethod]
-        public void CopyDeckMakesCopiesDeckToANewReference()
+        public void Deck_DrawUpToCardsRemovesCardsFormDeck()
         {
-            // Arrange
-            Deck deck1 = new Deck();
-            
-            // Act
-            Deck deck2 = Deck.Copy(deck1);
+            //Arrange
+            Deck deck = Deck.GetUnShuffledDeck();
+
+            var before = deck.CardCount;
+
+            //Act
+            deck.DrawUpToCards(4);
+
+            var after = deck.CardCount;
 
             //Assert
-            Assert.IsFalse(Deck.ReferenceEquals(deck1, deck2));
-            Assert.IsTrue(deck1 == deck2);
+            Assert.AreEqual(52, before);
+            Assert.IsTrue(before > after);
+            Assert.AreEqual(48, after);
         }
 
         [TestMethod]
-        public void GetUnShuffledDeckReturnsAnUnShffuledDeck()
+        public void Deck_DrawUpToCardsRemocesCardsFromTopOfTheDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
 
             //Act
-            //No action required
+            deck.DrawUpToCards(4);
 
             //Assert
-            Assert.AreEqual(UNSHUFFLEDDECK, deck.ToString());
+            Assert.AreEqual(UNSHUFFLEDDECKFIRSTFOURCARDMISSING, deck.ToString());
         }
 
         [TestMethod]
-        public void SuitThenValueSortIsAnUnSuffledDeck()
+        [ExpectedException(typeof(ArgumentException))]
+        public void Deck_DrawUpToCardsThrowsExceptionIfArgIsLessThan1()
+        {
+            //Arrange
+            Deck deck = new Deck();
+
+            //Act
+            deck.DrawUpToCards(0);
+
+            //Assert Throws Exception
+        }
+
+        [TestMethod]
+        public void Deck_DrawsUpToCardsReturnsAsManyCardsAsItCanIfNumberIsGreaterThenAmountOfCardsLeft()
+        {
+            //Arrange
+            Deck deck = new Deck();
+
+            //Act
+            var cards = deck.DrawUpToCards(53);
+
+            //Assert
+            Assert.AreEqual(52, cards.Length);
+        }
+
+        [TestMethod]
+        public void Deck_SortBySuitThenValueSortIsAnUnSuffledDeck()
         {
             //Arrange
             Deck deck = new Deck();
@@ -463,7 +543,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void ValueThenSuitSortsAsExpected()
+        public void Deck_SortByValueThenSuitSortsAsExpected()
         {
             //Arrange
             Deck deck = new Deck();
@@ -475,8 +555,39 @@ namespace JBoyerLibaray.DeckOfCards
             Assert.AreEqual(VALUETHENSUITSORTEDDECK, deck.ToString());
         }
 
+        #endregion
+
+        #region Static Method Tests
+
         [TestMethod]
-        public void DeckParseTurnsAStringIntoADeck()
+        public void Deck_CopyDeckMakesCopiesDeckToANewReference()
+        {
+            // Arrange
+            Deck deck1 = new Deck();
+
+            // Act
+            Deck deck2 = Deck.Copy(deck1);
+
+            //Assert
+            Assert.IsFalse(Deck.ReferenceEquals(deck1, deck2));
+            Assert.IsTrue(deck1 == deck2);
+        }
+
+        [TestMethod]
+        public void Deck_GetUnShuffledDeckReturnsAnUnShffuledDeck()
+        {
+            //Arrange
+            Deck deck = Deck.GetUnShuffledDeck();
+
+            //Act
+            //No action required
+
+            //Assert
+            Assert.AreEqual(UNSHUFFLEDDECK, deck.ToString());
+        }
+
+        [TestMethod]
+        public void Deck_ParseTurnsAStringIntoADeck()
         {
             //Arrange
             Deck deck = Deck.Parse(UNSHUFFLEDDECK);
@@ -490,7 +601,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException), "")]
-        public void ParseDeckThrowsErrorWhenInvalidString()
+        public void Deck_ParseDeckThrowsErrorWhenInvalidString()
         {
             //Arrange
             Deck deck = Deck.Parse("Test");
@@ -501,11 +612,47 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void DeckTryParseTurnsAStringIntoADeck()
+        [ExpectedException(typeof(ArgumentException), "")]
+        public void Deck_ParseDeckThrowsArgumentExceptionWhenStringIsNull()
+        {
+            //Arrange
+            Deck deck = Deck.Parse(null);
+
+            //Act
+
+            //Assert Throws Exception
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "")]
+        public void Deck_ParseDeckThrowsArgumentExceptionWhenStringIsEmpty()
+        {
+            //Arrange
+            Deck deck = Deck.Parse("");
+
+            //Act
+
+            //Assert Throws Exception
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "")]
+        public void Deck_ParseDeckThrowsArgumentExceptionWhenStringIsWhitespace()
+        {
+            //Arrange
+            Deck deck = Deck.Parse("   ");
+
+            //Act
+
+            //Assert Throws Exception
+        }
+
+        [TestMethod]
+        public void Deck_TryParseTurnsAStringIntoADeck()
         {
             //Arrange
             Deck deck;
-            
+
 
             //Act
             var result = Deck.TryParse(UNSHUFFLEDDECK, out deck);
@@ -516,7 +663,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void TryParseDeckThrowsErrorWhenInvalidString()
+        public void Deck_TryParseReturnsFalseAndNullWhenStringInvalid()
         {
             //Arrange
             Deck deck;
@@ -530,19 +677,61 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void DeckEquatorDiffOrderWorks()
+        public void Deck_TryParseReturnsFalseAndNullWhenArgIsNull()
         {
             //Arrange
-            Deck deck = Deck.GetUnShuffledDeck();
-            Deck deck2 = Deck.Copy(deck);
-            deck2.Shuffle();
+            Deck deck;
 
             //Act
-            var result = Deck.Equals(deck, deck2, DeckEquator.DifferentOrder);
+            var result = Deck.TryParse(null, out deck);
 
             //Assert
-            Assert.IsTrue(result);
+            Assert.IsFalse(result);
+            Assert.IsNull(deck);
         }
 
+        [TestMethod]
+        public void Deck_TryParseReturnsFalseAndNullWhenArgIsEmpty()
+        {
+            //Arrange
+            Deck deck;
+
+            //Act
+            var result = Deck.TryParse("", out deck);
+
+            //Assert
+            Assert.IsFalse(result);
+            Assert.IsNull(deck);
+        }
+
+        [TestMethod]
+        public void Deck_TryParseReturnsFalseAndNullWhenArgIsWhitespace()
+        {
+            //Arrange
+            Deck deck;
+
+            //Act
+            var result = Deck.TryParse("   ", out deck);
+
+            //Assert
+            Assert.IsFalse(result);
+            Assert.IsNull(deck);
+        }
+
+        #endregion
+
+
+        [TestMethod]
+        public void Deck_GetEnumerator()
+        {
+            // Arrange
+            IEnumerable deck = new Deck();
+
+            // Act
+            var result = deck.GetEnumerator();
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
     }
 }

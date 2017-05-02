@@ -110,6 +110,7 @@
     <Compile Include="DeckOfCards\CardValueThenSuitComparerTests.cs" />
     <Compile Include="DeckOfCards\CardTests.cs" />
     <Compile Include="DeckOfCards\DeckTests.cs" />
+    <Compile Include="DeckOfCards\NotEnoughCardsExceptionTests.cs" />
     <Compile Include="DeckOfCards\EmptyDeckExceptionTests.cs" />
     <Compile Include="DeckOfCards\TestCard.cs" />
     <Compile Include="DeckOfCards\CardSuitThenValueComparerTests.cs" />
@@ -118,7 +119,9 @@
     <Compile Include="Dice\DieTests.cs" />
     <Compile Include="DnDDiceRollerTest\FakeRandomMax.cs" />
     <Compile Include="DnDDiceRollerTest\DnDFormulaTests.cs" />
-    <Compile Include="DeckOfCards\MultiDeckTests.cs" />
+    <Compile Include="Exceptions\ArgumentInvalidExceptionTests.cs" />
+    <Compile Include="Exceptions\CouldNotConvertToNumberTests.cs" />
+    <Compile Include="Exceptions\ExceptionHelperTests.cs" />
     <Compile Include="ExtensionsTest\ListExtensionTests.cs" />
     <Compile Include="ExtensionsTest\StreamExtensionTests.cs" />
     <Compile Include="ExtensionsTest\StringExtentionTests.cs" />
@@ -131,6 +134,8 @@
     <Compile Include="RespectBeginingNumberFilenameSortTests.cs" />
     <Compile Include="RespectNumbersFilenameComparerTests.cs" />
     <Compile Include="ThueMorseTests.cs" />
+    <Compile Include="TimeProviderTests.cs" />
+    <Compile Include="Zzzzzz_TestCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JBoyerLibaray\JBoyerLibaray.csproj">
@@ -142,9 +147,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EventHandlersTest\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="TaskTest\InputXML.xml" />
     <Content Include="TaskTest\Transfrom.xslt" />
