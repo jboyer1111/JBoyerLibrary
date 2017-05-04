@@ -127,9 +127,12 @@
     <Compile Include="Extensions\StringExtentionsTests.cs" />
     <Compile Include="Extensions\NumberExtentionsTests.cs" />
     <Compile Include="Extensions\CharExtentionsTests.cs" />
+    <Compile Include="FileSystem\FileResultHelperTests.cs" />
+    <Compile Include="FileSystem\FileHelperTests.cs" />
+    <Compile Include="PasswordGenerator\PasswordGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeckOfCards\DeckStrings.cs" />
-    <Compile Include="TaskTest\UnitTest1.cs" />
+    <Compile Include="Task\TransConfigTests.cs" />
     <Compile Include="CustomHandleErrorAttributeTests.cs" />
     <Compile Include="ErrorLogTests.cs" />
     <Compile Include="MutableKeyValuePairTests.cs" />
@@ -137,6 +140,7 @@
     <Compile Include="RespectNumbersFilenameComparerTests.cs" />
     <Compile Include="ThueMorseTests.cs" />
     <Compile Include="TimeProviderTests.cs" />
+    <Compile Include="CultureInfoHelperTests.cs" />
     <Compile Include="Zzzzzz_TestCode.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,10 +154,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="TaskTest\InputXML.xml" />
-    <Content Include="TaskTest\Transfrom.xslt" />
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

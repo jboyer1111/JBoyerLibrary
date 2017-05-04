@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -17,6 +18,7 @@ using System.Web.Routing;
 
 namespace JBoyerLibaray.UnitTests
 {
+    [ExcludeFromCodeCoverage]
     public static class UnitTestHelper
     {
         public static void SetUpForUnitTests(this Controller controller, RouteCollection routes)
@@ -83,21 +85,6 @@ namespace JBoyerLibaray.UnitTests
         public static T Clone<T>(object source)
         {
             return Deserialize<T>(Serialize(source));
-        }
-
-        public static void ExecuteInCulture(string name, Action action)
-        {
-            var prev = Thread.CurrentThread.CurrentCulture;
-            try
-            {
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("tr-TR");
-
-                action();
-            }
-            finally
-            {
-                Thread.CurrentThread.CurrentCulture = prev;
-            }
         }
     }
 }

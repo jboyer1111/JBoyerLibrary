@@ -1,6 +1,7 @@
 ﻿using JBoyerLibaray.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.FileSystem
 {
+    [ExcludeFromCodeCoverage]
     public class DirectoryWrapper : IDirectoryWrapper
     {
         internal DirectoryWrapper()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests
 {
+    [ExcludeFromCodeCoverage]
     public static class DynamicProperties
     {
         #region Delegates

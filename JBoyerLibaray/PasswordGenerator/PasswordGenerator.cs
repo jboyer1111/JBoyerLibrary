@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JBoyerLibaray.Exceptions;
+using JBoyerLibaray.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,52 +10,73 @@ namespace JBoyerLibaray.PasswordGenerator
 {
     public class PasswordGenerator
     {
-        private static int _length = 8;
-        private static int _nonAlphaNumbericChars = 1;
-        private static int _uppercase = 1;
-        private static int _numberChars = 1;
+        #region Private Variables
 
-        private List<CharType> randSetup;
+        private const int LENGTH = 8;
+        private const int NONALPHANUMERICCHARS = 1;
+        private const int UPPERCASE = 1;
+        private const int NUMBERCHARS = 1;
+
+        private List<CharType> _randSetup;
         private Random _rand;
 
-        public PasswordGenerator() : this(_length, _nonAlphaNumbericChars, _uppercase, _numberChars) { }
+        #endregion
 
-        public PasswordGenerator(int length, int nonAlphaNumbericChar, int uppercase, int numberChars)
+        #region Constructor
+
+        public PasswordGenerator() : this(LENGTH, NONALPHANUMERICCHARS, UPPERCASE, NUMBERCHARS) { }
+
+        public PasswordGenerator(int length, int nonAlphaNumericChar, int uppercase, int numberChars)
         {
             _rand = new Random();
-            randSetup = new List<CharType>(length);
+            _randSetup = new List<CharType>(length);
 
-            if (length < nonAlphaNumbericChar + uppercase + numberChars)
+            if (length < nonAlphaNumericChar + uppercase + numberChars)
             {
-                throw new Exception("Length of password is not big enough");
+                string message = String.Format(
+                    "Length of password is not long enough to support your other arguments.{0}" +
+                    "Non-AlphaNumeric: {1}{0}" +
+                    "Uppercase: {2}{0}" +
+                    "Number: {3}",
+                    Environment.NewLine,
+                    nonAlphaNumericChar,
+                    uppercase,
+                    numberChars                    
+                );
+
+                throw ExceptionHelper.CreateArgumentInvalidException(() => length, message, length);
             }
 
-            while (randSetup.Count(c => c == CharType.NonAlphaNumericCharacters) < nonAlphaNumbericChar)
+            while (_randSetup.Count(c => c == CharType.NonAlphaNumericCharacters) < nonAlphaNumericChar)
             {
-                randSetup.Add(CharType.NonAlphaNumericCharacters);
+                _randSetup.Add(CharType.NonAlphaNumericCharacters);
             }
 
-            while (randSetup.Count(c => c == CharType.UppercaseCharacters) < uppercase)
+            while (_randSetup.Count(c => c == CharType.UppercaseCharacters) < uppercase)
             {
-                randSetup.Add(CharType.UppercaseCharacters);
+                _randSetup.Add(CharType.UppercaseCharacters);
             }
 
-            while (randSetup.Count(c => c == CharType.NumbericCharacters) < numberChars)
+            while (_randSetup.Count(c => c == CharType.NumbericCharacters) < numberChars)
             {
-                randSetup.Add(CharType.NumbericCharacters);
+                _randSetup.Add(CharType.NumbericCharacters);
             }
 
-            while (randSetup.Count < length)
+            while (_randSetup.Count < length)
             {
-                randSetup.Add(CharType.Characters);
+                _randSetup.Add(CharType.Characters);
             }
         }
 
+        #endregion
+
+        #region Public Methods
+
         public string Generate()
         {
-            shuffleChar();
+            _randSetup.Shuffle();
 
-            var chars = randSetup.Select(ct =>
+            var chars = _randSetup.Select(ct =>
             {
                 int pos;
                 char currChar;
@@ -65,7 +88,7 @@ namespace JBoyerLibaray.PasswordGenerator
                         break;
                     case CharType.UppercaseCharacters:
                         pos = _rand.Next(0, CharacterLists.Characters.Count());
-                        currChar = CharacterLists.Characters[pos].ToString().ToUpper().ToCharArray().First();
+                        currChar = CharacterLists.Characters[pos].ToUpper();
                         break;
                     case CharType.NonAlphaNumericCharacters:
                         pos = _rand.Next(0, CharacterLists.NonAlphaNumericCharacters.Count());
@@ -82,19 +105,6 @@ namespace JBoyerLibaray.PasswordGenerator
             return String.Join(String.Empty, chars);
         }
 
-
-        private void shuffleChar()
-        {
-            int pos = randSetup.Count;
-            while (pos > 0)
-            {
-                int pickPos = _rand.Next(0, pos);
-                pos--;
-
-                var temp = randSetup[pos];
-                randSetup[pos] = randSetup[pickPos];
-                randSetup[pickPos] = temp;
-            }
-        }
+        #endregion
     }
 }

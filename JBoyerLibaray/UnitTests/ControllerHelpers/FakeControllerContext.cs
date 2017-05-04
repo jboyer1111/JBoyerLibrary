@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Web.Routing;
 
 namespace JBoyerLibaray.UnitTests
 {
+    [ExcludeFromCodeCoverage]
     public class FakeControllerContext : ControllerContext
     {
         public FakeControllerContext(Controller controller) : this(controller, false) { }

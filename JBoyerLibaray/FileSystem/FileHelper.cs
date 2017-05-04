@@ -1,4 +1,5 @@
-﻿using JBoyerLibaray.Extensions;
+﻿using JBoyerLibaray.Exceptions;
+using JBoyerLibaray.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,11 @@ namespace JBoyerLibaray.FileSystem
 
         public FileHelper(IFileSystemHelper fileSystemHelper)
         {
+            if (fileSystemHelper == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => fileSystemHelper);
+            }
+
             _fileSystemHelper = fileSystemHelper;
         }
 

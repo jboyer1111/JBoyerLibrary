@@ -12,19 +12,25 @@ namespace JBoyerLibaray.Extensions
         
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> items)
         {
-            List<T> list = new List<T>(items);
-            int pos = list.Count;
+            var list = new List<T>(items);
+
+            list.Shuffle();
+
+            return list;
+        }
+
+        public static void Shuffle<T>(this List<T> items)
+        {
+            int pos = items.Count;
             while (pos > 0)
             {
                 int pickPos = _rand.Next(0, pos);
                 pos--;
 
-                T temp = list[pos];
-                list[pos] = list[pickPos];
-                list[pickPos] = temp;
+                T temp = items[pos];
+                items[pos] = items[pickPos];
+                items[pickPos] = temp;
             }
-
-            return list;
         }
 
         public static object[] ToListBoxItems<T>(this IEnumerable<T> items)

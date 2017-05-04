@@ -16,13 +16,30 @@ namespace JBoyerLibaray.Extensions
         private string[] strItems = new string[] { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" };
 
         [TestMethod]
-        public void ListExtension_ShuffleReOrdersList()
+        public void ListExtension_ShuffleReOrdersList_IEnum()
         {
             // Arrange
 
             // Act
             string[] result = strItems.Shuffle().ToArray();
             string[] result2 = strItems.Shuffle().ToArray();
+
+            // Assert
+            // This will cover most but it may shuffle to what it was before
+            Assert.IsFalse(strItems.SequenceEqual(result));
+            Assert.IsFalse(strItems.SequenceEqual(result2));
+        }
+
+        [TestMethod]
+        public void ListExtension_ShuffleReOrdersList_List()
+        {
+            // Arrange
+            var result = strItems.ToList();
+            var result2 = strItems.ToList();
+
+            // Act
+            result.Shuffle();
+            result2.Shuffle();
 
             // Assert
             // This will cover most but it may shuffle to what it was before

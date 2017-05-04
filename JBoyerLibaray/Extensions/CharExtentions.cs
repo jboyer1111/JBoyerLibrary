@@ -17,5 +17,15 @@ namespace JBoyerLibaray.Extensions
         {
             return character.ToString().ToUpperInvariant().First();
         }
+
+        public static char ToLower(this char character)
+        {
+            return character.ToString().ToLower().First();
+        }
+
+        public static char ToLowerInvariant(this char character)
+        {
+            return character.ToString().ToLowerInvariant().First();
+        }
     }
 }

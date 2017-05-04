@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JBoyerLibaray.PasswordGenerator
 {
-    internal static class CharacterLists
+    [ExcludeFromCodeCoverage]
+    public static class CharacterLists
     {
         private static char[] _chars = "qwertyuiopasdfghjklzxcvbnm".ToCharArray();
         private static char[] _numChars = "1234567890".ToCharArray();

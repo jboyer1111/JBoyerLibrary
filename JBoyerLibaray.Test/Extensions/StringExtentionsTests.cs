@@ -332,7 +332,75 @@ namespace JBoyerLibaray.Extensions
         #region CapitalizeEveryWord Tests
 
         [TestMethod]
-        public void StringExtentions_CapitalizeEveryWord()
+        public void StringExtentions_CapitalizeEveryWordCapitalizesWords()
+        {
+            // Arrange
+
+            // Act
+            var result = "test".CapitalizeEveryWord();
+
+            // Assert
+            Assert.AreEqual("Test", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeEveryWordConvertsToMixedCase()
+        {
+            // Arrange
+
+            // Act
+            var result = "TEST".CapitalizeEveryWord();
+
+            // Assert
+            Assert.AreEqual("Test", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeEveryWordUsesPucuations()
+        {
+            // Arrange
+
+            // Act
+            var result = "test test;test:test!test?test,test.test_test-test/test&test'test(test\"test\ttest".CapitalizeEveryWord();
+
+            // Assert
+            Assert.AreEqual("Test Test;Test:Test!Test?Test,Test.Test_Test-Test/Test&Test'Test(Test\"Test\tTest", result);
+        }
+
+        #endregion
+
+        #region CapitalizeFirstChar
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeFirstWordCapitalizesWords()
+        {
+            // Arrange
+
+            // Act
+            var result = "test".CapitalizeFirstChar();
+
+            // Assert
+            Assert.AreEqual("Test", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeFirstWordConvertsToMixedCase()
+        {
+            // Arrange
+
+            // Act
+            var result = "TEST".CapitalizeFirstChar();
+
+            // Assert
+            Assert.AreEqual("Test", result);
+        }
+
+        #endregion
+
+        #region AddToEndOfFileName
+
+        [TestMethod]
+        public void TestMethod()
         {
             // Arrange
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web;
 
 namespace JBoyerLibaray.UnitTests
 {
+    [ExcludeFromCodeCoverage]
     public class FakeHttpRequest : HttpRequestBase
     {
         NameValueCollection _collection;

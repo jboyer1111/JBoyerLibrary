@@ -72,7 +72,7 @@ namespace JBoyerLibaray.Extensions
         public static string CapitalizeFirstChar(this string word)
         {
             var chars = word.ToLower().ToCharArray();
-            chars[0] = chars[0].ToString().ToUpper().ToCharArray().First();
+            chars[0] = chars[0].ToUpper();
             string result = String.Join(String.Empty, chars);
 
             string test = word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower();
@@ -93,7 +93,7 @@ namespace JBoyerLibaray.Extensions
         public static Stream ToStream(this string str)
         {
             Stream stream = new MemoryStream();
-            using (StreamWriter streamWriter = new StreamWriter(stream, Encoding.Unicode, str.Length, true) { AutoFlush = true })
+            using (StreamWriter streamWriter = new StreamWriter(stream, Encoding.UTF8, str.Length, true) { AutoFlush = true })
             {
                 streamWriter.Write(str);
             }

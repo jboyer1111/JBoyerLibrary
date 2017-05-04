@@ -19,7 +19,7 @@ namespace JBoyerLibaray.Extensions
             char result = ' ';
 
             // Act
-            UnitTestHelper.ExecuteInCulture("tr-Tr", () =>
+            CultureInfoHelper.ExecuteInCulture("tr-Tr", () =>
             {
                 result = letter.ToUpper();
             });
@@ -36,13 +36,47 @@ namespace JBoyerLibaray.Extensions
             char result = ' ';
 
             // Act
-            UnitTestHelper.ExecuteInCulture("tr-Tr", () =>
+            CultureInfoHelper.ExecuteInCulture("tr-Tr", () =>
             {
                 result = letter.ToUpperInvariant();
             });
 
             // Assert
             Assert.AreEqual('I', result);
+        }
+
+        [TestMethod]
+        public void CharExtentions_ToLower()
+        {
+            // Arrange
+            char letter = 'İ';
+            char result = ' ';
+
+            // Act
+            CultureInfoHelper.ExecuteInCulture("tr-Tr", () =>
+            {
+                result = letter.ToLower();
+            });
+
+            // Assert
+            Assert.AreEqual('i', result);
+        }
+
+        [TestMethod]
+        public void CharExtentions_ToLowerInvariant()
+        {
+            // Arrange
+            char letter = 'İ';
+            char result = ' ';
+
+            // Act
+            CultureInfoHelper.ExecuteInCulture("tr-Tr", () =>
+            {
+                result = letter.ToLowerInvariant();
+            });
+
+            // Assert
+            Assert.AreEqual('İ', result);
         }
     }
 }

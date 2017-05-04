@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Web;
 
 namespace JBoyerLibaray.UnitTests
 {
+    [ExcludeFromCodeCoverage]
     public class FakeHttpResponse : HttpResponseBase
     {
         private int _statusCode = (int)HttpStatusCode.OK;

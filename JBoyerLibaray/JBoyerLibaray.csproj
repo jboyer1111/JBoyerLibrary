@@ -92,6 +92,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CultureInfoHelper.cs" />
     <Compile Include="DeckOfCards\DeckOptions.cs" />
     <Compile Include="DeckOfCards\EmptyDeckException.cs" />
     <Compile Include="DeckOfCards\EmptyHandException.cs" />
@@ -134,14 +135,14 @@
     <Compile Include="RespectBeginingNumberFilenameSort.cs" />
     <Compile Include="RespectNumbersFilenameComparer.cs" />
     <Compile Include="ThueMorse.cs" />
-    <Compile Include="PasswordGenerator\CharicterList.cs" />
+    <Compile Include="PasswordGenerator\CharacterLists.cs" />
     <Compile Include="PasswordGenerator\CharType.cs" />
     <Compile Include="PasswordGenerator\PasswordGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeckOfCards\NotEnoughCardsException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Task\TransConfig.cs" />
-    <Compile Include="Task\Add2Numbers.cs" />
+    <Compile Include="UnitTests\IUnitTestDisposable.cs" />
     <Compile Include="UnitTests\Database\DynamicProperties.cs" />
     <Compile Include="UnitTests\Database\EnumerableDataReader.cs" />
     <Compile Include="UnitTests\Database\FakeCommand.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="UnitTests\ReturnsQueue.cs" />
     <Compile Include="UnitTests\UnitTestableRandom.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />
+    <Compile Include="UnitTests\UnitTestStream.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
