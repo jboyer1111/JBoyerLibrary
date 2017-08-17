@@ -38,7 +38,8 @@ namespace JBoyerLibaray.FileSystem
             const byte kIntelMark = 0x49;
             const byte kMotorolaMark = 0x4d;
             const ushort kTiffMagicNumber = 42;
-            
+            byte[] marks = new byte[] { kIntelMark, kMotorolaMark };
+
             stream.Seek(0);
             if (stream.Length < 8)
             {
@@ -48,7 +49,7 @@ namespace JBoyerLibaray.FileSystem
             byte[] header = new byte[2];
             stream.Read(header, 0, header.Length);
 
-            if (header[0] != header[1] || (header[0] != kIntelMark && header[0] != kMotorolaMark))
+            if (header[0] != header[1] || !marks.Contains(header[0]))
             {
                 return false;
             }
@@ -93,11 +94,14 @@ namespace JBoyerLibaray.FileSystem
 
         public bool IsPDF(Stream stream)
         {
-            byte[] streamBytes = new byte[4];
-            stream.Read(streamBytes, 0, streamBytes.Length);
+            StreamReader sr = new StreamReader(stream);
+            char[] buf = new char[5];
+            sr.Read(buf, 0, 4);
+            sr.Close();
 
-            string responseCheckString = Encoding.UTF8.GetString(streamBytes);
-            return String.Equals("%PDF", responseCheckString);
+            var responseCheckString = String.Join("", buf);
+
+            return responseCheckString.StartsWith("%PDF");
         }
     }
 }

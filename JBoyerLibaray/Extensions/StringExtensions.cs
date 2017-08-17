@@ -10,22 +10,61 @@ namespace JBoyerLibaray.Extensions
 {
     public static class StringExtensions
     {
-        public static string Repeat(this string str, int times)
+        public static string AddToEndOfFilename(this string filePath, string endOfFileName)
         {
-            if (times < 2)
+            if (String.IsNullOrWhiteSpace(filePath))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => times, "Cannot be less than 2", times);
+                throw ExceptionHelper.CreateArgumentException(() => filePath, "Cannot be null, empty, or whitespace");
             }
 
-
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < times; i++)
+            if (String.IsNullOrEmpty(endOfFileName))
             {
-                sb.Append(str);
+                throw ExceptionHelper.CreateArgumentException(() => endOfFileName, "Cannot be null or empty");
             }
 
-            return sb.ToString();
+            var filename = Path.GetFileName(filePath);
+            var filenameWOExt = Path.GetFileNameWithoutExtension(filePath);
+            var ext = Path.GetExtension(filePath);
+
+            return filePath.Replace(filename, filenameWOExt + endOfFileName + ext);
+        }
+
+        public static string CapitalizeEveryWord(this string line)
+        {
+            if (String.IsNullOrWhiteSpace(line))
+            {
+                return line;
+            }
+
+            char[] separateChars = new char[] { ' ', ';', ':', '!', '?', ',', '.', '_', '-', '/', '&', '\'', '(', '"', '\t' };
+            char[] resultChars = line.ToLower().ToCharArray();
+
+            for (int i = 0; i < resultChars.Length; i++)
+            {
+                char lastChar = i > 0 ? resultChars[i - 1] : ' ';
+
+                if (separateChars.Contains(lastChar))
+                {
+                    resultChars[i] = resultChars[i].ToUpper();
+                }
+            }
+
+            return String.Join(String.Empty, resultChars);
+        }
+
+        public static string CapitalizeFirstChar(this string word)
+        {
+            if (String.IsNullOrWhiteSpace(word))
+            {
+                return word;
+            }
+
+            return word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower(); ;
+        }
+
+        public static bool Contains(this string container, string match, StringComparison stringComparison)
+        {
+            return container.IndexOf(match, 0, stringComparison) != -1;
         }
 
         public static bool Like(this string toSearch, string toFind)
@@ -51,59 +90,30 @@ namespace JBoyerLibaray.Extensions
             return new Regex(regString, RegexOptions.Singleline).IsMatch(toSearch);
         }
 
-        public static string CapitalizeEveryWord(this string line)
+        public static string Repeat(this string str, int times)
         {
-            char[] separateChars = new char[] { ' ', ';', ':', '!', '?', ',', '.', '_', '-', '/', '&', '\'', '(', '"', '\t' };
-            char[] resultChars = line.ToLower().ToCharArray();
-
-            for (int i = 0; i < resultChars.Length; i++)
+            if (times < 2)
             {
-                char lastChar = i > 0 ? resultChars[i-1] : ' ';
-
-                if (separateChars.Contains(lastChar))
-                {
-                    resultChars[i] = resultChars[i].ToUpper();
-                }
+                throw ExceptionHelper.CreateArgumentInvalidException(() => times, "Cannot be less than 2", times);
             }
 
-            return String.Join(String.Empty, resultChars);
-        }
+            StringBuilder sb = new StringBuilder();
 
-        public static string CapitalizeFirstChar(this string word)
-        {
-            var chars = word.ToLower().ToCharArray();
-            chars[0] = chars[0].ToUpper();
-            string result = String.Join(String.Empty, chars);
-
-            string test = word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower();
-
-
-            return result;
-        }
-
-        public static string AddToEndOfFilename(this string filePath, string endOfFileName)
-        {
-            var filename = Path.GetFileName(filePath);
-            var filenameWOExt = Path.GetFileNameWithoutExtension(filePath);
-            var ext = Path.GetExtension(filePath);
-
-            return filePath.Replace(filename, filenameWOExt + endOfFileName + ext);
-        }
-
-        public static Stream ToStream(this string str)
-        {
-            Stream stream = new MemoryStream();
-            using (StreamWriter streamWriter = new StreamWriter(stream, Encoding.UTF8, str.Length, true) { AutoFlush = true })
+            for (int i = 0; i < times; i++)
             {
-                streamWriter.Write(str);
+                sb.Append(str);
             }
-            stream.Seek(0);
 
-            return stream;
+            return sb.ToString();
         }
 
         public static string SplitCamelCase(this string word, char delimitar = ' ')
         {
+            if (String.IsNullOrWhiteSpace(word))
+            {
+                return word;
+            }
+            
             var reg = new Regex(@"
                 (?<=[A-Z])(?=[A-Z][a-z]) |
                  (?<=[^A-Z])(?=[A-Z]) |
@@ -112,9 +122,12 @@ namespace JBoyerLibaray.Extensions
             return reg.Replace(word, delimitar.ToString());
         }
 
-        public static bool Contains(this string container, string match, StringComparison stringComparison)
+        public static Stream ToStream(this string str)
         {
-            return container.IndexOf(match, 0, stringComparison) != -1;
+            MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(str));
+
+            return stream;
         }
+
     }
 }

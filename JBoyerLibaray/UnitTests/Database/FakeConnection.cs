@@ -55,6 +55,7 @@ namespace JBoyerLibaray.UnitTests.Database
         public FakeConnection(Dictionary<string, IEnumerable<object>> databaseData)
         {
             _testData = databaseData;
+            _database = "FakeDatabase";
         }
 
         #endregion

@@ -99,6 +99,7 @@
     <Compile Include="Exceptions\ArgumentInvalidException.cs" />
     <Compile Include="Extensions\CharExtentions.cs" />
     <Compile Include="ITimeProvider.cs" />
+    <Compile Include="PluralizeString.cs" />
     <Compile Include="TimeProvider.cs" />
     <Compile Include="FileSystem\DirectoryWrapper.cs" />
     <Compile Include="FileSystem\FileWrapper.cs" />
@@ -129,7 +130,6 @@
     <Compile Include="FileSystem\FileResultHelper.cs" />
     <Compile Include="FileSystem\FileSystemHelper.cs" />
     <Compile Include="FileSystem\IFileSystemHelper.cs" />
-    <Compile Include="ImageHelpers\ImageTransparencyHelper.cs" />
     <Compile Include="MengasSponge\Spongeify.cs" />
     <Compile Include="MengasSponge\SpongeifySettings.cs" />
     <Compile Include="RespectBeginingNumberFilenameSort.cs" />

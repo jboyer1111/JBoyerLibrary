@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JBoyerLibaray.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -7,33 +8,24 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests
 {
-    [ExcludeFromCodeCoverage]
     public class UnitTestableRandom : Random
     {
         #region Pirvate Region
 
         private int _index = 0;
         private int[] _numbers;
-        //private int _byteIndex = 0;
-        private byte[] _bytes;
 
         #endregion
 
         #region Constructor
 
-        public UnitTestableRandom(params int[] numbers) : this(new byte[] { }, numbers)
+        public UnitTestableRandom(params int[] numbers)
         {
+            if (numbers == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => numbers);
+            }
 
-        }
-
-        public UnitTestableRandom(byte[] bytes) : this(bytes, new int[] { })
-        {
-
-        }
-
-        private UnitTestableRandom(byte[] bytes, int[] numbers)
-        {
-            _bytes = bytes;
             _numbers = numbers;
         }
 
@@ -57,7 +49,7 @@ namespace JBoyerLibaray.UnitTests
             do
             {
                 result = Next();
-            } while (result > maxValue);
+            } while (result >= maxValue);
 
             return result;
         }
@@ -67,29 +59,23 @@ namespace JBoyerLibaray.UnitTests
             int result;
             do
             {
-                result = Next();
-            } while (result > maxValue || result < minValue);
+                result = Next(maxValue);
+            } while (result < minValue);
 
             return result;
         }
 
         public override void NextBytes(byte[] buffer)
         {
-            
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                buffer[i] = (byte)Next();
+            }
         }
 
         public override double NextDouble()
         {
             return Next();
-        }
-
-        #endregion
-
-        #region
-
-        protected override double Sample()
-        {
-            return base.Sample();
         }
 
         #endregion

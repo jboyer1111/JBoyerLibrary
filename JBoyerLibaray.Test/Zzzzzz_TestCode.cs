@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using JBoyerLibaray.Exceptions;
+using JBoyerLibaray.UnitTests;
 
 namespace JBoyerLibaray
 {
@@ -12,7 +13,9 @@ namespace JBoyerLibaray
         [TestMethod]
         public void Zzzzzz_TestMethodOne()
         {
-            
+            var test = PluralizeString.Pluralize("Bill ran from {A-#} wol{F-VES}", 1);
+
+            var test2 = test;
         }
     }
 }

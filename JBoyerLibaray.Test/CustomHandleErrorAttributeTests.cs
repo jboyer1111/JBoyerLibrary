@@ -1,20 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using JBoyerLibaray.ImageHelpers;
-using System.Drawing;
-using System.IO;
-using JBoyerLibaray.Extensions;
-using System.Drawing.Imaging;
+﻿using JBoyerLibaray.FileSystem;
 using JBoyerLibaray.UnitTests;
-using System.Web.Mvc;
-using System.Web.Routing;
-using System.Configuration;
-using System.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using JBoyerLibaray.FileSystem;
-using System.Linq;
+using System;
+using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace JBoyerLibaray
 {

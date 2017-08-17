@@ -117,8 +117,8 @@
     <Compile Include="DeckOfCards\EmptyHandExceptionTests.cs" />
     <Compile Include="DeckOfCards\DifferentOrderEquatorTests.cs" />
     <Compile Include="Dice\DieTests.cs" />
-    <Compile Include="DnDDiceRollerTest\FakeRandomMax.cs" />
-    <Compile Include="DnDDiceRollerTest\DnDFormulaTests.cs" />
+    <Compile Include="DnDDiceRoller\DnDFormulaTests.cs" />
+    <Compile Include="DnDDiceRoller\DnDFormulaCalcTests.cs" />
     <Compile Include="Exceptions\ArgumentInvalidExceptionTests.cs" />
     <Compile Include="Exceptions\CouldNotConvertToNumberTests.cs" />
     <Compile Include="Exceptions\ExceptionHelperTests.cs" />
@@ -141,6 +141,8 @@
     <Compile Include="ThueMorseTests.cs" />
     <Compile Include="TimeProviderTests.cs" />
     <Compile Include="CultureInfoHelperTests.cs" />
+    <Compile Include="PluralizeStringTests.cs" />
+    <Compile Include="UnitTests\UnitTestableRandomTests.cs" />
     <Compile Include="Zzzzzz_TestCode.cs" />
   </ItemGroup>
   <ItemGroup>

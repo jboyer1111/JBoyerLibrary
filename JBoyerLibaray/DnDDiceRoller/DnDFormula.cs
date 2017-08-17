@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JBoyerLibaray.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -10,70 +11,132 @@ namespace JBoyerLibaray.DnDDiceRoller
 {
     public class DnDFormula
     {
-        private Regex _forumlaTest;
-        private Random _rand;
-        private List<DnDFormulaCalc> _items = new List<DnDFormulaCalc>();
-        private char[] _specialChars = { 'm', 'M', 'l', 'h' };
+        #region Private Variables
+
         private string _formula;
-        private int _minNumber;
-        private int _maxNumber;
-        private int _topBottomNumber;
-        private TopBottom _topBottom;
-        private int _lastRoll;
+        private Random _rand;
+        private char[] _specialChars = { 'm', 'M', 'l', 'h' };
+        
+        private List<DnDFormulaCalc> _items = new List<DnDFormulaCalc>();
+        
+        private int? _lastRoll = null;
+
+        #endregion
+
+        #region Public Properties
+
+        #endregion
+
+        #region Constructor / Init
 
         public DnDFormula(string formula) : this(formula, new Random()) { }
 
         public DnDFormula(string formula, Random rand)
         {
-            _rand = rand;
-            _formula = String.Copy(formula);
-
-            Regex spliter = new Regex(@" [+-] ");
-            string letters = string.Join("", _specialChars);
-            _forumlaTest = new Regex(String.Format(@"^(((\d+[{0}])*\d+d\d+([\+\-]\d|)*|\d)( [+-] |))*$", letters));
-
-            if (!_forumlaTest.IsMatch(formula))
-                throw new ArgumentException("Not a DnD formula");
-
-            string[] items = spliter.Split(formula);
-            foreach (var item in items)
+            if (String.IsNullOrWhiteSpace(formula))
             {
-                _minNumber = 0;
-                _maxNumber = 0;
-                _topBottomNumber = 0;
-                _topBottom = TopBottom.Not;
+                throw ExceptionHelper.CreateArgumentInvalidException(() => formula, "Cannot be null, empty, or whitespace", formula);
+            }
 
+            if (rand == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => rand);
+            }
+
+            string specialChars = String.Join("", _specialChars);
+            var matches = Regex.Matches(formula, String.Format(@"[^ \dd+\-{0}]", specialChars));
+            if (matches.Count > 0)
+            {
+                string message = PluralizeString.Pluralize("Formula contains {AN}invalid character{S}: ", matches.Count);
+
+                for (int i = 0; i < matches.Count; i++)
+                {
+                    var test = matches[i].ToString();
+
+                    message += test;
+                }
+
+                throw ExceptionHelper.CreateArgumentInvalidException(() => formula, message, formula);
+            }
+
+            _formula = formula;
+            _rand = rand;
+            
+            string[] formulaParts = Regex.Split(formula, @" [+-] ");
+            var formulaText = new Regex(String.Format(@"^((\d+[{0}])*\d+d\d+([\+\-]\d|)*|\d)$", specialChars));
+
+            // Date Changed: 7-17-2017
+            // Used Sense: 0
+            //_forumlaTest = new Regex(String.Format(@"^(((\d+[{0}])*\d+d\d+([\+\-]\d|)*|\d)( [+-] |))*$", specialChars));
+
+            //if (!_forumlaTest.IsMatch(formula))
+            //    throw new ArgumentException("Not a DnD formula");
+
+            foreach (var item in formulaParts)
+            {
+                if (!formulaText.IsMatch(item))
+                {
+                    throw ExceptionHelper.CreateArgumentInvalidException(() => formula, "Formula is invalid. Invalid part is '" + item + "'", formula);
+                }
+                
+                int? minNumber = null;
+                int? maxNumber = null;
+                int? topBottomNumber = null;
+                var topBottom = TopBottom.Not;
+
+                // Check if part is just a number
                 int intParse;
                 if (Int32.TryParse(item, out intParse))
                 {
                     continue;
                 }
-                bool containsL = item.Contains('l');
-                bool containsH = item.Contains('h');
-                if (containsH && containsL)
+
+                // Validate h and l are not in same formula
+                if (item.Contains('h') && item.Contains('l'))
                 {
-                    throw new ArgumentException(String.Format("'{0}' is in a invalid state. Cannot have l and h in the same claculation", item));
+                    throw ExceptionHelper.CreateArgumentInvalidException(() => formula, "Cannot have l and h in the same calculation", item);
                 }
-                foreach (char charictar in _specialChars)
+
+                // Process each special char
+                foreach (char character in _specialChars)
                 {
-                    if (item.Count(c => c == charictar) > 1)
+                    if (item.Count(c => c == character) > 1)
                     {
-                        throw new ArgumentException(String.Format("'{0}' is in a invalid state. Has more thane one '{1}'", item, charictar));
+                        throw ExceptionHelper.CreateArgumentInvalidException(() => formula, "Formula is invalid. Has too many '" + character + "' characters.", formula);
                     }
 
-                    ProcessSpecialChar(item, charictar);
+                    var characterMatch = Regex.Match(item, @"(\d+)" + character);
+                    if (characterMatch.Success)
+                    {
+                        string number = characterMatch.Groups[1].ToString();
+                        switch (character)
+                        {
+                            case 'm':
+                                minNumber = Int32.Parse(number);
+                                break;
+                            case 'M':
+                                maxNumber = Int32.Parse(number);
+                                break;
+                            case 'l':
+                                topBottomNumber = Int32.Parse(number);
+                                topBottom = TopBottom.Bottom;
+                                break;
+                            default: // Only h atm
+                                topBottomNumber = Int32.Parse(number);
+                                topBottom = TopBottom.Top;
+                                break;
+                        }
+                    }
                 }
 
-                Match match = Regex.Match(item, @"\d+d\d+((\+|\-)\d+|)");
-                MatchCollection collection = Regex.Matches(match.ToString(), @"([+-]\d+|\d+)");
+                var dicePiece = Regex.Match(item, @"\d+d\d+((\+|\-)\d+|)");
+                var dicePieceParts = Regex.Matches(dicePiece.ToString(), @"([+-]\d+|\d+)");
 
-                string[] numbers = new string[] {
-                    collection[0].ToString(),
-                    collection[1].ToString(),
-                    collection.Count > 2 ? collection[2].ToString() : "0"
-                };
+                int numDice = Int32.Parse(dicePieceParts[0].ToString());
+                int sideDice = Int32.Parse(dicePieceParts[1].ToString());
+                int addSubtractPart = dicePieceParts.Count > 2 ? Int32.Parse(dicePieceParts[2].ToString()) : 0;
 
-                _items.Add(new DnDFormulaCalc(_rand, int.Parse(numbers[0]), int.Parse(numbers[1]), int.Parse(numbers[2]), _topBottomNumber, _topBottom, _minNumber, _maxNumber));
+                _items.Add(new DnDFormulaCalc(_rand, numDice, sideDice, addSubtractPart, topBottom, topBottomNumber, minNumber, maxNumber));
 
                 int start = _formula.IndexOf(item);
                 int end = start + item.Length;
@@ -81,6 +144,10 @@ namespace JBoyerLibaray.DnDDiceRoller
                 _formula = _formula.Substring(0, start) + String.Format("{{{0}}}", _items.Count - 1) + _formula.Substring(end); 
             }
         }
+
+        #endregion
+
+        #region Public Methods
 
         public int Roll()
         {
@@ -91,20 +158,23 @@ namespace JBoyerLibaray.DnDDiceRoller
 
             _lastRoll = (int)Evaluate(getMathForumla);
 
-            return _lastRoll;
+            return _lastRoll.Value;
         }
 
         public string Stats
         {
             get
             {
-                if (_lastRoll == 0)
+                if (!_lastRoll.HasValue)
                 {
                     return null;
                 }
+
                 int plusMinusCount = _formula.Count(c => c == '-' || c == '+');
-                var stats = (from s in _items
-                             select (Object)s.Stats(plusMinusCount > 0)).ToArray();
+                var stats = (
+                    from s in _items
+                    select (Object)s.Stats(plusMinusCount > 0)
+                ).ToArray();
                 
                 string result;
                 if (plusMinusCount > 0)
@@ -122,6 +192,10 @@ namespace JBoyerLibaray.DnDDiceRoller
             }
         }
 
+        #endregion
+
+        #region Private Methods
+
         private double Evaluate(string expression)
         {
             DataTable table = new DataTable();
@@ -131,33 +205,6 @@ namespace JBoyerLibaray.DnDDiceRoller
             return double.Parse((string)row["expression"]);
         }
 
-        private void ProcessSpecialChar(string item, char specialChar)
-        {
-            Match match = Regex.Match(item, @"\d+" + specialChar);
-            string number = match.ToString();
-            if (number != String.Empty)
-            {
-                number = number.Substring(0, number.Length - 1);
-                switch(specialChar)
-                {
-                    case 'm':
-                        _minNumber = int.Parse(number);
-                        break;
-                    case 'M':
-                        _maxNumber = int.Parse(number);
-                        break;
-                    case 'l':
-                        _topBottomNumber = int.Parse(number);
-                        _topBottom = TopBottom.Bottom;
-                        break;
-                    case 'h':
-                        _topBottomNumber = int.Parse(number);
-                        _topBottom = TopBottom.Top;
-                        break;
-                    default:
-                        throw new NotImplementedException(String.Format("'{0}' is not implementd", specialChar));
-                }
-            }
-        }
+        #endregion
     }
 }

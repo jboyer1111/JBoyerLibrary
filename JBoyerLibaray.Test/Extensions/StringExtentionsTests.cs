@@ -10,49 +10,262 @@ namespace JBoyerLibaray.Extensions
     [ExcludeFromCodeCoverage]
     public class StringExtentionsTests
     {
-
-        #region Repeat Tests
+        #region AddToEndOfFileName
 
         [TestMethod]
-        public void StringExtentions_RepeatMakesAbiggerStringOfTheOrningalRepeatedNTimes()
+        public void StringExtentions_AddToEndOfFileNameAddsTextToEndOfFileName()
         {
             // Arrange
-            const string expected = "1234123412341234";    
+            string expected = "TestOne.txt";
 
             // Act
-            string result = "1234".Repeat(4);
+            string result = "Test.txt".AddToEndOfFilename("One");
 
             // Assert
             Assert.AreEqual(expected, result);
         }
 
+
         [TestMethod]
-        [ExpectedException(typeof(ArgumentInvalidException))]
-        public void StringExtentions_RepeatThrowsErrorWhen1()
+        [ExpectedException(typeof(ArgumentException))]
+        public void StringExtentions_AddToEndOfFileNameThrowsArugmentNullExceptionWhenFilenameIsNull()
         {
             // Arrange
+            string filename = null;
 
             // Act
-            "1234".Repeat(1);
+            filename.AddToEndOfFilename("Test");
 
             // Assert
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentInvalidException))]
-        public void StringExtentions_RepeatThrowsErrorWhen0()
+        [ExpectedException(typeof(ArgumentException))]
+        public void StringExtentions_AddToEndOfFileNameThrowsArugmentNullExceptionWhenFilenameIsEmpty()
         {
             // Arrange
 
             // Act
-            "1234".Repeat(0);
+            "".AddToEndOfFilename("Test");
+
+            // Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void StringExtentions_AddToEndOfFileNameThrowsArugmentNullExceptionWhenFilenameIsWhitespace()
+        {
+            // Arrange
+
+            // Act
+            "\r\t\n".AddToEndOfFilename("Test");
+
+            // Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void StringExtentions_AddToEndOfFileNameThrowsArugmentNullExceptionWhenAddToEndIsNull()
+        {
+            // Arrange
+            string filename = "Test.txt";
+
+            // Act
+            filename.AddToEndOfFilename(null);
+
+            // Assert
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void StringExtentions_AddToEndOfFileNameThrowsArugmentNullExceptionWhenAddToEndIsEmpty()
+        {
+            // Arrange
+            string filename = "Test.txt";
+
+            // Act
+            filename.AddToEndOfFilename("");
 
             // Assert
         }
 
         #endregion
 
-        #region Like Tests
+        #region CapitalizeEveryWord
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeEveryWordCapitalizesWords()
+        {
+            // Arrange
+
+            // Act
+            var result = "test".CapitalizeEveryWord();
+
+            // Assert
+            Assert.AreEqual("Test", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeEveryWordConvertsToMixedCase()
+        {
+            // Arrange
+
+            // Act
+            var result = "TEST".CapitalizeEveryWord();
+
+            // Assert
+            Assert.AreEqual("Test", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeEveryWordUsesPucuations()
+        {
+            // Arrange
+
+            // Act
+            var result = "test test;test:test!test?test,test.test_test-test/test&test'test(test\"test\ttest".CapitalizeEveryWord();
+
+            // Assert
+            Assert.AreEqual("Test Test;Test:Test!Test?Test,Test.Test_Test-Test/Test&Test'Test(Test\"Test\tTest", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeEveryWordNullReturnsNull()
+        {
+            // Arrange
+            string test = null;
+
+            // Act
+            var result = test.CapitalizeEveryWord();
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeEveryWordEmptyReturnsEmpty()
+        {
+            // Arrange
+            string test = "";
+
+            // Act
+            var result = test.CapitalizeEveryWord();
+
+            // Assert
+            Assert.AreEqual("", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeEveryWordWhitespaceReturnsSameWhitespace()
+        {
+            // Arrange
+            string test = "\r\t\n";
+
+            // Act
+            var result = test.CapitalizeEveryWord();
+
+            // Assert
+            Assert.AreEqual("\r\t\n", result);
+        }
+
+        #endregion
+
+        #region CapitalizeFirstChar
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeFirstWordCapitalizesWords()
+        {
+            // Arrange
+
+            // Act
+            var result = "test".CapitalizeFirstChar();
+
+            // Assert
+            Assert.AreEqual("Test", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeFirstWordConvertsToMixedCase()
+        {
+            // Arrange
+
+            // Act
+            var result = "TEST".CapitalizeFirstChar();
+
+            // Assert
+            Assert.AreEqual("Test", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeFirstWordSingeChar()
+        {
+            // Arrange
+
+            // Act
+            var result = "t".CapitalizeFirstChar();
+
+            // Assert
+            Assert.AreEqual("T", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeFirstWordNullReturnsNull()
+        {
+            // Arrange
+            string word = null;
+
+            // Act
+            var result = word.CapitalizeFirstChar();
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeFirstWordEmptyReturnsEmpty()
+        {
+            // Arrange
+            string word = "";
+
+            // Act
+            var result = word.CapitalizeFirstChar();
+
+            // Assert
+            Assert.AreEqual("", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_CapitalizeFirstWordWhitespaceReturnsTheWhitespace()
+        {
+            // Arrange
+            string word = "\r\t\n";
+
+            // Act
+            var result = word.CapitalizeFirstChar();
+
+            // Assert
+            Assert.AreEqual("\r\t\n", result);
+        }
+
+        #endregion
+
+        #region Contains
+
+        [TestMethod]
+        public void StringExtentions_ContainsUsesPassedComparer()
+        {
+            // Arrange
+
+            // Act
+            var result = "The quick brown fox jumped over the lazy dog.".Contains("FOX", StringComparison.CurrentCultureIgnoreCase);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        #endregion
+
+        #region Like
 
         [TestMethod]
         public void StringExtentions_LikeReturnsTrueWhenUsingContainsSyntax()
@@ -329,86 +542,141 @@ namespace JBoyerLibaray.Extensions
 
         #endregion
 
-        #region CapitalizeEveryWord Tests
+        #region Repeat
 
         [TestMethod]
-        public void StringExtentions_CapitalizeEveryWordCapitalizesWords()
+        public void StringExtentions_RepeatMakesAbiggerStringOfTheOrningalRepeatedNTimes()
         {
             // Arrange
+            const string expected = "1234123412341234";    
 
             // Act
-            var result = "test".CapitalizeEveryWord();
+            string result = "1234".Repeat(4);
 
             // Assert
-            Assert.AreEqual("Test", result);
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void StringExtentions_CapitalizeEveryWordConvertsToMixedCase()
+        [ExpectedException(typeof(ArgumentInvalidException))]
+        public void StringExtentions_RepeatThrowsErrorWhen1()
         {
             // Arrange
 
             // Act
-            var result = "TEST".CapitalizeEveryWord();
+            "1234".Repeat(1);
 
             // Assert
-            Assert.AreEqual("Test", result);
         }
 
         [TestMethod]
-        public void StringExtentions_CapitalizeEveryWordUsesPucuations()
+        [ExpectedException(typeof(ArgumentInvalidException))]
+        public void StringExtentions_RepeatThrowsErrorWhen0()
         {
             // Arrange
 
             // Act
-            var result = "test test;test:test!test?test,test.test_test-test/test&test'test(test\"test\ttest".CapitalizeEveryWord();
-
-            // Assert
-            Assert.AreEqual("Test Test;Test:Test!Test?Test,Test.Test_Test-Test/Test&Test'Test(Test\"Test\tTest", result);
-        }
-
-        #endregion
-
-        #region CapitalizeFirstChar
-
-        [TestMethod]
-        public void StringExtentions_CapitalizeFirstWordCapitalizesWords()
-        {
-            // Arrange
-
-            // Act
-            var result = "test".CapitalizeFirstChar();
-
-            // Assert
-            Assert.AreEqual("Test", result);
-        }
-
-        [TestMethod]
-        public void StringExtentions_CapitalizeFirstWordConvertsToMixedCase()
-        {
-            // Arrange
-
-            // Act
-            var result = "TEST".CapitalizeFirstChar();
-
-            // Assert
-            Assert.AreEqual("Test", result);
-        }
-
-        #endregion
-
-        #region AddToEndOfFileName
-
-        [TestMethod]
-        public void TestMethod()
-        {
-            // Arrange
-
-            // Act
+            "1234".Repeat(0);
 
             // Assert
         }
 
         #endregion
+
+        #region SplitCamelCase
+
+        [TestMethod]
+        public void StringExtentions_SplitCamelCaseNull()
+        {
+            // Arrange
+            string word = null;
+
+            // Act
+            var result = word.SplitCamelCase();
+
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_SplitCamelCaseEmpty()
+        {
+            // Arrange
+            string word = "";
+
+            // Act
+            var result = word.SplitCamelCase();
+
+            // Assert
+            Assert.AreEqual("", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_SplitCamelCaseWhitesapce()
+        {
+            // Arrange
+            string word = "\t\r\n";
+
+            // Act
+            var result = word.SplitCamelCase();
+
+            // Assert
+            Assert.AreEqual("\t\r\n", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_SplitCamelCaseWordOne()
+        {
+            // Arrange
+            string word = "Nothing";
+
+            // Act
+            var result = word.SplitCamelCase();
+
+            // Assert
+            Assert.AreEqual("Nothing", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_SplitCamelCaseWordOneHashTag()
+        {
+            // Arrange
+            string word = "Nothing";
+
+            // Act
+            var result = word.SplitCamelCase('#');
+
+            // Assert
+            Assert.AreEqual("Nothing", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_SplitCamelCaseWordTwo()
+        {
+            // Arrange
+            string word = "NothingTwo";
+
+            // Act
+            var result = word.SplitCamelCase();
+
+            // Assert
+            Assert.AreEqual("Nothing Two", result);
+        }
+
+        [TestMethod]
+        public void StringExtentions_SplitCamelCaseWordTwoHashTag()
+        {
+            // Arrange
+            string word = "NothingTwo";
+
+            // Act
+            var result = word.SplitCamelCase('#');
+
+            // Assert
+            Assert.AreEqual("Nothing#Two", result);
+        }
+
+        #endregion
+
     }
 }
