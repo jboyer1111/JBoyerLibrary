@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.DeckOfCards
 {
-    internal enum DeckOptions
+
+    internal enum DeckOption
     {
         Default,
         Empty,

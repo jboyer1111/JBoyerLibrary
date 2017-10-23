@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JBoyerLibaray.Extensions
 {
     public static class ListExtensions
     {
-        private static Random _rand = new Random();
-        
+        // These 2 lines make the random thread safe. It also increments the seed value by one each time
+        // This is not a problem with my code. I don't care about how predictable each random is.
+        // This is an inherit trate of the Random class. If true random is needed then use
+        // System.Security.Cryptography.RadnomNumberGenerator
+        private static int seed = Environment.TickCount;
+        private static ThreadLocal<Random> _rand = new ThreadLocal<Random>(() => new Random(Interlocked.Increment(ref seed)));
+
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> items)
         {
             var list = new List<T>(items);
@@ -24,7 +30,7 @@ namespace JBoyerLibaray.Extensions
             int pos = items.Count;
             while (pos > 0)
             {
-                int pickPos = _rand.Next(0, pos);
+                int pickPos = _rand.Value.Next(0, pos);
                 pos--;
 
                 T temp = items[pos];
@@ -33,11 +39,42 @@ namespace JBoyerLibaray.Extensions
             }
         }
 
+        /// <summary>
+        /// Allows modification of all the elements in the list
+        /// </summary>
+        /// <typeparam name="T">The type needs to be of class type.</typeparam>
+        /// <param name="items">List to modify</param>
+        /// <param name="predicate">The action to take on each object</param>
+        /// <returns>The items in a new list</returns>
+        public static IEnumerable<T> ForAll<T>(this IEnumerable<T> items, Action<T> predicate) where T : class
+        {
+            var list = new List<T>(items);
+
+            list.ForAll(predicate);
+
+            return list;
+        }
+
+        /// <summary>
+        /// Allows modification of all the elements in the list
+        /// </summary>
+        /// <typeparam name="T">The type needs to be of class type.</typeparam>
+        /// <param name="items">List to modify</param>
+        /// <param name="predicate">The action to take on each object</param>
+        public static void ForAll<T>(this List<T> items, Action<T> predicate) where T : class
+        {
+            items.All(t =>
+            {
+                predicate(t);
+                return true;
+            });
+        }
+
         public static object[] ToListBoxItems<T>(this IEnumerable<T> items)
         {
             var itemArray = items.ToArray();
             object[] objects = new object[itemArray.Length];
-            
+
             itemArray.CopyTo(objects, 0);
 
             return objects;
@@ -47,7 +84,7 @@ namespace JBoyerLibaray.Extensions
         {
             List<T> list = new List<T>(items);
 
-            return list[_rand.Next(0, list.Count())];
+            return list[_rand.Value.Next(0, list.Count())];
         }
 
         public static IEnumerable<T> Median<T>(this IEnumerable<T> items)
