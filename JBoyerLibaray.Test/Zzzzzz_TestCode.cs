@@ -3,6 +3,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 using JBoyerLibaray.Exceptions;
 using JBoyerLibaray.UnitTests;
+using System.Globalization;
+using System.Collections.Generic;
+using System.Linq;
+using JBoyerLibaray.Extensions;
+using System.Security.Cryptography;
 
 namespace JBoyerLibaray
 {
@@ -13,9 +18,30 @@ namespace JBoyerLibaray
         [TestMethod]
         public void Zzzzzz_TestMethodOne()
         {
-            var test = PluralizeString.Pluralize("Bill ran from {A-#} wol{F-VES}", 1);
+            RandomNumberGenerator rand = RandomNumberGenerator.Create("Billy");
+        }
+    }
 
-            var test2 = test;
+
+    public class TestProp
+    {
+
+        private bool _test = false;
+        public bool Test
+        {
+            get
+            {
+                return _test;
+            }
+            set
+            {
+                _test = value;
+            }
+        }
+
+        public override string ToString()
+        {
+            return Test.ToString();
         }
     }
 }

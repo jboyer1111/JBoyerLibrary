@@ -9,7 +9,7 @@ namespace JBoyerLibaray
     public class PluralizeStringTests
     {
         [TestMethod]
-        public void PluralizeString_PluraizeAConvertsOneCorrectly()
+        public void PluralizeString_Pluraize_AConvertsOneCorrectly()
         {
             // Arrange
 
@@ -22,7 +22,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeAConvertsTwoCorrectly()
+        public void PluralizeString_Pluraize_AConvertsTwoCorrectly()
         {
             // Arrange
 
@@ -35,7 +35,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeANumberConvertsOneCorrectly()
+        public void PluralizeString_Pluraize_ANumberConvertsOneCorrectly()
         {
             // Arrange
 
@@ -48,7 +48,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeANumberConvertsTwoCorrectly()
+        public void PluralizeString_Pluraize_ANumberConvertsTwoCorrectly()
         {
             // Arrange
 
@@ -61,7 +61,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeAnConvertsOneCorrectly()
+        public void PluralizeString_Pluraize_AnConvertsOneCorrectly()
         {
             // Arrange
 
@@ -74,7 +74,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeAnConvertsTwoCorrectly()
+        public void PluralizeString_Pluraize_AnConvertsTwoCorrectly()
         {
             // Arrange
 
@@ -87,7 +87,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeAnNumberConvertsOneCorrectly()
+        public void PluralizeString_Pluraize_AnNumberConvertsOneCorrectly()
         {
             // Arrange
 
@@ -100,7 +100,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeAnNumberConvertsTwoCorrectly()
+        public void PluralizeString_Pluraize_AnNumberConvertsTwoCorrectly()
         {
             // Arrange
 
@@ -113,7 +113,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeIsAreConvertsOneCorrectly()
+        public void PluralizeString_Pluraize_IsAreConvertsOneCorrectly()
         {
             // Arrange
 
@@ -126,7 +126,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeIsAreConvertsTwoCorrectly()
+        public void PluralizeString_Pluraize_IsAreConvertsTwoCorrectly()
         {
             // Arrange
 
@@ -139,7 +139,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeSConvertsOneCorrectly()
+        public void PluralizeString_Pluraize_SConvertsOneCorrectly()
         {
             // Arrange
 
@@ -152,7 +152,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeSConvertsTwoCorrectly()
+        public void PluralizeString_Pluraize_SConvertsTwoCorrectly()
         {
             // Arrange
 
@@ -165,7 +165,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeEsConvertsOneCorrectly()
+        public void PluralizeString_Pluraize_EsConvertsOneCorrectly()
         {
             // Arrange
 
@@ -178,7 +178,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeEsConvertsTwoCorrectly()
+        public void PluralizeString_Pluraize_EsConvertsTwoCorrectly()
         {
             // Arrange
 
@@ -191,7 +191,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeYiesConvertsOneCorrectly()
+        public void PluralizeString_Pluraize_YiesConvertsOneCorrectly()
         {
             // Arrange
 
@@ -203,7 +203,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeYiesConvertsTwoCorrectly()
+        public void PluralizeString_Pluraize_YiesConvertsTwoCorrectly()
         {
             // Arrange
 
@@ -215,7 +215,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeFvesConvertsOneCorrectly()
+        public void PluralizeString_Pluraize_FvesConvertsOneCorrectly()
         {
             // Arrange
 
@@ -228,7 +228,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeFvesConvertsTwoCorrectly()
+        public void PluralizeString_Pluraize_FvesConvertsTwoCorrectly()
         {
             // Arrange
 
@@ -241,7 +241,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeCustomConvertsOneCorrectly()
+        public void PluralizeString_Pluraize_CustomConvertsOneCorrectly()
         {
             // Arrange
 
@@ -254,7 +254,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void PluralizeString_PluraizeCustomConvertsTwoCorrectly()
+        public void PluralizeString_Pluraize_CustomConvertsTwoCorrectly()
         {
             // Arrange
 
@@ -264,6 +264,175 @@ namespace JBoyerLibaray
 
             // Assert
             Assert.AreEqual("Dice", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_NumberLogicConvertsOneCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{# Die-# Dice}", 1);
+
+            // Assert
+            Assert.AreEqual("1 Die", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_NumberLogicConvertsTwoCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{# Die-# Dice}", 2);
+
+            // Assert
+            Assert.AreEqual("2 Dice", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_NumberSignEscapedConvertsOneCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{## Die-## Dice}", 1);
+
+            // Assert
+            Assert.AreEqual("# Die", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_NumberSignEscapedConvertsTwoCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{## Die-## Dice}", 2);
+
+            // Assert
+            Assert.AreEqual("# Dice", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_ZeroLogicConvertsZeroCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{Zero-Single-Multi}", 0);
+
+            // Assert
+            Assert.AreEqual("Zero", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_ZeroLogicConvertsOneCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{Zero-Single-Multi}", 1);
+
+            // Assert
+            Assert.AreEqual("Single", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_ZeroLogicConvertsTwoCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{Zero-Single-Multi}", 2);
+
+            // Assert
+            Assert.AreEqual("Multi", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_CustomNumberZeroLogicConvertsZeroCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{Zero logic occured actual count (#)-Single logic occured actual count (#)-Multi logic occured actual count (#)}", 0);
+
+            // Assert
+            Assert.AreEqual("Zero logic occured actual count (0)", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_CustomNumberZeroLogicConvertsOneCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{Zero logic occured actual count (#)-Single logic occured actual count (#)-Multi logic occured actual count (#)}", 1);
+
+            // Assert
+            Assert.AreEqual("Single logic occured actual count (1)", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_CustomNumberZeroLogicConvertsTwoCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{Zero logic occured actual count (#)-Single logic occured actual count (#)-Multi logic occured actual count (#)}", 2);
+
+            // Assert
+            Assert.AreEqual("Multi logic occured actual count (2)", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_NoNumberNumberLogicConvertsZeroCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{No-#-#} Federal Tax Lien{S}", 0);
+
+            // Assert
+            Assert.AreEqual("No Federal Tax Liens", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_NoNumberNumberLogicLogicConvertsOneCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{No-#-#} Federal Tax Lien{S}", 1);
+
+            // Assert
+            Assert.AreEqual("1 Federal Tax Lien", result);
+        }
+
+        [TestMethod]
+        public void PluralizeString_Pluraize_NoNumberNumberLogicLogicConvertsTwoCorrectly()
+        {
+            // Arrange
+
+
+            // Act
+            var result = PluralizeString.Pluralize("{No-#-#} Federal Tax Lien{S}", 2);
+
+            // Assert
+            Assert.AreEqual("2 Federal Tax Liens", result);
         }
     }
 }

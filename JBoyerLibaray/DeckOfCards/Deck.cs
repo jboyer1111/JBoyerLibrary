@@ -60,26 +60,26 @@ namespace JBoyerLibaray.DeckOfCards
 
         #region Constructors
 
-        public Deck() : this(DeckOptions.Default) { }
+        public Deck() : this(DeckOption.Default) { }
 
         private Deck(Deck deck)
-            : this(DeckOptions.Empty)
+            : this(DeckOption.Empty)
         {
             _cards.AddRange(deck.Cards);
         }
 
-        private Deck(params DeckOptions[] options)
+        private Deck(DeckOption option)
         {
             // Setup variagbles
             _cards = new List<Card>(52);
             _rand = new Random();
 
-            if (!options.Contains(DeckOptions.Empty))
+            if (option != DeckOption.Empty)
             {
                 populateDeckLogic();
             }
 
-            if (!options.Contains(DeckOptions.UnShuffled))
+            if (option != DeckOption.UnShuffled)
             {
                 Shuffle();
             }
@@ -269,7 +269,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         public static Deck GetUnShuffledDeck()
         {
-            return new Deck(DeckOptions.UnShuffled);
+            return new Deck(DeckOption.UnShuffled);
         }
 
         public static Deck Parse(string cards)
@@ -283,7 +283,7 @@ namespace JBoyerLibaray.DeckOfCards
             cards = cards.Trim();
 
             // Create empty deck
-            Deck result = new Deck(DeckOptions.Empty);
+            Deck result = new Deck(DeckOption.Empty);
 
             // Get a list of all the card parts to the deck string
             List<string> stringCardList = new List<string>(cards.Split(','));

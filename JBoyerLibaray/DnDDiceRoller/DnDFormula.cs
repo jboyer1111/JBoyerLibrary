@@ -1,4 +1,5 @@
 ﻿using JBoyerLibaray.Exceptions;
+using NCalc;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -63,7 +64,7 @@ namespace JBoyerLibaray.DnDDiceRoller
             _rand = rand;
             
             string[] formulaParts = Regex.Split(formula, @" [+-] ");
-            var formulaText = new Regex(String.Format(@"^((\d+[{0}])*\d+d\d+([\+\-]\d|)*|\d)$", specialChars));
+            var formulaText = new Regex(String.Format(@"^((\d+[{0}])*\d+d\d+([\+\-]\d|)*|\d+)$", specialChars));
 
             // Date Changed: 7-17-2017
             // Used Sense: 0
@@ -152,11 +153,11 @@ namespace JBoyerLibaray.DnDDiceRoller
         public int Roll()
         {
             var values = (from i in _items
-                          select (Object)i.Calc()).ToArray();
+                          select i.Calc()).ToArray();
 
             string getMathForumla = String.Format(_formula, values);
 
-            _lastRoll = (int)Evaluate(getMathForumla);
+            _lastRoll = evaluate(getMathForumla);
 
             return _lastRoll.Value;
         }
@@ -196,13 +197,10 @@ namespace JBoyerLibaray.DnDDiceRoller
 
         #region Private Methods
 
-        private double Evaluate(string expression)
+        private int evaluate(string expression)
         {
-            DataTable table = new DataTable();
-            table.Columns.Add("expression", typeof(string), expression);
-            DataRow row = table.NewRow();
-            table.Rows.Add(row);
-            return double.Parse((string)row["expression"]);
+            Expression formula = new Expression(expression);
+            return (int)formula.Evaluate();
         }
 
         #endregion
