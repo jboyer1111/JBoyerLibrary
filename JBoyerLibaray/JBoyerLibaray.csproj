@@ -99,6 +99,8 @@
     <Compile Include="Exceptions\ArgumentInvalidException.cs" />
     <Compile Include="Extensions\CharExtentions.cs" />
     <Compile Include="ITimeProvider.cs" />
+    <Compile Include="JBoyerRandom.cs" />
+    <Compile Include="JBoyerRandomMode.cs" />
     <Compile Include="PluralizeString.cs" />
     <Compile Include="TimeProvider.cs" />
     <Compile Include="FileSystem\DirectoryWrapper.cs" />
