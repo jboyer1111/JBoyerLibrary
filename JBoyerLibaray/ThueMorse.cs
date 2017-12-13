@@ -39,7 +39,7 @@ namespace JBoyerLibaray
             {
                 MatchEvaluator matchEvaluator = match =>
                 {
-                    if (match.ToString() == "A")
+                    if (match.Value == "A")
                     {
                         return "AB";
                     }
@@ -56,15 +56,5 @@ namespace JBoyerLibaray
 
             return sequence.Substring(0, length);
         }
-
-
-
-
-
-
-
-
-
-
     }
 }

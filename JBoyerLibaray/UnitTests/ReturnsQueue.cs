@@ -39,7 +39,7 @@ namespace JBoyerLibaray.UnitTests
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException("Invalid arguments passed in fro type", e);
+                throw new InvalidOperationException("Invalid arguments passed in for type", e);
             }
 
             _constructorFunc = () => (T)Activator.CreateInstance(typeof(T), _args);

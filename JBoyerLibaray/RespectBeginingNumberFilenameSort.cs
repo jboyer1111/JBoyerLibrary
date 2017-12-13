@@ -31,33 +31,21 @@ namespace JBoyerLibaray
                 return 1;
             }
 
+            // If both have numbers at the begining then use that to determine what comes first.
             Match xMatch = _reg.Match(x);
             Match yMatch = _reg.Match(y);
-            string xStr = null;
-            string yStr = null;
-            if (xMatch.Success)
+            if (xMatch.Success && yMatch.Success)
             {
-                xStr = xMatch.ToString();
-            }
-            if (yMatch.Success)
-            {
-                yStr = yMatch.ToString();
-            }
+                int xNum = Int32.Parse(xMatch.Value);
+                int yNum = Int32.Parse(yMatch.Value);
 
-            // If both have numbers at the begining then use that to determine what comes first.
-            if (xStr != null && yStr != null)
-            {
-                int xNum = Int32.Parse(xStr);
-                int yNum = Int32.Parse(yStr);
+                // Compare the two numbers and return value if they are not equal
+                int compare = Comparer<int>.Default.Compare(xNum, yNum);
+                if (compare != 0)
+                {
+                    return compare;
+                }
 
-                if (xNum < yNum)
-                {
-                    return -1;
-                }
-                if (yNum < xNum)
-                {
-                    return 1;
-                }
                 // If the numbers are equal then just use string compare on the file name.
             }
 

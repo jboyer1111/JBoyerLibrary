@@ -78,7 +78,7 @@ namespace JBoyerLibaray
                     date.Hour > 12 ? "PM" : "AM",
                     abbrv
                 ),
-                user != null && user.Identity.IsAuthenticated ? user.Identity.Name : "Unknown",
+                (user?.Identity?.IsAuthenticated ?? false) ? user.Identity.Name : "Unknown",
                 message
             );
 

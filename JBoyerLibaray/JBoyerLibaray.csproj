@@ -102,6 +102,7 @@
     <Compile Include="DeckOfCards\EmptyHandException.cs" />
     <Compile Include="Exceptions\ArgumentInvalidException.cs" />
     <Compile Include="Extensions\CharExtentions.cs" />
+    <Compile Include="Extensions\HelperExtentions.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="PluralizeString.cs" />
     <Compile Include="TimeProvider.cs" />

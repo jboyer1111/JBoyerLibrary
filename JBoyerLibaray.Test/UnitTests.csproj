@@ -127,6 +127,7 @@
     <Compile Include="Extensions\StringExtentionsTests.cs" />
     <Compile Include="Extensions\NumberExtentionsTests.cs" />
     <Compile Include="Extensions\CharExtentionsTests.cs" />
+    <Compile Include="Extensions\HelperExtentionsTests.cs" />
     <Compile Include="FileSystem\FileResultHelperTests.cs" />
     <Compile Include="FileSystem\FileHelperTests.cs" />
     <Compile Include="PasswordGenerator\PasswordGeneratorTests.cs" />
