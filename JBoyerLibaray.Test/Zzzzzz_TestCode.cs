@@ -18,30 +18,16 @@ namespace JBoyerLibaray
         [TestMethod]
         public void Zzzzzz_TestMethodOne()
         {
-            RandomNumberGenerator rand = RandomNumberGenerator.Create("Billy");
-        }
-    }
+            JBoyerRandom.SetRandomMode(JBoyerRandomMode.CryptographyRandomNumberGenerator);
 
+            var rand = new JBoyerRandom();
 
-    public class TestProp
-    {
+            var test = new List<object>();
 
-        private bool _test = false;
-        public bool Test
-        {
-            get
-            {
-                return _test;
-            }
-            set
-            {
-                _test = value;
-            }
-        }
-
-        public override string ToString()
-        {
-            return Test.ToString();
+            test.Add(rand.Next());
+            test.Add(rand.Next(5));
+            test.Add(rand.Next(3, 4));
+            test.Add(rand.NextDouble());
         }
     }
 }
