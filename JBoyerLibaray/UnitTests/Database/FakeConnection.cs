@@ -16,7 +16,7 @@ namespace JBoyerLibaray.UnitTests.Database
         private ConnectionState _state = ConnectionState.Closed;
         private string _database;
         private IDbTransaction _transaction = null;
-        private Dictionary<string, IEnumerable<object>> _testData;
+        private FakeDatabase _fakeDatabase;
 
         #endregion
 
@@ -52,9 +52,9 @@ namespace JBoyerLibaray.UnitTests.Database
 
         #region Constructor
 
-        public FakeConnection(Dictionary<string, IEnumerable<object>> databaseData)
+        public FakeConnection(FakeDatabase fakeDatabase)
         {
-            _testData = databaseData;
+            _fakeDatabase = fakeDatabase;
             _database = "FakeDatabase";
         }
 
@@ -74,7 +74,7 @@ namespace JBoyerLibaray.UnitTests.Database
 
         public IDbCommand CreateCommand()
         {
-            return new FakeCommand(this, _testData);
+            return new FakeCommand(this, _fakeDatabase);
         }
 
         public void ChangeDatabase(string databaseName)

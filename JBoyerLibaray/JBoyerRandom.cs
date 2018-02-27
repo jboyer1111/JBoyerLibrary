@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -11,6 +12,7 @@ namespace JBoyerLibaray
     /// This class is a wrapper for the System.Random Class where it can
     /// change between using System.Random or System.Security.Cryptography.RandomNumberGenerator class
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class JBoyerRandom : Random, IDisposable
     {
         #region Private Variables

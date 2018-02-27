@@ -99,6 +99,7 @@
     <Compile Include="CultureInfoHelper.cs" />
     <Compile Include="Database\DataReaderHelper.cs" />
     <Compile Include="Database\DataResult.cs" />
+    <Compile Include="Database\ReaderData.cs" />
     <Compile Include="DeckOfCards\DeckOptions.cs" />
     <Compile Include="DeckOfCards\EmptyDeckException.cs" />
     <Compile Include="DeckOfCards\EmptyHandException.cs" />
@@ -151,6 +152,11 @@
     <Compile Include="DeckOfCards\NotEnoughCardsException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Task\TransConfig.cs" />
+    <Compile Include="UnitTests\Database\FakeDatabase.cs" />
+    <Compile Include="UnitTests\Database\SqlInfo.cs" />
+    <Compile Include="UnitTests\Database\SqlInfoT.cs" />
+    <Compile Include="UnitTests\Database\StoredProcedureInfo.cs" />
+    <Compile Include="UnitTests\Database\StoredProcedureInfoT.cs" />
     <Compile Include="UnitTests\IUnitTestDisposable.cs" />
     <Compile Include="UnitTests\Database\DynamicProperties.cs" />
     <Compile Include="UnitTests\Database\EnumerableDataReader.cs" />

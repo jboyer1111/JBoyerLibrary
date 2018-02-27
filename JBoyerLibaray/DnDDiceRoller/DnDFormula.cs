@@ -152,8 +152,7 @@ namespace JBoyerLibaray.DnDDiceRoller
 
         public int Roll()
         {
-            var values = (from i in _items
-                          select i.Calc()).ToArray();
+            var values = _items.Select(i => i.Calc()).Cast<object>().ToArray();
 
             string getMathForumla = String.Format(_formula, values);
 

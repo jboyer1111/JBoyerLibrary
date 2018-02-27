@@ -13,7 +13,7 @@ namespace JBoyerLibaray
     public class ErrorLogTests
     {
         [TestMethod]
-        public void ErrorLog_ConstructorOne()
+        public void ErrorLog_Constructor_One()
         {
             // Arrange
 
@@ -24,7 +24,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_ConstructorTwo()
+        public void ErrorLog_Constructor_Two()
         {
             // Arrange
             Mock<IFileSystemHelper> mockFileSystemHelper = new Mock<IFileSystemHelper>();
@@ -38,7 +38,7 @@ namespace JBoyerLibaray
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void ErrorLog_ConstructorThrowsErrorWhenPathIsNull()
+        public void ErrorLog_Constructor_ThrowsErrorWhenPathIsNull()
         {
             // Arrange
 
@@ -50,7 +50,7 @@ namespace JBoyerLibaray
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void ErrorLog_ConstructorThrowsErrorWhenPathIsEmpty()
+        public void ErrorLog_Constructor_ThrowsErrorWhenPathIsEmpty()
         {
             // Arrange
 
@@ -62,7 +62,7 @@ namespace JBoyerLibaray
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void ErrorLog_ConstructorThrowsErrorWhenPathIsWhiteSpace()
+        public void ErrorLog_Constructor_ThrowsErrorWhenPathIsWhiteSpace()
         {
             // Arrange
 
@@ -74,7 +74,7 @@ namespace JBoyerLibaray
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ErrorLog_ConstructorThrowsErrorIfFileSystemHelperIsNull()
+        public void ErrorLog_Constructor_ThrowsErrorIfFileSystemHelperIsNull()
         {
             // Arrange
             Mock<ITimeProvider> mockTimeProvider = new Mock<ITimeProvider>();
@@ -87,7 +87,7 @@ namespace JBoyerLibaray
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ErrorLog_ConstructorThrowsErrorIfTimeProviderIsNull()
+        public void ErrorLog_Constructor_ThrowsErrorIfTimeProviderIsNull()
         {
             // Arrange
             Mock<IFileSystemHelper> mockFileSystemHelper = new Mock<IFileSystemHelper>();
@@ -99,7 +99,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WriteDoesNothingIfExceptionIsNull()
+        public void ErrorLog_Write_DoesNothingIfExceptionIsNull()
         {
             // Arrange
             Mock<IFileWrapper> mockFileWrapper = new Mock<IFileWrapper>();
@@ -123,7 +123,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WriteDoesNothingIfMessageIsNull()
+        public void ErrorLog_Write_DoesNothingIfMessageIsNull()
         {
             // Arrange
             Mock<IFileWrapper> mockFileWrapper = new Mock<IFileWrapper>();
@@ -147,7 +147,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WriteDoesNothingIfMessageIsEmpty()
+        public void ErrorLog_Write_DoesNothingIfMessageIsEmpty()
         {
             // Arrange
             Mock<IFileWrapper> mockFileWrapper = new Mock<IFileWrapper>();
@@ -171,7 +171,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WriteDoesNothingIfMessageIsWhitespace()
+        public void ErrorLog_Write_DoesNothingIfMessageIsWhitespace()
         {
             // Arrange
             Mock<IFileWrapper> mockFileWrapper = new Mock<IFileWrapper>();
@@ -195,7 +195,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WriteOutputsMessageToFile()
+        public void ErrorLog_Write_OutputsMessageToFile()
         {
             // Arrange
             string result = null;
@@ -230,7 +230,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WriteSetsUsernameToUnknownIfUserIsNull()
+        public void ErrorLog_Write_SetsUsernameToUnknownIfUserIsNull()
         {
             // Arrange
             string result = null;
@@ -264,7 +264,43 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WriteSetsUsernameToUnknownIfNotAuthenicated()
+        public void ErrorLog_Write_SetsUsernameToUnknownIfUserIndentiyPropIsNull()
+        {
+            // Arrange
+            string result = null;
+
+            Mock<IFileWrapper> mockFileWrapper = new Mock<IFileWrapper>();
+            mockFileWrapper.Setup(f => f.AppendAllText(It.IsAny<string>(), It.IsAny<string>())).Callback<string, string>((p, c) =>
+            {
+                result += c;
+            });
+
+            Mock<IFileSystemHelper> mockFileSystemHelper = new Mock<IFileSystemHelper>();
+            mockFileSystemHelper.Setup(f => f.File).Returns(mockFileWrapper.Object);
+
+            Mock<ITimeProvider> mockTimeProvider = new Mock<ITimeProvider>();
+
+            var errorLog = new ErrorLog("D:\\Temp\\Somefile.txt", mockFileSystemHelper.Object, mockTimeProvider.Object);
+
+            string message = "Some Error Text Here";
+
+            Mock<IPrincipal> mockPrincipal = new Mock<IPrincipal>();
+
+            // Act
+            errorLog.Write(mockPrincipal.Object, message);
+
+            // Assert
+            Assert.AreEqual(
+                String.Format(
+                    "01-01-0001 12:00:00 AM CST: Unknown:{0}Some Error Text Here{0}{0}",
+                    Environment.NewLine
+                ),
+                result
+            );
+        }
+
+        [TestMethod]
+        public void ErrorLog_Write_SetsUsernameToUnknownIfNotAuthenicated()
         {
             // Arrange
             string result = null;
@@ -299,7 +335,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WritePutsCorrectTimezoneAbbrevForDaylightTime()
+        public void ErrorLog_Write_PutsCorrectTimezoneAbbrevForDaylightTime()
         {
             // Arrange
             string result = null;
@@ -336,7 +372,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WritePutsCorrectTimezoneAbbrevForStandardTime()
+        public void ErrorLog_Write_PutsCorrectTimezoneAbbrevForStandardTime()
         {
             // Arrange
             string result = null;
@@ -373,7 +409,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WritePutsAmForMornings()
+        public void ErrorLog_Write_PutsAmForMornings()
         {
             // Arrange
             string result = null;
@@ -410,7 +446,7 @@ namespace JBoyerLibaray
         }
 
         [TestMethod]
-        public void ErrorLog_WritePutsPmForAfternoons()
+        public void ErrorLog_Write_PutsPmForAfternoons()
         {
             // Arrange
             string result = null;
