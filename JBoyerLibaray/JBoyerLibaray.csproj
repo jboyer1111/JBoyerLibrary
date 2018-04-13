@@ -178,6 +178,12 @@
     <Compile Include="UnitTests\UnitTestableRandom.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />
     <Compile Include="UnitTests\UnitTestStream.cs" />
+    <Compile Include="Web\IWebDownloader.cs" />
+    <Compile Include="Web\IWebPageCache.cs" />
+    <Compile Include="Web\PageCache.cs" />
+    <Compile Include="Web\WebDownloader.cs" />
+    <Compile Include="Web\WebDownloaderFile.cs" />
+    <Compile Include="Web\WebPageCache.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

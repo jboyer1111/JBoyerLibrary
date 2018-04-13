@@ -65,5 +65,6 @@ namespace JBoyerLibaray.FileSystem
         void WriteAllLines(string path, IEnumerable<string> contents, Encoding encoding);
         void WriteAllText(string path, string contents);
         void WriteAllText(string path, string contents, Encoding encoding);
+        string GetNewFileNamePath(string directoryPath);
     }
 }
