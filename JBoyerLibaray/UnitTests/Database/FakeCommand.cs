@@ -56,8 +56,20 @@ namespace JBoyerLibaray.UnitTests.Database
 
         public int ExecuteNonQuery()
         {
-            // Do nothing
-            // Integration test these types of queries
+            var updateRecord = new Regex(@"^update (\S+) set (\S[\S\s]+) where (\S+) = @id$", RegexOptions.IgnoreCase);
+
+            if (updateRecord.IsMatch(CommandText))
+            {
+                var match = updateRecord.Match(CommandText);
+
+                var tableName = match.Groups[1].Value;
+
+                _fakeDatabase.CallUpdateCallback(tableName);
+
+                return 0;
+            }
+
+            _fakeDatabase.CallNonQuery(CommandText, Parameters);
             return 0;
         }
 
@@ -80,24 +92,23 @@ namespace JBoyerLibaray.UnitTests.Database
         /// <exception cref="KeyNotFoundException">This only occurs if you have yet to setup database sqls or objects</exception>
         public IDataReader ExecuteReader()
         {
-            var lowerCommandText = CommandText.ToLowerInvariant();
-            var getAllReg = new Regex(@"^select [*] from (\S+)$");
-            var getSingleRecord = new Regex(@"^select [*] from (\S+) where (\S+) = @id$");
-            var insertRecord = new Regex(@"^insert into (\S+) \([^\)]+\) values \([^\)]+\);select scope_identity\(\) (\S+)$");
+            var getAllReg = new Regex(@"^select [*] from (\S+)$", RegexOptions.IgnoreCase);
+            var getSingleRecord = new Regex(@"^select [*] from (\S+) where (\S+) = @id$", RegexOptions.IgnoreCase);
+            var insertRecord = new Regex(@"^insert into (\S+) \([^\)]+\) values \([^\)]+\);select scope_identity\(\) (\S+)$", RegexOptions.IgnoreCase);
 
-            if (getAllReg.IsMatch(lowerCommandText))
+            if (getAllReg.IsMatch(CommandText))
             {
                 // Dapper Get all test
-                var match = getAllReg.Match(lowerCommandText);
+                var match = getAllReg.Match(CommandText);
 
                 var tableName = match.Groups[1].Value;
 
                 return _fakeDatabase.GetTableResults(tableName).ToDataReader();
             }
-            else if (getSingleRecord.IsMatch(lowerCommandText))
+            else if (getSingleRecord.IsMatch(CommandText))
             {
                 // Dapper get by Id test
-                var match = getSingleRecord.Match(lowerCommandText);
+                var match = getSingleRecord.Match(CommandText);
 
                 var tableName = match.Groups[1].Value;
                 var parameterName = match.Groups[2].Value;
@@ -121,8 +132,14 @@ namespace JBoyerLibaray.UnitTests.Database
                     return Object.Equals(o.GetType().GetProperty(propertyName).GetValue(o, null), id);
                 });
             }
-            else if (insertRecord.IsMatch(lowerCommandText))
+            else if (insertRecord.IsMatch(CommandText))
             {
+                var match = insertRecord.Match(CommandText);
+
+                var tableName = match.Groups[1].Value;
+
+                _fakeDatabase.CallInsertCallback(tableName);
+                
                 // Dapper insert logic return id of zero
                 var a = new []
                 {

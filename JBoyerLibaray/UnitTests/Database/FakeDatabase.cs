@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +13,12 @@ namespace JBoyerLibaray.UnitTests.Database
     {
         #region Private Variables
 
-        private Dictionary<string, IEnumerable<object>> _tables = new Dictionary<string, IEnumerable<object>>(StringComparer.CurrentCultureIgnoreCase);
+        private Dictionary<string, TableInfo> _tables = new Dictionary<string, TableInfo>(StringComparer.CurrentCultureIgnoreCase);
         private Dictionary<string, SqlInfo> _sqlScripts = new Dictionary<string, SqlInfo>(StringComparer.CurrentCultureIgnoreCase);
         private Dictionary<string, StoredProcedureInfo> _storedProcedures = new Dictionary<string, StoredProcedureInfo>(StringComparer.CurrentCultureIgnoreCase);
+        private Dictionary<string, NonQueryInfo> _nonQuerySqlScripts = new Dictionary<string, NonQueryInfo>(StringComparer.CurrentCultureIgnoreCase);
+        private Dictionary<string, Action> _insertQueryCallBacks = new Dictionary<string, Action>(StringComparer.CurrentCultureIgnoreCase);
+        private Dictionary<string, Action> _updateQueryCallBacks = new Dictionary<string, Action>(StringComparer.CurrentCultureIgnoreCase);
 
         #endregion
 
@@ -44,6 +48,30 @@ namespace JBoyerLibaray.UnitTests.Database
             }
         }
 
+        public string[] NonQuerySqlScripts
+        {
+            get
+            {
+                return _nonQuerySqlScripts.Keys.OrderBy(s => s).ToArray();
+            }
+        }
+
+        public string[] InsertQueryCallbacks
+        {
+            get
+            {
+                return _insertQueryCallBacks.Keys.OrderBy(s => s).ToArray();
+            }
+        }
+
+        public string[] UpdateQueryCallbacks
+        {
+            get
+            {
+                return _updateQueryCallBacks.Keys.OrderBy(s => s).ToArray();
+            }
+        }
+
         #endregion
 
         #region Public Methods
@@ -52,17 +80,17 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (!_tables.ContainsKey(tableName))
             {
-                throw new InvalidOperationException("Table \"" + tableName + "\" is not setup in database.");
+                throw new InvalidOperationException("Table \"" + tableName + "\" is not setup in the database.");
             }
 
-            return _tables[tableName];
+            return _tables[tableName].GetResults();
         }
 
         public IEnumerable<object> GetSqlScriptResults(string sql, IDataParameterCollection parameters)
         {
             if (!_sqlScripts.ContainsKey(sql))
             {
-                throw new InvalidOperationException("Sql \"" + sql + "\" is not setup in database.");
+                throw new InvalidOperationException("Sql \"" + sql + "\" is not setup in the database.");
             }
 
             return _sqlScripts[sql].GetResults(this, parameters);
@@ -72,7 +100,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (!_storedProcedures.ContainsKey(storedProcedure))
             {
-                throw new InvalidOperationException("Stored Procedure \"" + storedProcedure + "\" is not setup in database.");
+                throw new InvalidOperationException("Stored Procedure \"" + storedProcedure + "\" is not setup in the database.");
             }
             
             return _storedProcedures[storedProcedure].GetResults(this, parameters);
@@ -82,7 +110,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (!_sqlScripts.ContainsKey(sql))
             {
-                throw new InvalidOperationException("Sql \"" + sql + "\" is not setup in database.");
+                throw new InvalidOperationException("Sql \"" + sql + "\" is not setup in the database.");
             }
 
             return _sqlScripts[sql].GetScalar(this, parameters);
@@ -92,10 +120,36 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (!_storedProcedures.ContainsKey(storedProcedure))
             {
-                throw new InvalidOperationException("Stored Procedure \"" + storedProcedure + "\" is not setup in database.");
+                throw new InvalidOperationException("Stored Procedure \"" + storedProcedure + "\" is not setup in the database.");
             }
 
             return _storedProcedures[storedProcedure].GetScalar(this, parameters);
+        }
+
+        public void CallNonQuery(string sql, IDataParameterCollection parameters)
+        {
+            if (!_nonQuerySqlScripts.ContainsKey(sql))
+            {
+                throw new InvalidOperationException("The sql \"" + sql + "\" is was not setup for non query in the database.");
+            }
+
+            _nonQuerySqlScripts[sql].DoCallback(this, parameters);
+        }
+
+        public void CallInsertCallback(string tableName)
+        {
+            if (_insertQueryCallBacks.ContainsKey(tableName))
+            {
+                _insertQueryCallBacks[tableName]();
+            }
+        }
+
+        public void CallUpdateCallback(string tableName)
+        {
+            if (_updateQueryCallBacks.ContainsKey(tableName))
+            {
+                _updateQueryCallBacks[tableName]();
+            }
         }
 
         public void SetupTable<T>(string tableName, IEnumerable<T> readerResults) where T : class
@@ -115,7 +169,27 @@ namespace JBoyerLibaray.UnitTests.Database
                 throw new InvalidOperationException("The table \"" + tableName + "\" has already been setup.");
             }
 
-            _tables.Add(tableName, readerResults);
+            _tables.Add(tableName, new TableInfo<T>(readerResults));
+        }
+
+        public void SetupTable<T>(string tableName, Func<IEnumerable<T>> tableResultResolver) where T : class
+        {
+            if (String.IsNullOrWhiteSpace(tableName))
+            {
+                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace.", tableName);
+            }
+
+            if (tableResultResolver == null)
+            {
+                tableResultResolver = () => Enumerable.Empty<T>();
+            }
+
+            if (_tables.ContainsKey(tableName))
+            {
+                throw new InvalidOperationException("The table \"" + tableName + "\" has already been setup.");
+            }
+
+            _tables.Add(tableName, new TableInfo<T>(tableResultResolver));
         }
 
         public void SetupSql<T>(string sql, T scalarResult, IEnumerable<string> requiredParameters = null) where T : class
@@ -256,6 +330,91 @@ namespace JBoyerLibaray.UnitTests.Database
             }
 
             _storedProcedures.Add(storedProcedureName, new StoredProcedureInfo<T>(objectResultResolver, requiredParameters));
+        }
+
+        public void SetupNonQuery(string sql, IEnumerable<string> requiredParameters = null)
+        {
+            if (String.IsNullOrWhiteSpace(sql))
+            {
+                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+            }
+
+            if (requiredParameters == null)
+            {
+                requiredParameters = Enumerable.Empty<string>();
+            }
+
+            if (_nonQuerySqlScripts.ContainsKey(sql))
+            {
+                throw new InvalidOperationException("The Sql \"" + sql + "\" has already been setup.");
+            }
+
+            _nonQuerySqlScripts.Add(sql, new NonQueryInfo(requiredParameters));
+        }
+
+        public void SetupNonQuery(string sql, Action<FakeDatabase, IDataParameterCollection> nonQueryCallback, IEnumerable<string> requiredParameters = null)
+        {
+            if (String.IsNullOrWhiteSpace(sql))
+            {
+                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+            }
+
+            if (nonQueryCallback == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => nonQueryCallback);
+            }
+
+            if (requiredParameters == null)
+            {
+                requiredParameters = Enumerable.Empty<string>();
+            }
+
+            if (_nonQuerySqlScripts.ContainsKey(sql))
+            {
+                throw new InvalidOperationException("The Sql \"" + sql + "\" has already been setup.");
+            }
+
+            _nonQuerySqlScripts.Add(sql, new NonQueryInfo(nonQueryCallback, requiredParameters));
+        }
+
+        public void SetupInsertCallback(string tableName, Action insertCallback)
+        {
+            if (String.IsNullOrWhiteSpace(tableName))
+            {
+                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace", tableName);
+            }
+
+            if (insertCallback == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => insertCallback);
+            }
+
+            if (_insertQueryCallBacks.ContainsKey(tableName))
+            {
+                throw new InvalidOperationException("The insert callback for sql \"" + tableName + "\" has already been setup.");
+            }
+
+            _insertQueryCallBacks.Add(tableName, insertCallback);
+        }
+
+        public void SetupUpdateCallback(string tableName, Action insertCallback)
+        {
+            if (String.IsNullOrWhiteSpace(tableName))
+            {
+                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace", tableName);
+            }
+
+            if (insertCallback == null)
+            {
+                throw ExceptionHelper.CreateArgumentNullException(() => insertCallback);
+            }
+
+            if (_updateQueryCallBacks.ContainsKey(tableName))
+            {
+                throw new InvalidOperationException("The update callback for sql \"" + tableName + "\" has already been setup.");
+            }
+
+            _updateQueryCallBacks.Add(tableName, insertCallback);
         }
 
         #endregion

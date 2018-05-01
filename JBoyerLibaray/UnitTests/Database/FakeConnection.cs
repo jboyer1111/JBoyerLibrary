@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
-    [ExcludeFromCodeCoverage]
     public class FakeConnection : IDbConnection
     {
         #region Private Variables
@@ -17,6 +16,7 @@ namespace JBoyerLibaray.UnitTests.Database
         private string _database;
         private IDbTransaction _transaction = null;
         private FakeDatabase _fakeDatabase;
+        private bool _isDisposed = false;
 
         #endregion
 
@@ -45,6 +45,14 @@ namespace JBoyerLibaray.UnitTests.Database
             get
             {
                 return -1;
+            }
+        }
+
+        public bool IsDisposed
+        {
+            get
+            {
+                return _isDisposed;
             }
         }
 
@@ -98,6 +106,8 @@ namespace JBoyerLibaray.UnitTests.Database
 
         public void Dispose()
         {
+            _isDisposed = true;
+
             if (_transaction != null)
             {
                 _transaction.Dispose();

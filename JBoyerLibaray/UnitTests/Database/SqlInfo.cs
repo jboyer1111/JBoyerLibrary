@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
-    public class SqlInfo
+    public abstract class SqlInfo
     {
         #region Private Variables
 

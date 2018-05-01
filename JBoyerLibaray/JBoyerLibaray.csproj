@@ -106,6 +106,7 @@
     <Compile Include="Exceptions\ArgumentInvalidException.cs" />
     <Compile Include="Extensions\CharExtentions.cs" />
     <Compile Include="Extensions\HelperExtentions.cs" />
+    <Compile Include="Extensions\ObjectExtentions.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="JBoyerRandom.cs" />
     <Compile Include="JBoyerRandomMode.cs" />
@@ -153,10 +154,13 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Task\TransConfig.cs" />
     <Compile Include="UnitTests\Database\FakeDatabase.cs" />
+    <Compile Include="UnitTests\Database\NonQueryInfo.cs" />
     <Compile Include="UnitTests\Database\SqlInfo.cs" />
     <Compile Include="UnitTests\Database\SqlInfoT.cs" />
     <Compile Include="UnitTests\Database\StoredProcedureInfo.cs" />
     <Compile Include="UnitTests\Database\StoredProcedureInfoT.cs" />
+    <Compile Include="UnitTests\Database\TableInfo.cs" />
+    <Compile Include="UnitTests\Database\TableInfoT.cs" />
     <Compile Include="UnitTests\IUnitTestDisposable.cs" />
     <Compile Include="UnitTests\Database\DynamicProperties.cs" />
     <Compile Include="UnitTests\Database\EnumerableDataReader.cs" />
