@@ -11,11 +11,17 @@ namespace JBoyerLibaray.UnitTests
     [ExcludeFromCodeCoverage]
     public class FakeHttpContext : HttpContextBase
     {
+        #region Private variables
+        
         private HttpRequestBase _request;
         private HttpResponseBase _response;
         private HttpServerUtilityBase _server;
         private HttpSessionStateBase _session;
         private IPrincipal _user;
+
+        #endregion
+
+        #region Constructor
 
         public FakeHttpContext(Controller controller, bool isAjaxRequest)
         {
@@ -25,6 +31,8 @@ namespace JBoyerLibaray.UnitTests
             _session = new FakeHttpSessionState();
             _user = FakeUser.Anonymous();
         }
+
+        #endregion
 
         public override HttpRequestBase Request
         {
@@ -74,12 +82,7 @@ namespace JBoyerLibaray.UnitTests
 
         public void LoginUser(IPrincipal user)
         {
-            if (user == null || user.Identity == null)
-            {
-                return;
-            }
-
-            if (user.Identity.IsAuthenticated)
+            if (user?.Identity?.IsAuthenticated ?? false)
             {
                 _user = user;
             }

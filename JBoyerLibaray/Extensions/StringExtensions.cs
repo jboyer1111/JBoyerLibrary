@@ -59,7 +59,7 @@ namespace JBoyerLibaray.Extensions
                 return word;
             }
 
-            return word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower(); ;
+            return word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower();
         }
 
         public static bool Contains(this string container, string match, StringComparison stringComparison)
@@ -116,8 +116,10 @@ namespace JBoyerLibaray.Extensions
             
             var reg = new Regex(@"
                 (?<=[A-Z])(?=[A-Z][a-z]) |
-                 (?<=[^A-Z])(?=[A-Z]) |
-                 (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
+                (?<=[^A-Z])(?=[A-Z]) |
+                (?<=[A-Za-z])(?=[^A-Za-z])",
+                RegexOptions.IgnorePatternWhitespace
+            );
 
             return reg.Replace(word, delimitar.ToString());
         }

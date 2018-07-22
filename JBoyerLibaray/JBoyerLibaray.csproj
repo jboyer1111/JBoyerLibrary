@@ -97,11 +97,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CultureInfoHelper.cs" />
+    <Compile Include="Database\DataReaderHelper.cs" />
+    <Compile Include="Database\DataResult.cs" />
+    <Compile Include="Database\ReaderData.cs" />
     <Compile Include="DeckOfCards\DeckOptions.cs" />
     <Compile Include="DeckOfCards\EmptyDeckException.cs" />
     <Compile Include="DeckOfCards\EmptyHandException.cs" />
     <Compile Include="Exceptions\ArgumentInvalidException.cs" />
     <Compile Include="Extensions\CharExtentions.cs" />
+    <Compile Include="Extensions\HelperExtentions.cs" />
+    <Compile Include="Extensions\ObjectExtentions.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="JBoyerRandom.cs" />
     <Compile Include="JBoyerRandomMode.cs" />
@@ -148,6 +153,14 @@
     <Compile Include="DeckOfCards\NotEnoughCardsException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Task\TransConfig.cs" />
+    <Compile Include="UnitTests\Database\FakeDatabase.cs" />
+    <Compile Include="UnitTests\Database\NonQueryInfo.cs" />
+    <Compile Include="UnitTests\Database\SqlInfo.cs" />
+    <Compile Include="UnitTests\Database\SqlInfoT.cs" />
+    <Compile Include="UnitTests\Database\StoredProcedureInfo.cs" />
+    <Compile Include="UnitTests\Database\StoredProcedureInfoT.cs" />
+    <Compile Include="UnitTests\Database\TableInfo.cs" />
+    <Compile Include="UnitTests\Database\TableInfoT.cs" />
     <Compile Include="UnitTests\IUnitTestDisposable.cs" />
     <Compile Include="UnitTests\Database\DynamicProperties.cs" />
     <Compile Include="UnitTests\Database\EnumerableDataReader.cs" />
@@ -169,6 +182,12 @@
     <Compile Include="UnitTests\UnitTestableRandom.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />
     <Compile Include="UnitTests\UnitTestStream.cs" />
+    <Compile Include="Web\IWebDownloader.cs" />
+    <Compile Include="Web\IWebPageCache.cs" />
+    <Compile Include="Web\PageCache.cs" />
+    <Compile Include="Web\WebDownloader.cs" />
+    <Compile Include="Web\WebDownloaderFile.cs" />
+    <Compile Include="Web\WebPageCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

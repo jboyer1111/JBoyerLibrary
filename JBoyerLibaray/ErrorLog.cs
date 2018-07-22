@@ -2,6 +2,7 @@
 using JBoyerLibaray.FileSystem;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -78,7 +79,7 @@ namespace JBoyerLibaray
                     date.Hour > 12 ? "PM" : "AM",
                     abbrv
                 ),
-                user != null && user.Identity.IsAuthenticated ? user.Identity.Name : "Unknown",
+                (user?.Identity?.IsAuthenticated ?? false) ? user.Identity.Name : "Unknown",
                 message
             );
 

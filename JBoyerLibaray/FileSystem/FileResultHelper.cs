@@ -597,7 +597,6 @@ namespace JBoyerLibaray.FileSystem
             }
 
             string mime;
-
             return _mappings.TryGetValue(extension, out mime) ? mime : "application/octet-stream";
         }
     }

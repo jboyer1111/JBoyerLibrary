@@ -28,25 +28,40 @@ namespace JBoyerLibaray.Extensions
             //
             // Set up key numerals and numeral pairs.
             //
-            int[] values = new int[] { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
-            string[] numerals = new string[] { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+            KeyValuePair<int, string>[] keyValues = new KeyValuePair<int, string>[]
+            {
+                new KeyValuePair<int, string>(1000, "M"),
+                new KeyValuePair<int, string>(900, "CM"),
+                new KeyValuePair<int, string>(500, "D"),
+                new KeyValuePair<int, string>(400, "CD"),
+                new KeyValuePair<int, string>(100, "C"),
+                new KeyValuePair<int, string>(90, "XC"),
+                new KeyValuePair<int, string>(50, "L"),
+                new KeyValuePair<int, string>(40, "XL"),
+                new KeyValuePair<int, string>(10, "X"),
+                new KeyValuePair<int, string>(9, "IX"),
+                new KeyValuePair<int, string>(5, "V"),
+                new KeyValuePair<int, string>(4, "IV"),
+                new KeyValuePair<int, string>(1, "I")
+            };
+            //int[] values = new int[] { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+            //string[] numerals = new string[] { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
 
             StringBuilder result = new StringBuilder();
-
 
             //
             // Loop through each of the values to diminish the number.
             //
-            for (int i = 0; i < 13; i++)
+            for (int i = 0; i < keyValues.Length; i++)
             {
                 //
                 // If the number being converted is less than the test value, append
                 // the corresponding numeral or numeral pair to the resultant string.
                 //
-                while (number >= values[i])
+                while (number >= keyValues[i].Key)
                 {
-                    number -= values[i];
-                    result.Append(numerals[i]);
+                    number -= keyValues[i].Key;
+                    result.Append(keyValues[i].Value);
                 }
             }
 

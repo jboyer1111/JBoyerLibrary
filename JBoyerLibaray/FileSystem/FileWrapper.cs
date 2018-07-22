@@ -314,5 +314,19 @@ namespace JBoyerLibaray.FileSystem
 		{
             File.WriteAllText(path, contents, encoding);
         }
+
+        public string GetNewFileNamePath(string directoryPath)
+        {
+            int i = 0;
+            FileInfo fileInfo;
+            do
+            {
+                string filename = String.Format("{0}.txt", i++);
+                fileInfo = new FileInfo(Path.Combine(directoryPath, filename));
+            }
+            while (fileInfo.Exists);
+
+            return fileInfo.FullName;
+        }
     }
 }

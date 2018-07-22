@@ -17,7 +17,8 @@ namespace JBoyerLibaray.UnitTests
     {
         public FakeControllerContext(Controller controller) : this(controller, false) { }
 
-        public FakeControllerContext(Controller controller, bool isAjaxRequest) : base(new FakeHttpContext(controller, isAjaxRequest), new RouteData(), controller)
+        public FakeControllerContext(Controller controller, bool isAjaxRequest)
+            : base(new FakeHttpContext(controller, isAjaxRequest), new RouteData(), controller)
         {
             
         }
@@ -29,19 +30,17 @@ namespace JBoyerLibaray.UnitTests
 
         public void AddFileToReqeust(byte[] fileBytes)
         {
-            var fakeReqeust = HttpContext.Request as FakeHttpRequest;
-
-            fakeReqeust.AddFileToRequest(fileBytes);
+            // Make sure HttpRequest is expected type at the moment
+            if (HttpContext.Request is FakeHttpRequest)
+            {
+                (HttpContext.Request as FakeHttpRequest).AddFileToRequest(fileBytes);
+            }
         }
 
         public void LoginUser(IPrincipal user)
         {
-            if (user == null || user.Identity == null)
-            {
-                return;
-            }
-
-            if (user.Identity.IsAuthenticated)
+            // Make sure HttpContext is expected type at the moment
+            if (user?.Identity?.IsAuthenticated ?? false && HttpContext is FakeHttpContext)
             {
                 (HttpContext as FakeHttpContext).LoginUser(user);
             }
