@@ -46,7 +46,7 @@ namespace JBoyerLibaray
             if (_randMode == JBoyerRandomMode.CryptographyRandomNumberGenerator)
             {
                 byte[] bytes = new byte[4];
-                _rand.GetBytes(bytes);
+                NextBytes(bytes);
 
                 return (int)BitConverter.ToUInt32(bytes, 0);
             }
@@ -76,6 +76,11 @@ namespace JBoyerLibaray
 
         public override void NextBytes(byte[] buffer)
         {
+            if (_randMode == JBoyerRandomMode.CryptographyRandomNumberGenerator)
+            {
+                _rand.GetBytes(buffer);
+            }
+
             base.NextBytes(buffer);
         }
 

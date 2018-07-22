@@ -22,26 +22,4 @@ namespace JBoyerLibaray
         }
     }
 
-
-    public class TestProp
-    {
-
-        private bool _test = false;
-        public bool Test
-        {
-            get
-            {
-                return _test;
-            }
-            set
-            {
-                _test = value;
-            }
-        }
-
-        public override string ToString()
-        {
-            return Test.ToString();
-        }
-    }
 }

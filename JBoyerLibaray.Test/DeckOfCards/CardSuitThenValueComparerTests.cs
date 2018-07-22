@@ -10,7 +10,7 @@ namespace JBoyerLibaray.DeckOfCards
     {
 
         [TestMethod]
-        public void CardSuitThenValueComparer_XAndYAreNull()
+        public void CardSuitThenValueComparer_Compare_XAndYAreNull()
         {
             // Arrange
             var comparer = CardComparer.SuitThenValue;
@@ -24,7 +24,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         
         [TestMethod]
-        public void CardSuitThenValueComparer_XIsNullAndYIsNot()
+        public void CardSuitThenValueComparer_Compare_XIsNullAndYIsNot()
         {
             // Arrange
             var comparer = CardComparer.SuitThenValue;
@@ -38,7 +38,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void CardSuitThenValueComparer_YIsNullAndXIsNot()
+        public void CardSuitThenValueComparer_Compare_YIsNullAndXIsNot()
         {
             // Arrange
             var comparer = CardComparer.SuitThenValue;
@@ -52,7 +52,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void CardSuitThenValueComparer_XAndYAreEqual()
+        public void CardSuitThenValueComparer_Compare_XAndYAreEqual()
         {
             // Arrange
             var comparer = CardComparer.SuitThenValue;
@@ -67,7 +67,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void CardSuitThenValueComparer_SuitXComesBeforeSuitY()
+        public void CardSuitThenValueComparer_Compare_SuitXComesBeforeSuitY()
         {
             // Arrange
             var comparer = CardComparer.SuitThenValue;
@@ -82,7 +82,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void CardSuitThenValueComparer_SuitYComesBeforeSuitX()
+        public void CardSuitThenValueComparer_Compare_SuitYComesBeforeSuitX()
         {
             // Arrange
             var comparer = CardComparer.SuitThenValue;
@@ -97,7 +97,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void CardSuitThenValueComparer_ValueXComesBeforeValueY()
+        public void CardSuitThenValueComparer_Compare_ValueXComesBeforeValueY()
         {
             // Arrange
             var comparer = CardComparer.SuitThenValue;
@@ -112,7 +112,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void CardSuitThenValueComparer_ValueYComesBeforeValueX()
+        public void CardSuitThenValueComparer_Compare_ValueYComesBeforeValueX()
         {
             // Arrange
             var comparer = CardComparer.SuitThenValue;
@@ -127,7 +127,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void CardSuitThenValueComparer_AceIsHighAffectsSort()
+        public void CardSuitThenValueComparer_Compare_AceIsHighAffectsSort()
         {
             // Arrange
             var comparer = CardComparer.SuitThenValue;

@@ -131,7 +131,7 @@
     <Compile Include="FileSystem\FileHelperTests.cs" />
     <Compile Include="PasswordGenerator\PasswordGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DeckOfCards\DeckStrings.cs" />
+    <Compile Include="HelperClasses\DeckStrings.cs" />
     <Compile Include="Task\TransConfigTests.cs" />
     <Compile Include="CustomHandleErrorAttributeTests.cs" />
     <Compile Include="ErrorLogTests.cs" />
