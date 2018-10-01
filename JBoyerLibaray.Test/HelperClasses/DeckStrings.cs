@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JBoyerLibaray.DeckOfCards
+namespace JBoyerLibaray.HelperClasses
 {
     [ExcludeFromCodeCoverage]
     public class DeckStrings

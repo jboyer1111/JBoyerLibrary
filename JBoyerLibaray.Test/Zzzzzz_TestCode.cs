@@ -14,7 +14,6 @@ using Dapper.Contrib.Extensions;
 using JBoyerLibaray.Database;
 using Moq;
 using System.Data;
-using System.Diagnostics;
 
 namespace JBoyerLibaray
 {
@@ -25,62 +24,7 @@ namespace JBoyerLibaray
         [TestMethod]
         public void Zzzzzz_TestMethodOne()
         {
-            var exp = Test();
 
-            var stackTrace = new StackTrace(exp);
-            var frames = stackTrace.GetFrames();
-            var infos = frames.Select(f => new Tuple<string, int>(f.GetMethod().Name, f.GetFileLineNumber()));
-
-            var toString = exp.ToString();
-
-            var output = StackTraceParser.Parse(exp.ToString(), (f, t, m, pl, ps, fn, ln) => new
-            {
-                Frame = f,
-                Type = t,
-                Method = m,
-                ParameterList = pl,
-                Parameters = ps,
-                File = fn,
-                Line = ln,
-            });
-
-        }
-
-
-        public Exception Test(bool throwExp = false, Exception exception = null)
-        {
-            if (throwExp)
-            {
-                throw new Exception(null, exception);
-            }
-
-            try
-            {
-                Test(true, Test2());
-                return null;
-            }
-            catch (Exception e)
-            {
-                return e;
-            }
-        }
-
-        public Exception Test2(bool throwExp = false, Exception exception = null)
-        {
-            if (throwExp)
-            {
-                throw new Exception(null, exception);
-            }
-
-            try
-            {
-                Test2(true);
-                return null;
-            }
-            catch (Exception e)
-            {
-                return e;
-            }
         }
     }
 }

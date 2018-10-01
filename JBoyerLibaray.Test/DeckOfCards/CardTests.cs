@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using JBoyerLibaray.HelperClasses;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -26,7 +27,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ConstructorThrowsArugmentExceptionWhenSuitIsNull()
+        public void Card_Constructor_ThrowsArugmentExceptionWhenSuitIsNull()
         {
             // Arrange
 
@@ -38,7 +39,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ConstructorThrowsArugmentExceptionWhenSuitIsEmpty()
+        public void Card_Constructor_ThrowsArugmentExceptionWhenSuitIsEmpty()
         {
             // Arrange
 
@@ -50,7 +51,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ConstructorThrowsArugmentExceptionWhenSuitIsWhitespace()
+        public void Card_Constructor_ThrowsArugmentExceptionWhenSuitIsWhitespace()
         {
             // Arrange
 
@@ -62,7 +63,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ConstructorThrowsArugmentExceptionWhenRankIsNull()
+        public void Card_Constructor_ThrowsArugmentExceptionWhenRankIsNull()
         {
             // Arrange
 
@@ -74,7 +75,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ConstructorThrowsArugmentExceptionWhenRankIsEmpty()
+        public void Card_Constructor_ThrowsArugmentExceptionWhenRankIsEmpty()
         {
             // Arrange
 
@@ -86,7 +87,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ConstructorThrowsArugmentExceptionWhenRankIsWhitespace()
+        public void Card_Constructor_ThrowsArugmentExceptionWhenRankIsWhitespace()
         {
             // Arrange
 
@@ -101,7 +102,7 @@ namespace JBoyerLibaray.DeckOfCards
         #region Properties Tests
 
         [TestMethod]
-        public void Card_AceDefaultValueIsOne()
+        public void Card_Value_AceDefaultValueIsOne()
         {
             //Arrange
             Card card = new Card("Heart", "Ace");
@@ -114,7 +115,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_AceIsHighValueIsFourteen()
+        public void Card_Value_AceIsHighValueIsFourteen()
         {
             //Arrange
             Card card = new Card("Heart", "Ace");
@@ -127,7 +128,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_KingsValueIsThirteen()
+        public void Card_Value_KingsValueIsThirteen()
         {
             //Arrange
             Card card = new Card("Heart", "King");
@@ -140,7 +141,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_QueensValueIsTweleve()
+        public void Card_Value_QueensValueIsTweleve()
         {
             //Arange
             Card card = new Card("Heart", "Queen");
@@ -153,7 +154,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_JacksValueIsEleven()
+        public void Card_Value_JacksValueIsEleven()
         {
             //Arrange
             Card card = new Card("Heart", "Jack");
@@ -167,7 +168,7 @@ namespace JBoyerLibaray.DeckOfCards
 
 
         [TestMethod]
-        public void Card_RandomTextIsZero()
+        public void Card_Value_RandomTextIsZero()
         {
             //Arrange
             Card card = new Card("Heart", "RdmText");
@@ -180,7 +181,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_HighNumberRankIsZero()
+        public void Card_Value_HighNumberRankIsZero()
         {
             //Arrange
             Card card = new Card("Heart", "11");
@@ -193,7 +194,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_10Is10()
+        public void Card_Value_10Is10()
         {
             //Arrange
             Card card = new Card("Heart", "10");
@@ -210,7 +211,7 @@ namespace JBoyerLibaray.DeckOfCards
         #region Equals Tests
 
         [TestMethod]
-        public void Card_EqualsOverrideMethodReturnsTrueWhenEqual()
+        public void Card_Equals_OverrideMethodReturnsTrueWhenEqual()
         {
             // Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -223,7 +224,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_EqualsOverrideMethodReturnsFalseWhenNotEqual()
+        public void Card_Equals_OverrideMethodReturnsFalseWhenNotEqual()
         {
             // Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -236,7 +237,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_EqualsOverrideMethodReturnsFalseWhenObjectIsNotCard()
+        public void Card_Equals_OverrideMethodReturnsFalseWhenObjectIsNotCard()
         {
             // Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -249,7 +250,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_EqualsMethodReturnsTrueWhenEqual()
+        public void Card_Equals_MethodReturnsTrueWhenEqual()
         {
             //Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -263,7 +264,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_EqualsMethodReturnsTrueWhenReferenceEquals()
+        public void Card_Equals_MethodReturnsTrueWhenReferenceEquals()
         {
             //Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -276,7 +277,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_EqualsMethodReturnsFalseWhenRankIsNotEqual()
+        public void Card_Equals_MethodReturnsFalseWhenRankIsNotEqual()
         {
             //Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -290,7 +291,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_EqualsMethodReturnsFalseWhenSuitIsNotEqual()
+        public void Card_Equals_MethodReturnsFalseWhenSuitIsNotEqual()
         {
             //Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -304,7 +305,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_EqualsMethodReturnsFalseWhenCardIsNull()
+        public void Card_Equals_MethodReturnsFalseWhenCardIsNull()
         {
             //Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -318,7 +319,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_EqualsMethodReturnsFalseWhenCardIsSubtype()
+        public void Card_Equals_MethodReturnsFalseWhenCardIsSubtype()
         {
             //Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -360,7 +361,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void CardEqualsStaticMethod()
+        public void Card_Equals_StaticMethod()
         {
             //Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -378,7 +379,7 @@ namespace JBoyerLibaray.DeckOfCards
         #region HashCode Tests
 
         [TestMethod]
-        public void Card_GetHashCodeReturnsSameHashCodeWhenEqual()
+        public void Card_GetHashCode_ReturnsSameHashCodeWhenEqual()
         {
             // Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -391,7 +392,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_GetHashCodeReturnsDifferentHashCodeWhenRankNotSame()
+        public void Card_GetHashCode_ReturnsDifferentHashCodeWhenRankNotSame()
         {
             // Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -404,7 +405,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_GetHashCodeReturnsDifferentHashCodeWhenSuitNotSame()
+        public void Card_GetHashCode_ReturnsDifferentHashCodeWhenSuitNotSame()
         {
             // Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -417,7 +418,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_GetHashCodeReturnsDifferentHashCodeWhenTypeNotSame()
+        public void Card_GetHashCode_ReturnsDifferentHashCodeWhenTypeNotSame()
         {
             // Arrange
             Card card1 = new Card("Spades", "Ace");
@@ -434,7 +435,7 @@ namespace JBoyerLibaray.DeckOfCards
         #region Static Methods Test
 
         [TestMethod]
-        public void Card_ParseMethod()
+        public void Card_Parse_ParsesTextCorrectly()
         {
             // Arrange
 
@@ -448,7 +449,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ParseMethodThrowErrorWhenArgIsNull()
+        public void Card_Parse_ThrowErrorWhenArgIsNull()
         {
             // Arrange
 
@@ -460,7 +461,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ParseMethodThrowErrorWhenArgIsEmtpy()
+        public void Card_Parse_ThrowErrorWhenArgIsEmtpy()
         {
             // Arrange
 
@@ -472,7 +473,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ParseMethodThrowErrorWhenArgIsWhitespace()
+        public void Card_Parse_ThrowErrorWhenArgIsWhitespace()
         {
             // Arrange
 
@@ -484,7 +485,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ParseMethodThrowErrorWhenArgIsNotValidString()
+        public void Card_Parse_ThrowErrorWhenArgIsNotValidString()
         {
             // Arrange
 
@@ -496,7 +497,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Card_ParseMethodThrowErrorWhenArgHasTooManyOf()
+        public void Card_Parse_ThrowErrorWhenArgHasTooManyOf()
         {
             // Arrange
 
@@ -507,7 +508,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_TryParseMethod()
+        public void Card_TryParse_AttemptsToParseText()
         {
             // Arrange
             Card card = null;
@@ -521,7 +522,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_TryParseMethodReturnsFalseArgIsNull()
+        public void Card_TryParse_ReturnsFalseArgIsNull()
         {
             // Arrange
             Card card = null;
@@ -534,7 +535,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_TryParseMethodReturnsFalseArgIsEmtpy()
+        public void Card_TryParse_ReturnsFalseArgIsEmtpy()
         {
             // Arrange
             Card card = null;
@@ -547,7 +548,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_TryParseMethodReturnsFalseArgIsWhitespace()
+        public void Card_TryParse_ReturnsFalseArgIsWhitespace()
         {
             // Arrange
             Card card = null;
@@ -560,7 +561,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_TryParseMethodReturnsFalseWhenStrNotValid()
+        public void Card_TryParse_ReturnsFalseWhenStrNotValid()
         {
             // Arrange
             Card card = null;
@@ -573,7 +574,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Card_ParseMethodReturnsFalseWhenArgHasTooManyOf()
+        public void Card_TryParse_ReturnsFalseWhenArgHasTooManyOf()
         {
             // Arrange
             Card card = null;

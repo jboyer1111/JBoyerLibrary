@@ -10,7 +10,7 @@ namespace JBoyerLibaray.DeckOfCards
     {
 
         [TestMethod]
-        public void DifferentOrderEquator_EqualReturnsTrue()
+        public void DifferentOrderEquator_Equal_ReturnsTrue()
         {
             // Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -26,7 +26,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void DifferentOrderEquator_EqualReturnsFalse()
+        public void DifferentOrderEquator_Equal_ReturnsFalse()
         {
             // Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -43,7 +43,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void DifferentOrderEquator_GetHashCodeIsSame()
+        public void DifferentOrderEquator_GetHashCode_IsSame()
         {
             // Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -58,7 +58,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void DifferentOrderEquator_GetHashCodeIsNotTheSame()
+        public void DifferentOrderEquator_GetHashCode_IsNotTheSame()
         {
             // Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();

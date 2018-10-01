@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using JBoyerLibaray.HelperClasses;
 
 namespace JBoyerLibaray.DeckOfCards
 {
@@ -26,7 +27,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_DecksAreAutoMaticlyShuffled()
+        public void Deck_Constructor_DecksAreAutoMaticlyShuffled()
         {
             //Arrange
             Deck deck = new Deck();
@@ -43,7 +44,7 @@ namespace JBoyerLibaray.DeckOfCards
         #region Property Tests
 
         [TestMethod]
-        public void Deck_AceIsHighIsFalseByDefault()
+        public void Deck_AceIsHigh_IsFalseByDefault()
         {
             // Arrange
 
@@ -55,7 +56,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_AceIsHighIsUpdateable()
+        public void Deck_AceIsHigh_IsUpdateable()
         {
             // Arrange
             var deck = new Deck();
@@ -68,7 +69,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_AceIsHighUpdatesCardSettingsAsWell()
+        public void Deck_AceIsHigh_UpdatesCardSettingsAsWell()
         {
             // Arrange
             var deck = Deck.GetUnShuffledDeck();
@@ -88,7 +89,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_AceIsHighDoesNothingWhenSameValue()
+        public void Deck_AceIsHigh_DoesNothingWhenSameValue()
         {
             // Arrange
             var deck = Deck.GetUnShuffledDeck();
@@ -106,7 +107,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_CardCountGivesCountOne()
+        public void Deck_CardCount_GivesCountOne()
         {
             // Arrange
 
@@ -133,7 +134,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_CardsReturnsDeckAsIEnumerable()
+        public void Deck_Cards_ReturnsDeckAsIEnumerable()
         {
             // Arrange
             var deck = Deck.GetUnShuffledDeck();
@@ -151,7 +152,7 @@ namespace JBoyerLibaray.DeckOfCards
         #region Equals Tests
 
         [TestMethod]
-        public void Deck_EqualsOverrideMethodReturnsTrueWhenEqual()
+        public void Deck_Equals_OverrideMethodReturnsTrueWhenEqual()
         {
             // Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -164,7 +165,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_EqualsOverrideMethodReturnsFalseWhenNotEqual()
+        public void Deck_Equals_OverrideMethodReturnsFalseWhenNotEqual()
         {
             // Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -177,7 +178,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_EqualsOverrideMethodReturnsFalseWhenObjectIsNotDeck()
+        public void Deck_Equals_OverrideMethodReturnsFalseWhenObjectIsNotDeck()
         {
             // Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -190,7 +191,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_EqualsMethodReturnsTrueWhenEqual()
+        public void Deck_Equals_MethodReturnsTrueWhenEqual()
         {
             //Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -204,7 +205,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_EqualsMethodReturnsTrueWhenReferenceEquals()
+        public void Deck_Equals_MethodReturnsTrueWhenReferenceEquals()
         {
             //Arrange
             Deck deck1 = new Deck();
@@ -217,7 +218,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_EqualsMethodReturnsFalseWhenOrderIsDifferenct()
+        public void Deck_Equals_MethodReturnsFalseWhenOrderIsDifferenct()
         {
             //Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -231,7 +232,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_EqualsMethodReturnsFalseWhenNotSameCountOfCardsLeft()
+        public void Deck_Equals_MethodReturnsFalseWhenNotSameCountOfCardsLeft()
         {
             //Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -245,7 +246,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_EqualsMethodReturnsFalseWhenDeckIsNull()
+        public void Deck_Equals_MethodReturnsFalseWhenDeckIsNull()
         {
             //Arrange
             Deck deck1 = new Deck();
@@ -259,7 +260,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_EqualsOpperator()
+        public void Deck_Equals_Opperator()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -287,7 +288,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_EqualsStaticMethod()
+        public void Deck_Equals_StaticMethod()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -301,7 +302,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_EqualsWithCompare()
+        public void Deck_Equals_WithCompare()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -320,7 +321,7 @@ namespace JBoyerLibaray.DeckOfCards
         #region HashCode Tests
 
         [TestMethod]
-        public void Deck_GetHashCodeReturnsSameHashCodeWhenEqual()
+        public void Deck_GetHashCode_ReturnsSameHashCodeWhenEqual()
         {
             // Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -333,7 +334,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_GetHashCodeReturnsDifferenctHashCodeWhenNotEqual()
+        public void Deck_GetHashCode_ReturnsDifferenctHashCodeWhenNotEqual()
         {
             // Arrange
             Deck deck1 = Deck.GetUnShuffledDeck();
@@ -351,7 +352,7 @@ namespace JBoyerLibaray.DeckOfCards
         #region Public Method Tests
 
         [TestMethod]
-        public void Deck_SuffleDeckAcutallyShuffles()
+        public void Deck_Suffle_DeckAcutallyShuffles()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -368,7 +369,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_DrawCardRemovesCardFromDeck()
+        public void Deck_DrawCard_RemovesCardFromDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -387,7 +388,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_DrawCardRemovesCardFromTheTopOfTheDeck()
+        public void Deck_DrawCard_RemovesCardFromTheTopOfTheDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -401,7 +402,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(EmptyDeckException))]
-        public void Deck_DrawThrowsExceptionWhenEmtpy()
+        public void Deck_Draw_ThrowsExceptionWhenEmtpy()
         {
             // Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -414,7 +415,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_DrawCardsRemovesCardsFormDeck()
+        public void Deck_DrawCards_RemovesCardsFormDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -433,7 +434,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_DrawCardsRemocesCardsFromTopOfTheDeck()
+        public void Deck_DrawCards_RemocesCardsFromTopOfTheDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -447,7 +448,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Deck_DrawCardsThrowsExceptionIfArgIsLessThan1()
+        public void Deck_DrawCards_ThrowsExceptionIfArgIsLessThan1()
         {
             //Arrange
             Deck deck = new Deck();
@@ -460,7 +461,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(NotEnoughCardsException))]
-        public void Deck_DrawsCardsThrowsErrorIfNotEnoughCardsInDeck()
+        public void Deck_DrawsCards_ThrowsErrorIfNotEnoughCardsInDeck()
         {
             //Arrange
             Deck deck = new Deck();
@@ -472,7 +473,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_DrawUpToCardsRemovesCardsFormDeck()
+        public void Deck_DrawUpToCards_RemovesCardsFormDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -491,7 +492,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_DrawUpToCardsRemocesCardsFromTopOfTheDeck()
+        public void Deck_DrawUpToCards_RemocesCardsFromTopOfTheDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -505,7 +506,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Deck_DrawUpToCardsThrowsExceptionIfArgIsLessThan1()
+        public void Deck_DrawUpToCards_ThrowsExceptionIfArgIsLessThan1()
         {
             //Arrange
             Deck deck = new Deck();
@@ -517,7 +518,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_DrawsUpToCardsReturnsAsManyCardsAsItCanIfNumberIsGreaterThenAmountOfCardsLeft()
+        public void Deck_DrawsUpToCards_ReturnsAsManyCardsAsItCanIfNumberIsGreaterThenAmountOfCardsLeft()
         {
             //Arrange
             Deck deck = new Deck();
@@ -530,7 +531,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_SortBySuitThenValueSortIsAnUnSuffledDeck()
+        public void Deck_Sort_BySuitThenValueSortIsAnUnSuffledDeck()
         {
             //Arrange
             Deck deck = new Deck();
@@ -543,7 +544,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_SortByValueThenSuitSortsAsExpected()
+        public void Deck_Sort_ByValueThenSuitSortsAsExpected()
         {
             //Arrange
             Deck deck = new Deck();
@@ -560,7 +561,7 @@ namespace JBoyerLibaray.DeckOfCards
         #region Static Method Tests
 
         [TestMethod]
-        public void Deck_CopyDeckMakesCopiesDeckToANewReference()
+        public void Deck_Copy_MakesCopiesDeckToANewReference()
         {
             // Arrange
             Deck deck1 = new Deck();
@@ -574,7 +575,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_GetUnShuffledDeckReturnsAnUnShffuledDeck()
+        public void Deck_GetUnShuffledDeck_ReturnsAnUnShffuledDeck()
         {
             //Arrange
             Deck deck = Deck.GetUnShuffledDeck();
@@ -587,7 +588,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_ParseTurnsAStringIntoADeck()
+        public void Deck_Parse_TurnsAStringIntoADeck()
         {
             //Arrange
             Deck deck = Deck.Parse(UNSHUFFLEDDECK);
@@ -601,7 +602,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException), "")]
-        public void Deck_ParseDeckThrowsErrorWhenInvalidString()
+        public void Deck_Parse_DeckThrowsErrorWhenInvalidString()
         {
             //Arrange
             Deck deck = Deck.Parse("Test");
@@ -613,7 +614,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException), "")]
-        public void Deck_ParseDeckThrowsArgumentExceptionWhenStringIsNull()
+        public void Deck_Parse_ThrowsArgumentExceptionWhenStringIsNull()
         {
             //Arrange
             Deck deck = Deck.Parse(null);
@@ -625,7 +626,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException), "")]
-        public void Deck_ParseDeckThrowsArgumentExceptionWhenStringIsEmpty()
+        public void Deck_Parse_ThrowsArgumentExceptionWhenStringIsEmpty()
         {
             //Arrange
             Deck deck = Deck.Parse("");
@@ -637,7 +638,7 @@ namespace JBoyerLibaray.DeckOfCards
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException), "")]
-        public void Deck_ParseDeckThrowsArgumentExceptionWhenStringIsWhitespace()
+        public void Deck_Parse_ThrowsArgumentExceptionWhenStringIsWhitespace()
         {
             //Arrange
             Deck deck = Deck.Parse("   ");
@@ -648,7 +649,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_TryParseTurnsAStringIntoADeck()
+        public void Deck_TryParse_TurnsAStringIntoADeck()
         {
             //Arrange
             Deck deck;
@@ -663,7 +664,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_TryParseReturnsFalseAndNullWhenStringInvalid()
+        public void Deck_TryParse_ReturnsFalseAndNullWhenStringInvalid()
         {
             //Arrange
             Deck deck;
@@ -677,7 +678,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_TryParseReturnsFalseAndNullWhenArgIsNull()
+        public void Deck_TryParse_ReturnsFalseAndNullWhenArgIsNull()
         {
             //Arrange
             Deck deck;
@@ -691,7 +692,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_TryParseReturnsFalseAndNullWhenArgIsEmpty()
+        public void Deck_TryParse_ReturnsFalseAndNullWhenArgIsEmpty()
         {
             //Arrange
             Deck deck;
@@ -705,7 +706,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         [TestMethod]
-        public void Deck_TryParseReturnsFalseAndNullWhenArgIsWhitespace()
+        public void Deck_TryParse_ReturnsFalseAndNullWhenArgIsWhitespace()
         {
             //Arrange
             Deck deck;

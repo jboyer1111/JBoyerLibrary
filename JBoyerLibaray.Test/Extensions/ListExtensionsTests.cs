@@ -16,7 +16,7 @@ namespace JBoyerLibaray.Extensions
         private string[] strItems = new string[] { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" };
 
         [TestMethod]
-        public void ListExtension_ShuffleReOrdersList_IEnum()
+        public void ListExtension_Shuffle_ReOrdersListIEnum()
         {
             // Arrange
 
@@ -31,7 +31,7 @@ namespace JBoyerLibaray.Extensions
         }
 
         [TestMethod]
-        public void ListExtension_ShuffleReOrdersList_List()
+        public void ListExtension_Shuffle_ReOrdersListList()
         {
             // Arrange
             var result = strItems.ToList();
@@ -48,7 +48,7 @@ namespace JBoyerLibaray.Extensions
         }
 
         [TestMethod]
-        public void ListExtension_ShuffleDoesNotAddOrRemoveItems()
+        public void ListExtension_Shuffle_DoesNotAddOrRemoveItems()
         {
             // Arrange
 
@@ -76,7 +76,7 @@ namespace JBoyerLibaray.Extensions
         }
 
         [TestMethod]
-        public void ListExtension_ToListBoxItemsTurnsListIntoObjectArray()
+        public void ListExtension_ToListBoxItems_TurnsListIntoObjectArray()
         {
             // Arrange
 
@@ -90,7 +90,7 @@ namespace JBoyerLibaray.Extensions
         }
 
         [TestMethod]
-        public void ListExtension_ToListBoxItemsDoesNotAddOrRemoveItems()
+        public void ListExtension_ToListBoxItems_DoesNotAddOrRemoveItems()
         {
             // Arrange
 
@@ -118,7 +118,7 @@ namespace JBoyerLibaray.Extensions
         }
 
         [TestMethod]
-        public void ListExtension_RandomReturnsARandomItemFromList()
+        public void ListExtension_Random_ReturnsARandomItemFromList()
         {
             // Arrange
 
@@ -140,7 +140,7 @@ namespace JBoyerLibaray.Extensions
         }
 
         [TestMethod]
-        public void ListExtension_MedianReturnsMedian()
+        public void ListExtension_Median_ReturnsMedian()
         {
             // Arrange
 
@@ -153,7 +153,7 @@ namespace JBoyerLibaray.Extensions
         }
 
         [TestMethod]
-        public void ListExtension_MedianReturnsMedianUsingCompererPassedToSort()
+        public void ListExtension_Median_ReturnsMedianUsingCompererPassedToSort()
         {
             // Arrange
             Card[] cards = new Card[]
@@ -174,7 +174,7 @@ namespace JBoyerLibaray.Extensions
         }
 
         [TestMethod]
-        public void ListExtension_ModeReturnsEmptyWhenNoMode()
+        public void ListExtension_Mode_ReturnsEmptyWhenNoMode()
         {
             // Arrange
 
@@ -186,7 +186,7 @@ namespace JBoyerLibaray.Extensions
         }
 
         [TestMethod]
-        public void ListExtension_ModeReturnsMode()
+        public void ListExtension_Mode_ReturnsMode()
         {
             // Arrange
             var items = new int[]
@@ -209,7 +209,7 @@ namespace JBoyerLibaray.Extensions
         }
 
         [TestMethod]
-        public void ListExtension_ModeReturnsModes()
+        public void ListExtension_Mode_ReturnsModes()
         {
             // Arrange
             var items = new int[]
@@ -231,6 +231,36 @@ namespace JBoyerLibaray.Extensions
             Assert.AreEqual(2, results.Count());
             Assert.AreEqual(2, results.First());
             Assert.AreEqual(5, results.Last());
+        }
+
+        [TestMethod]
+        public void ListExtension_ForAll_DoesPredecateToAllItemsList()
+        {
+            // Arrange
+            var items = new List<MutableKeyValuePair<string, string>>();
+            items.Add(new MutableKeyValuePair<string, string>("Key", "Value"));
+
+            // Act
+            items.ForAll(i => { i.Value = "Value2"; });
+
+            // Assert
+            Assert.AreEqual("Value2", items.First().Value);
+        }
+
+        [TestMethod]
+        public void ListExtension_ForAll_DoesPredecateToAllItemsIEumn()
+        {
+            // Arrange
+            IEnumerable<MutableKeyValuePair<string, string>> items = new List<MutableKeyValuePair<string, string>>()
+            {
+                new MutableKeyValuePair<string, string>("Key", "Value")
+            };
+
+            // Act
+            items.ForAll(i => { i.Value = "Value2"; });
+
+            // Assert
+            Assert.AreEqual("Value2", items.First().Value);
         }
     }
 }
