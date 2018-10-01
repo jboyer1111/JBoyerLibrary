@@ -137,6 +137,7 @@
     <Compile Include="Dice\DieTests.cs" />
     <Compile Include="DnDDiceRoller\DnDFormulaTests.cs" />
     <Compile Include="DnDDiceRoller\DnDFormulaCalcTests.cs" />
+    <Compile Include="DnDDiceRoller\DnDRollerTests.cs" />
     <Compile Include="Exceptions\ArgumentInvalidExceptionTests.cs" />
     <Compile Include="Exceptions\CouldNotConvertToNumberTests.cs" />
     <Compile Include="Exceptions\ExceptionHelperTests.cs" />

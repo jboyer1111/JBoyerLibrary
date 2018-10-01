@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using JBoyerLibaray.UnitTests.ControllerHelpers;
+using JBoyerLibaray.UnitTests.Database;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -85,6 +87,27 @@ namespace JBoyerLibaray.UnitTests
         public static T Clone<T>(object source)
         {
             return Deserialize<T>(Serialize(source));
+        }
+
+        public static T GetParam<T>(this IDataParameterCollection paramters, string name) where T : class
+        {
+            return paramters
+                .Cast<IDataParameter>()
+                .Where(p => String.Equals(p.ParameterName, name, StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault() as T;
+        }
+
+        public static HtmlHelper CreateHtmlHelper(this Controller controller)
+        {
+            var viewContext = new ViewContext(
+                controller.ControllerContext,
+                new FakeView(),
+                controller.ViewData,
+                new TempDataDictionary(),
+                new StreamWriter(new MemoryStream())
+            );
+
+            return new HtmlHelper(viewContext, new FakeViewDataContainer() { ViewData = controller.ViewData }, controller.Url.RouteCollection);
         }
     }
 }

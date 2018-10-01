@@ -103,6 +103,8 @@
     <Compile Include="DeckOfCards\DeckOptions.cs" />
     <Compile Include="DeckOfCards\EmptyDeckException.cs" />
     <Compile Include="DeckOfCards\EmptyHandException.cs" />
+    <Compile Include="DnDDiceRoller\DnDRoller.cs" />
+    <Compile Include="DnDDiceRoller\DnDRollResult.cs" />
     <Compile Include="Exceptions\ArgumentInvalidException.cs" />
     <Compile Include="Extensions\CharExtentions.cs" />
     <Compile Include="Extensions\HelperExtentions.cs" />
@@ -153,6 +155,8 @@
     <Compile Include="DeckOfCards\NotEnoughCardsException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Task\TransConfig.cs" />
+    <Compile Include="UnitTests\ControllerHelpers\FakeView.cs" />
+    <Compile Include="UnitTests\ControllerHelpers\FakeViewDataContainer.cs" />
     <Compile Include="UnitTests\Database\FakeDatabase.cs" />
     <Compile Include="UnitTests\Database\NonQueryInfo.cs" />
     <Compile Include="UnitTests\Database\SqlInfo.cs" />
