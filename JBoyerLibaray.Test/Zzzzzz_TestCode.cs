@@ -14,6 +14,7 @@ using Dapper.Contrib.Extensions;
 using JBoyerLibaray.Database;
 using Moq;
 using System.Data;
+using System.Diagnostics;
 
 namespace JBoyerLibaray
 {
@@ -24,56 +25,62 @@ namespace JBoyerLibaray
         [TestMethod]
         public void Zzzzzz_TestMethodOne()
         {
-            ReaderData readerData = new ReaderData();
+            var exp = Test();
 
-            Mock<IDataReader> mockDataReader = new Mock<IDataReader>();
+            var stackTrace = new StackTrace(exp);
+            var frames = stackTrace.GetFrames();
+            var infos = frames.Select(f => new Tuple<string, int>(f.GetMethod().Name, f.GetFileLineNumber()));
 
-            readerData.Add(new DataResult(mockDataReader.Object));
+            var toString = exp.ToString();
+
+            var output = StackTraceParser.Parse(exp.ToString(), (f, t, m, pl, ps, fn, ln) => new
+            {
+                Frame = f,
+                Type = t,
+                Method = m,
+                ParameterList = pl,
+                Parameters = ps,
+                File = fn,
+                Line = ln,
+            });
+
+        }
 
 
+        public Exception Test(bool throwExp = false, Exception exception = null)
+        {
+            if (throwExp)
+            {
+                throw new Exception(null, exception);
+            }
 
+            try
+            {
+                Test(true, Test2());
+                return null;
+            }
+            catch (Exception e)
+            {
+                return e;
+            }
+        }
 
-            readerData.Add(new DataResult(mockDataReader.Object));
+        public Exception Test2(bool throwExp = false, Exception exception = null)
+        {
+            if (throwExp)
+            {
+                throw new Exception(null, exception);
+            }
 
-            var test = "";
-            
-            //var database = new FakeDatabase();
-            //List<RandomTable> results = new List<RandomTable>();
-
-            //results.Add(new RandomTable() { Test1 = 0, Test2 = "Searches", Test3 = DateTime.Now });
-            //results.Add(new RandomTable() { Test1 = 1, Test2 = "Parties", Test3 = DateTime.Now.AddDays(5) });
-            //results.Add(new RandomTable() { Test1 = 2, Test2 = "LockedOrders", Test3 = DateTime.Now.AddDays(-20) });
-
-            //database.SetupTable("RandomTables", results);
-            //database.SetupStoredProcedure("USP_GetRandomTables", results, new string[] { "Test" });
-
-            //database.SetupSql("Select * From RandomTables Order By Test2", results.OrderBy(r => r.Test2).ToArray());
-            //database.SetupSql("Select * From RandomTables Order By Test3", (d, p) =>
-            //{
-            //    return results.OrderBy(r => r.Test3);
-            //});
-
-            //database.SetupSql("Select * From RandomTables Where Test1 > @Temp Order By Test2", results.Where(r => r.Test1 > 0).OrderBy(r => r.Test2).ToArray(), new string[] { "Temp" });
-            //database.SetupSql("Select * From RandomTables Where Test1 > @Temp Order By Test3", (d, p) =>
-            //{
-            //    return results.Where(r => r.Test1 > 0).OrderBy(r => r.Test3);
-            //}, new string[] { "Temp" });
-
-            //using (var connection = new FakeConnection(database))
-            //{
-            //    var tableResults = connection.GetAll<RandomTable>();
-            //    var tableResult = connection.Get<RandomTable>(1);
-            //    var spResults = connection.Query<RandomTable>("USP_GetRandomTables", new { Test = ":D" }, commandType: System.Data.CommandType.StoredProcedure);
-            //    var sqlResult = connection.Query<RandomTable>("Select * From RandomTables Order By Test2");
-            //    var sqlResult2 = connection.Query<RandomTable>("Select * From RandomTables Order By Test3");
-
-            //    var sqlRequiredResult = connection.Query<RandomTable>("Select * From RandomTables Where Test1 > @Temp Order By Test2", new { @Temp = 0 });
-            //    var sqlRequiredResult2 = connection.Query<RandomTable>("Select * From RandomTables Where Test1 > @Temp Order By Test3", new { @Temp = 0 });
-
-            //    var count = spResults.Count();
-
-            //    //Assert.IsTrue();
-            //}
+            try
+            {
+                Test2(true);
+                return null;
+            }
+            catch (Exception e)
+            {
+                return e;
+            }
         }
     }
 }
