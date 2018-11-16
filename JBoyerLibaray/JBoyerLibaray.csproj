@@ -162,6 +162,8 @@
     <Compile Include="DeckOfCards\NotEnoughCardsException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Task\TransConfig.cs" />
+    <Compile Include="UnitTests\ControllerHelpers\FakeView.cs" />
+    <Compile Include="UnitTests\ControllerHelpers\FakeViewDataContainer.cs" />
     <Compile Include="UnitTests\Database\FakeDatabase.cs" />
     <Compile Include="UnitTests\Database\NonQueryInfo.cs" />
     <Compile Include="UnitTests\Database\SqlInfo.cs" />
