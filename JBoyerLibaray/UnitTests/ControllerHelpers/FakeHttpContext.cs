@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace JBoyerLibaray.UnitTests
         private HttpServerUtilityBase _server;
         private HttpSessionStateBase _session;
         private IPrincipal _user;
+		private bool _isCustomErrorEnabled = true;
 
         #endregion
 
@@ -92,9 +94,22 @@ namespace JBoyerLibaray.UnitTests
         {
             get
             {
-                // This should always be true inside a unit test
-                return true;
+                return _isCustomErrorEnabled;
             }
         }
+
+        public void SetCustomErrorEnabled(bool value)
+        {
+            _isCustomErrorEnabled = value;
+        }
+
+        public override IDictionary Items
+        {
+            get
+            {
+                return new Dictionary<object, object>();
+            }
+        }
+
     }
 }
