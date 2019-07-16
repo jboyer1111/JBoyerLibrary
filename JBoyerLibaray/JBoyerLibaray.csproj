@@ -109,10 +109,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StaticTimeProvider.cs" />
+    <Compile Include="Context.cs" />
     <Compile Include="CultureInfoHelper.cs" />
     <Compile Include="Database\DataReaderHelper.cs" />
     <Compile Include="Database\DataResult.cs" />
-    <Compile Include="Database\ReaderData.cs" />
     <Compile Include="DeckOfCards\DeckOptions.cs" />
     <Compile Include="DeckOfCards\EmptyDeckException.cs" />
     <Compile Include="DeckOfCards\EmptyHandException.cs" />

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.Database
 {
+
     public static class DataReaderHelper
     {
-        public static List<DataResult> GetData(IDataReader reader)
+
+        public static List<DataResult> GetData(this IDataReader reader)
         {
             var resultSets = new List<DataResult>();
 
@@ -22,10 +19,11 @@ namespace JBoyerLibaray.Database
             return resultSets;
         }
 
-
         public static List<DataResult> ExecuteReaderToData(this IDbCommand command)
         {
             return GetData(command.ExecuteReader());
         }
+
     }
+
 }

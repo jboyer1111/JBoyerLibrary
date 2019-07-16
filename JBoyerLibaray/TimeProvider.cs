@@ -1,9 +1,5 @@
 ﻿using JBoyerLibaray.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray
 {
@@ -25,6 +21,7 @@ namespace JBoyerLibaray
 
     public class TimeProvider : ITimeProvider
     {
+
         #region Public Properties
 
         public DateTime Now
@@ -76,6 +73,7 @@ namespace JBoyerLibaray
         }
 
         #endregion
+
     }
 
 }
