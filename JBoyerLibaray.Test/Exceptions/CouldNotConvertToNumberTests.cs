@@ -5,10 +5,11 @@ using JBoyerLibaray.UnitTests;
 
 namespace JBoyerLibaray.Exceptions
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class CouldNotConvertToNumberTests
     {
+
         private readonly Exception _innerException;
 
         public CouldNotConvertToNumberTests()
@@ -78,5 +79,7 @@ namespace JBoyerLibaray.Exceptions
             // Assert
             Assert.IsNotNull(result);
         }
+
     }
+
 }

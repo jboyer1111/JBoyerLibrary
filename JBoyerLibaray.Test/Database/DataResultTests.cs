@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics.CodeAnalysis;
-using JBoyerLibaray.DeckOfCards;
+﻿using JBoyerLibaray.DeckOfCards;
 using JBoyerLibaray.UnitTests;
-using System.Linq;
-using System.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace JBoyerLibaray.Database
 {
@@ -39,6 +39,26 @@ namespace JBoyerLibaray.Database
             // Assert
             CollectionAssert.AreEqual(
                 new string[] { "Rank", "Suit", "Value" },
+                result.ColumnNames.ToArray()
+            );
+        }
+
+        [TestMethod]
+        public void DataResult_Constructor_VerfiyNoColumnNameBuildUp()
+        {
+            // Arrange
+            int rowIndex = 0;
+
+            Mock<IDataReader> mockReader = new Mock<IDataReader>();
+            mockReader.Setup(r => r.Read()).Returns(() => { rowIndex++; return rowIndex < 2; });
+            mockReader.Setup(r => r.FieldCount).Returns(3);
+
+            // Act
+            var result = new DataResult(mockReader.Object);
+
+            // Assert
+            CollectionAssert.AreEqual(
+                new string[] { "(No column name)", "(No column name 1)", "(No column name 2)" },
                 result.ColumnNames.ToArray()
             );
         }

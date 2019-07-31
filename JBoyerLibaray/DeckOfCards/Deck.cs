@@ -8,8 +8,31 @@ using System.Text;
 
 namespace JBoyerLibaray.DeckOfCards
 {
+
+    interface IDeck
+    {
+
+        bool AceIsHigh { get; set; }
+
+        int CardCount { get; }
+
+        IEnumerable<Card> Cards { get; }
+
+        Card Draw();
+
+        Card[] DrawCards(int amount);
+
+        Card[] DrawUpToCards(int amount);
+
+        void Shuffle();
+
+        void Sort(IComparer<Card> comparer);
+
+    }
+
     public class Deck : IDeck, IEquatable<Deck>, IEnumerable<Card>
     {
+
         #region Private Variables
 
         protected bool _aceIsHigh = false;
@@ -40,21 +63,9 @@ namespace JBoyerLibaray.DeckOfCards
             }
         }
 
-        public int CardCount
-        {
-            get
-            {
-                return _cards.Count;
-            }
-        }
+        public int CardCount => _cards.Count;
 
-        public IEnumerable<Card> Cards
-        {
-            get
-            {
-                return _cards.AsEnumerable();
-            }
-        }
+        public IEnumerable<Card> Cards => _cards.AsEnumerable();
 
         #endregion
 
@@ -196,10 +207,7 @@ namespace JBoyerLibaray.DeckOfCards
             return false;
         }
 
-        public override int GetHashCode()
-        {
-            return _cards.GetHashCodeAggregate();
-        }
+        public override int GetHashCode() => _cards.GetHashCodeAggregate();
 
         public bool Equals(Deck deck2)
         {
@@ -224,53 +232,29 @@ namespace JBoyerLibaray.DeckOfCards
             return true;
         }
 
-        public static bool Equals(Deck deck1, Deck deck2)
-        {
-            return deck1 == deck2;
-        }
+        public static bool Equals(Deck deck1, Deck deck2) => deck1 == deck2;
 
-        public static bool Equals(Deck deck1, Deck deck2, IEqualityComparer<Deck> comparer)
-        {
-            return comparer.Equals(deck1, deck2);
-        }
+        public static bool Equals(Deck deck1, Deck deck2, IEqualityComparer<Deck> comparer) => comparer.Equals(deck1, deck2);
 
-        public static bool operator ==(Deck deck1, Deck deck2)
-        {
-            return object.Equals(deck1, deck2);
-        }
+        public static bool operator ==(Deck deck1, Deck deck2) => object.Equals(deck1, deck2);
 
-        public static bool operator !=(Deck deck1, Deck deck2)
-        {
-            return !object.Equals(deck1, deck2);
-        }
+        public static bool operator !=(Deck deck1, Deck deck2) => !object.Equals(deck1, deck2);
 
         #endregion
 
         #region Enumerable Implamentaion
 
-        public IEnumerator<Card> GetEnumerator()
-        {
-            return _cards.GetEnumerator();
-        }
+        public IEnumerator<Card> GetEnumerator() => _cards.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         #endregion
 
         #region Static Methods
 
-        public static Deck Copy(Deck deck)
-        {
-            return new Deck(deck);
-        }
+        public static Deck Copy(Deck deck) => new Deck(deck);
 
-        public static Deck GetUnShuffledDeck()
-        {
-            return new Deck(DeckOption.UnShuffled);
-        }
+        public static Deck GetUnShuffledDeck() => new Deck(DeckOption.UnShuffled);
 
         public static Deck Parse(string cards)
         {
@@ -325,5 +309,7 @@ namespace JBoyerLibaray.DeckOfCards
 
             return sb.ToString();
         }
+
     }
+
 }

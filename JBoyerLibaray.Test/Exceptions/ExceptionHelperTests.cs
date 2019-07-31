@@ -4,10 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.Exceptions
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class ExceptionHelperTests
     {
+
         [TestMethod]
         public void ExceptionHelper_GetMemberName()
         {
@@ -140,5 +141,7 @@ namespace JBoyerLibaray.Exceptions
             Assert.IsInstanceOfType(result, typeof(ArgumentInvalidException));
             Assert.AreEqual("\r\nParameter name: ArgName\r\nActual value was Object Value.", result.Message);
         }
+
     }
+
 }

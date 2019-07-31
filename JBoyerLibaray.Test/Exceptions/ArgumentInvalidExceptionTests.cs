@@ -1,15 +1,16 @@
-﻿using System;
+﻿using JBoyerLibaray.UnitTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Diagnostics.CodeAnalysis;
-using JBoyerLibaray.UnitTests;
 using System.Runtime.Serialization;
 
 namespace JBoyerLibaray.Exceptions
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class ArgumentInvalidExceptionTests
     {
+
         private readonly Exception _innerException;
 
         public ArgumentInvalidExceptionTests()
@@ -166,8 +167,7 @@ namespace JBoyerLibaray.Exceptions
             Assert.AreEqual("Message\r\nParameter name: Param Name\r\nActual value was Object Value.", result.Message);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void ArgumentInvalidException_GetObjectDataThrowsErrorWhenInfoIsNull()
         {
             // Arrange
@@ -180,5 +180,7 @@ namespace JBoyerLibaray.Exceptions
 
             // Assert
         }
+
     }
+
 }

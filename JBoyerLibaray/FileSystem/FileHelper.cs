@@ -1,14 +1,12 @@
 ﻿using JBoyerLibaray.Exceptions;
 using JBoyerLibaray.Extensions;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.FileSystem
 {
+
     public class FileHelper
     {
         private IFileSystemHelper _fileSystemHelper;
@@ -104,4 +102,5 @@ namespace JBoyerLibaray.FileSystem
             return responseCheckString.StartsWith("%PDF");
         }
     }
+
 }

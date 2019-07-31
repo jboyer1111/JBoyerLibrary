@@ -11,8 +11,8 @@ using System.Web.Mvc;
 
 namespace JBoyerLibaray
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class CustomHandleErrorAttributeTests
     {
 
@@ -39,8 +39,7 @@ namespace JBoyerLibaray
             // Assert
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void CustomHandleErrorAttribute_ConstructorThrowErrorIfArgumentIsNull()
         {
             // Arrange
@@ -72,7 +71,6 @@ namespace JBoyerLibaray
             // Assert
             mockDirectoryWrapper.Verify(d => d.Exists(It.IsAny<string>()), Times.Never);
         }
-
 
         [TestMethod]
         public void CustomHandleErrorAttribute_OnExceptionNullAppSetting()
@@ -290,8 +288,6 @@ namespace JBoyerLibaray
             Assert.AreEqual(expectedException.ToString().Trim(), result.Data);
         }
 
-
-
         [TestMethod]
         public void CustomHandleErrorAttribute_OnExceptionReturnsViewResult()
         {
@@ -315,7 +311,6 @@ namespace JBoyerLibaray
             // Assert
             Assert.IsNotNull(result);
         }
-
 
         [TestMethod]
         public void CustomHandleErrorAttribute_OnExceptionReturnsViewResultWhenExceptionIsUnauthorizedAccessException()
@@ -351,11 +346,13 @@ namespace JBoyerLibaray
 
         #region Inner Class
 
-        public class FakeController : Controller
+        private class FakeController : Controller
         {
             
         }
 
         #endregion
+
     }
+
 }

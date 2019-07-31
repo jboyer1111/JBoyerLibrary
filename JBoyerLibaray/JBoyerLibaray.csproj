@@ -130,13 +130,8 @@
     <Compile Include="CustomHandleErrorAttribute.cs" />
     <Compile Include="DeckOfCards\Card.cs" />
     <Compile Include="DeckOfCards\CardComparer.cs" />
-    <Compile Include="DeckOfCards\CardSuitThenValueComparer.cs" />
-    <Compile Include="DeckOfCards\CardValueThenSuitComparer.cs" />
     <Compile Include="DeckOfCards\Deck.cs" />
     <Compile Include="DeckOfCards\DeckEquator.cs" />
-    <Compile Include="DeckOfCards\DifferentOrderEquator.cs" />
-    <Compile Include="DeckOfCards\ICard.cs" />
-    <Compile Include="DeckOfCards\IDeck.cs" />
     <Compile Include="Dice\Die.cs" />
     <Compile Include="DnDDiceRoller\DnDFormula.cs" />
     <Compile Include="DnDDiceRoller\DnDFormulaCalc.cs" />

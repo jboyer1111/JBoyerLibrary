@@ -133,17 +133,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="App_Packages\StackTraceParser\StackTraceParser.cs" />
     <Compile Include="Database\DataResultTests.cs" />
-    <Compile Include="DeckOfCards\CardValueThenSuitComparerTests.cs" />
+    <Compile Include="Database\DataReaderHelperTests.cs" />
     <Compile Include="DeckOfCards\CardTests.cs" />
     <Compile Include="DeckOfCards\DeckTests.cs" />
     <Compile Include="DeckOfCards\NotEnoughCardsExceptionTests.cs" />
     <Compile Include="DeckOfCards\EmptyDeckExceptionTests.cs" />
-    <Compile Include="DeckOfCards\TestCard.cs" />
-    <Compile Include="DeckOfCards\CardSuitThenValueComparerTests.cs" />
     <Compile Include="DeckOfCards\EmptyHandExceptionTests.cs" />
-    <Compile Include="DeckOfCards\DifferentOrderEquatorTests.cs" />
+    <Compile Include="DeckOfCards\DeckEquatorTests.cs" />
+    <Compile Include="DeckOfCards\CardComparerTests.cs" />
     <Compile Include="Dice\DieTests.cs" />
     <Compile Include="Exceptions\ArgumentInvalidExceptionTests.cs" />
     <Compile Include="Exceptions\CouldNotConvertToNumberTests.cs" />
@@ -157,6 +155,7 @@
     <Compile Include="Extensions\ObjectExtentionsTests.cs" />
     <Compile Include="FileSystem\FileResultHelperTests.cs" />
     <Compile Include="FileSystem\FileHelperTests.cs" />
+    <Compile Include="HelperClasses\Person.cs" />
     <Compile Include="PasswordGenerator\PasswordGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HelperClasses\DeckStrings.cs" />

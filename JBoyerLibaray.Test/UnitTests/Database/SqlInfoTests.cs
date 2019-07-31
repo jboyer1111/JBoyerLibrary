@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
-    [TestClass]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class SqlInfoTests
     {
 
@@ -16,5 +18,7 @@ namespace JBoyerLibaray.UnitTests.Database
 
             // Assert
         }
+
     }
+
 }

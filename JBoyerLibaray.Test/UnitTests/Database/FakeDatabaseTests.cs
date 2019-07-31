@@ -1,10 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
-    [TestClass]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class FakeDatabaseTests
     {
 
@@ -18,7 +20,6 @@ namespace JBoyerLibaray.UnitTests.Database
 
             // Assert
         }
-
 
         [TestMethod]
         public void FakeDatabase_SetupTable_AddsTableToObject()
@@ -48,5 +49,7 @@ namespace JBoyerLibaray.UnitTests.Database
             // Assert
             CollectionAssert.AreEqual(new string[] { "Select * From Table Order By A Desc" }, fakeDatabase.SqlScripts);
         }
+
     }
+
 }

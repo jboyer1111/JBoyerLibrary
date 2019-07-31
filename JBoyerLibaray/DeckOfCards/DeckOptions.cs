@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JBoyerLibaray.DeckOfCards
+﻿namespace JBoyerLibaray.DeckOfCards
 {
 
     internal enum DeckOption
@@ -13,4 +7,5 @@ namespace JBoyerLibaray.DeckOfCards
         Empty,
         UnShuffled
     }
+
 }

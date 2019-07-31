@@ -1,14 +1,12 @@
 ﻿using JBoyerLibaray.HelperClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace JBoyerLibaray.DeckOfCards
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class CardTests : DeckStrings
     {
 
@@ -587,5 +585,18 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         #endregion
+
     }
+
+    [ExcludeFromCodeCoverage]
+    public class TestCard : Card
+    {
+
+        public TestCard(string suit, string rank) : base(suit, rank)
+        {
+
+        }
+
+    }
+
 }

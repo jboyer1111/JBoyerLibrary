@@ -1,15 +1,15 @@
-﻿using System;
+﻿using JBoyerLibaray.UnitTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using JBoyerLibaray.UnitTests;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.DeckOfCards
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class EmptyDeckExceptionTests
     {
+
         private readonly Exception _innerException;
 
         public EmptyDeckExceptionTests()
@@ -79,5 +79,7 @@ namespace JBoyerLibaray.DeckOfCards
             // Assert
             Assert.IsNotNull(result);
         }
+
     }
+
 }

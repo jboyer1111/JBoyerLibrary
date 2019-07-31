@@ -6,8 +6,8 @@ using System.Threading;
 
 namespace JBoyerLibaray
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class CultureInfoHelperTests
     {
 
@@ -276,4 +276,5 @@ namespace JBoyerLibaray
         }
 
     }
+
 }
