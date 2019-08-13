@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
+
     [ExcludeFromCodeCoverage]
     public class FakeCommand : IDbCommand
     {
+
         #region Private Variables
 
         private IDataParameterCollection _parameters;
@@ -57,6 +59,7 @@ namespace JBoyerLibaray.UnitTests.Database
         public int ExecuteNonQuery()
         {
             var updateRecord = new Regex(@"^update (\S+) set (\S[\S\s]+) where (\S+) = @id$", RegexOptions.IgnoreCase);
+            var deleteRecord = new Regex(@"^delete from (\S+) where (\S+) = @id$", RegexOptions.IgnoreCase);
 
             if (updateRecord.IsMatch(CommandText))
             {
@@ -65,6 +68,16 @@ namespace JBoyerLibaray.UnitTests.Database
                 var tableName = match.Groups[1].Value;
 
                 _fakeDatabase.CallUpdateCallback(tableName);
+
+                return 0;
+            }
+            else if (deleteRecord.IsMatch(CommandText))
+            {
+                var match = deleteRecord.Match(CommandText);
+
+                var tableName = match.Groups[1].Value;
+
+                _fakeDatabase.CallDeleteCallback(tableName);
 
                 return 0;
             }
@@ -185,4 +198,5 @@ namespace JBoyerLibaray.UnitTests.Database
         #endregion
 
     }
+
 }

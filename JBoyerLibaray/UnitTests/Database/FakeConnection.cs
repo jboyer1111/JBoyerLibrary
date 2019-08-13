@@ -8,8 +8,11 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
+
+    [ExcludeFromCodeCoverage]
     public class FakeConnection : IDbConnection
     {
+
         #region Private Variables
 
         private ConnectionState _state = ConnectionState.Closed;
@@ -115,5 +118,7 @@ namespace JBoyerLibaray.UnitTests.Database
         }
 
         #endregion
+
     }
+
 }

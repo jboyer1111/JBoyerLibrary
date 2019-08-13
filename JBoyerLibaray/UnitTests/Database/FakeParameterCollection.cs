@@ -11,21 +11,46 @@ namespace JBoyerLibaray.UnitTests.Database
     [ExcludeFromCodeCoverage]
     public class FakeParameterCollection : List<IDbDataParameter>, IDataParameterCollection
     {
+
+        #region Constructor
+
         public FakeParameterCollection() : base() { }
 
         public FakeParameterCollection(int capacity) : base(capacity) { }
 
         public FakeParameterCollection(IEnumerable<IDbDataParameter> collection) : base(collection) { }
 
+        #endregion
+
+        #region Public Methods
+
+        public bool Contains(string parameterName)
+        {
+            return this.Select(p => p.ParameterName).Contains(parameterName, StringComparer.CurrentCultureIgnoreCase);
+        }
+
+        public int IndexOf(string parameterName)
+        {
+            return this.Select(p => p.ParameterName.ToLowerInvariant()).ToList().IndexOf(parameterName.ToLowerInvariant());
+        }
+
+        public void RemoveAt(string parameterName)
+        {
+            this.RemoveAt(IndexOf(parameterName));
+        }
+
+        #endregion
+
+
         public IDbDataParameter this[string parameterName]
         {
             get
             {
-                return this.Where(p => p.ParameterName == parameterName).FirstOrDefault();
+                return this.Where(p => String.Equals(p.ParameterName, parameterName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
             }
             set
             {
-                var parameter = this.Where(p => p.ParameterName == parameterName).FirstOrDefault();
+                var parameter = this.Where(p => String.Equals(p.ParameterName, parameterName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                 if (parameter == null)
                 {
                     throw new IndexOutOfRangeException(String.Format(
@@ -50,19 +75,6 @@ namespace JBoyerLibaray.UnitTests.Database
             }
         }
 
-        public bool Contains(string parameterName)
-        {
-            return this.Select(p => p.ParameterName).Contains(parameterName);
-        }
 
-        public int IndexOf(string parameterName)
-        {
-            return this.Select(p => p.ParameterName).ToList().IndexOf(parameterName);
-        }
-
-        public void RemoveAt(string parameterName)
-        {
-            this.RemoveAt(IndexOf(parameterName));
-        }
     }
 }

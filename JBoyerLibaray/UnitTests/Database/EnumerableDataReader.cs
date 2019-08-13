@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests
 {
+
     [ExcludeFromCodeCoverage]
     public class EnumerableDataReader : ObjectDataReader
     {
+
         private readonly IEnumerator _enumerator;
         private readonly Type _type;
         private object _current;
@@ -121,5 +123,7 @@ namespace JBoyerLibaray.UnitTests
 
             return type;
         }
+
     }
+
 }

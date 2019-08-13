@@ -11,6 +11,7 @@ namespace JBoyerLibaray.UnitTests.Database
     [ExcludeFromCodeCoverage]
     public class FakeTrasaction : IDbTransaction
     {
+
         #region Private Variables
 
         private IDbConnection _connection = null;
@@ -66,5 +67,6 @@ namespace JBoyerLibaray.UnitTests.Database
         }
 
         #endregion
+
     }
 }

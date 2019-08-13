@@ -1,5 +1,4 @@
-﻿using JBoyerLibaray.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
@@ -9,6 +8,7 @@ namespace JBoyerLibaray.UnitTests.Database
     [ExcludeFromCodeCoverage]
     public class NonQueryInfo
     {
+
         #region Private Variables
 
         private Action<FakeDatabase, IDataParameterCollection> _nonQueryCallback;
@@ -24,12 +24,12 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (nonQueryCallback == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => nonQueryCallback);
+                throw new ArgumentNullException(nameof(nonQueryCallback));
             }
 
             if (requiredParameters == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => requiredParameters);
+                throw new ArgumentNullException(nameof(requiredParameters));
             }
 
             _nonQueryCallback = nonQueryCallback;
@@ -55,5 +55,6 @@ namespace JBoyerLibaray.UnitTests.Database
         }
 
         #endregion
+
     }
 }

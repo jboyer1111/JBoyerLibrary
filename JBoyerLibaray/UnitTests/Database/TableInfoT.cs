@@ -1,14 +1,11 @@
-﻿using JBoyerLibaray.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
+
+    [ExcludeFromCodeCoverage]
     public class TableInfo<T> : TableInfo where T : class
     {
         #region Constructor
@@ -17,7 +14,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (results == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => results);
+                throw new ArgumentNullException(nameof(results));
             }
 
             _results = results;
@@ -27,7 +24,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (tableResultResolver == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => tableResultResolver);
+                throw new ArgumentNullException(nameof(tableResultResolver));
             }
             
             _tableResultResolver = tableResultResolver;
@@ -35,4 +32,5 @@ namespace JBoyerLibaray.UnitTests.Database
 
         #endregion
     }
+
 }

@@ -1,5 +1,4 @@
-﻿using JBoyerLibaray.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
@@ -12,13 +11,14 @@ namespace JBoyerLibaray.UnitTests.Database
     [ExcludeFromCodeCoverage]
     public class SqlInfo<T> : SqlInfo where T : class
     {
+
         #region Constructor
 
         public SqlInfo(T result, IEnumerable<string> requiredParameters)
         {
             if (requiredParameters == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => requiredParameters);
+                throw new ArgumentNullException(nameof(requiredParameters));
             }
 
             _results = new List<T>() { result };
@@ -29,12 +29,12 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (results == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => results);
+                throw new ArgumentNullException(nameof(results));
             }
 
             if (requiredParameters == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => requiredParameters);
+                throw new ArgumentNullException(nameof(requiredParameters));
             }
 
             _results = results;
@@ -45,12 +45,12 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (objectResultResolver == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => objectResultResolver);
+                throw new ArgumentNullException(nameof(objectResultResolver));
             }
 
             if (requiredParameters == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => requiredParameters);
+                throw new ArgumentNullException(nameof(requiredParameters));
             }
 
             _objectResultResolver = objectResultResolver;

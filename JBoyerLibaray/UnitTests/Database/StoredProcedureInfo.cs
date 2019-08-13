@@ -1,15 +1,15 @@
-﻿using JBoyerLibaray.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
+
+    [ExcludeFromCodeCoverage]
     public abstract class StoredProcedureInfo
     {
+
         #region Private Variables
 
         protected Func<FakeDatabase, IDataParameterCollection, IEnumerable<object>> _objectResultResolver;
@@ -74,5 +74,7 @@ namespace JBoyerLibaray.UnitTests.Database
         }
 
         #endregion
+
     }
+
 }

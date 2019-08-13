@@ -6,9 +6,11 @@ using System.Reflection.Emit;
 
 namespace JBoyerLibaray.UnitTests
 {
+
     [ExcludeFromCodeCoverage]
     public static class DynamicProperties
     {
+
         #region Delegates
 
         public delegate object GenericGetter(object target);
@@ -82,7 +84,6 @@ namespace JBoyerLibaray.UnitTests
             return (GenericSetter)setter.CreateDelegate(typeof(GenericSetter));
         }
 
-
         /// <summary>
         /// Creates a dynamic getter for the property
         /// </summary>
@@ -140,5 +141,7 @@ namespace JBoyerLibaray.UnitTests
         }
 
         #endregion
+
     }
+
 }

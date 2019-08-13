@@ -1,7 +1,7 @@
-﻿using JBoyerLibaray.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -9,8 +9,11 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
+
+    [ExcludeFromCodeCoverage]
     public class FakeDatabase
     {
+
         #region Private Variables
 
         private Dictionary<string, TableInfo> _tables = new Dictionary<string, TableInfo>(StringComparer.CurrentCultureIgnoreCase);
@@ -19,6 +22,7 @@ namespace JBoyerLibaray.UnitTests.Database
         private Dictionary<string, NonQueryInfo> _nonQuerySqlScripts = new Dictionary<string, NonQueryInfo>(StringComparer.CurrentCultureIgnoreCase);
         private Dictionary<string, Action> _insertQueryCallBacks = new Dictionary<string, Action>(StringComparer.CurrentCultureIgnoreCase);
         private Dictionary<string, Action> _updateQueryCallBacks = new Dictionary<string, Action>(StringComparer.CurrentCultureIgnoreCase);
+        private Dictionary<string, Action> _deleteQueryCallBacks = new Dictionary<string, Action>(StringComparer.CurrentCultureIgnoreCase);
 
         #endregion
 
@@ -69,6 +73,14 @@ namespace JBoyerLibaray.UnitTests.Database
             get
             {
                 return _updateQueryCallBacks.Keys.OrderBy(s => s).ToArray();
+            }
+        }
+
+        public string[] DeleteQueryCallbacks
+        {
+            get
+            {
+                return _deleteQueryCallBacks.Keys.OrderBy(s => s).ToArray();
             }
         }
 
@@ -152,11 +164,19 @@ namespace JBoyerLibaray.UnitTests.Database
             }
         }
 
+        public void CallDeleteCallback(string tableName)
+        {
+            if (_deleteQueryCallBacks.ContainsKey(tableName))
+            {
+                _deleteQueryCallBacks[tableName]();
+            }
+        }
+
         public void SetupTable<T>(string tableName, IEnumerable<T> readerResults) where T : class
         {
             if (String.IsNullOrWhiteSpace(tableName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace.", tableName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace.", nameof(tableName));
             }
 
             if (readerResults == null)
@@ -176,7 +196,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(tableName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace.", tableName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace.", nameof(tableName));
             }
 
             if (tableResultResolver == null)
@@ -196,7 +216,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(sql))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(sql));
             }
 
             if (requiredParameters == null)
@@ -216,7 +236,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(sql))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(sql));
             }
 
             if (readerResults == null)
@@ -241,12 +261,12 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(sql))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(sql));
             }
 
             if (objectResultResolver == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => objectResultResolver);
+                throw new ArgumentNullException(nameof(objectResultResolver));
             }
 
             if (requiredParameters == null)
@@ -266,7 +286,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(storedProcedureName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => storedProcedureName, "Cannot be null, empty, or whitespace", storedProcedureName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(storedProcedureName));
             }
 
             if (results == null)
@@ -291,7 +311,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(storedProcedureName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => storedProcedureName, "Cannot be null, empty, or whitespace", storedProcedureName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(storedProcedureName));
             }
 
             if (requiredParameters == null)
@@ -311,12 +331,12 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(storedProcedureName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => storedProcedureName, "Cannot be null, empty, or whitespace", storedProcedureName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(storedProcedureName));
             }
 
             if (objectResultResolver == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => objectResultResolver);
+                throw new ArgumentNullException(nameof(objectResultResolver));
             }
 
             if (requiredParameters == null)
@@ -336,7 +356,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(sql))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(sql));
             }
 
             if (requiredParameters == null)
@@ -356,12 +376,12 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(sql))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(sql));
             }
 
             if (nonQueryCallback == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => nonQueryCallback);
+                throw new ArgumentNullException(nameof(nonQueryCallback));
             }
 
             if (requiredParameters == null)
@@ -381,43 +401,64 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(tableName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace", tableName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(tableName));
             }
 
             if (insertCallback == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => insertCallback);
+                throw new ArgumentNullException(nameof(insertCallback));
             }
 
             if (_insertQueryCallBacks.ContainsKey(tableName))
             {
-                throw new InvalidOperationException("The insert callback for sql \"" + tableName + "\" has already been setup.");
+                throw new InvalidOperationException("The insert callback for table \"" + tableName + "\" has already been setup.");
             }
 
             _insertQueryCallBacks.Add(tableName, insertCallback);
         }
-
+        
         public void SetupUpdateCallback(string tableName, Action insertCallback)
         {
             if (String.IsNullOrWhiteSpace(tableName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace", tableName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(tableName));
             }
 
             if (insertCallback == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => insertCallback);
+                throw new ArgumentNullException(nameof(insertCallback));
             }
 
             if (_updateQueryCallBacks.ContainsKey(tableName))
             {
-                throw new InvalidOperationException("The update callback for sql \"" + tableName + "\" has already been setup.");
+                throw new InvalidOperationException("The update callback for table \"" + tableName + "\" has already been setup.");
             }
 
             _updateQueryCallBacks.Add(tableName, insertCallback);
         }
 
+        public void SetupDeleteCallback(string tableName, Action insertCallback)
+        {
+            if (String.IsNullOrWhiteSpace(tableName))
+            {
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(tableName));
+            }
+
+            if (insertCallback == null)
+            {
+                throw new ArgumentNullException(nameof(insertCallback));
+            }
+
+            if (_deleteQueryCallBacks.ContainsKey(tableName))
+            {
+                throw new InvalidOperationException("The delete callback for table \"" + tableName + "\" has already been setup.");
+            }
+
+            _deleteQueryCallBacks.Add(tableName, insertCallback);
+        }
+
         #endregion
 
     }
+
 }
