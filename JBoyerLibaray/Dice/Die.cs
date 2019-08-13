@@ -29,15 +29,12 @@ namespace JBoyerLibaray.Dice
         {
             _sides = sides;
         }
-
+        
         #endregion
 
         #region Public Methods
 
-        public int Roll()
-        {
-            return _rand.Next(0, _sides) + 1;
-        }
+        public int Roll() => _rand.Next(0, _sides) + 1;
 
         #endregion
 
