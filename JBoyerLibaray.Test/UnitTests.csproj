@@ -156,6 +156,7 @@
     <Compile Include="Extensions\ObjectExtentionsTests.cs" />
     <Compile Include="FileSystem\FileResultHelperTests.cs" />
     <Compile Include="FileSystem\FileHelperTests.cs" />
+    <Compile Include="HelperClasses\TableRow.cs" />
     <Compile Include="HelperClasses\Person.cs" />
     <Compile Include="PasswordGenerator\PasswordGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -170,8 +171,14 @@
     <Compile Include="TimeProviderTests.cs" />
     <Compile Include="CultureInfoHelperTests.cs" />
     <Compile Include="PluralizeStringTests.cs" />
+    <Compile Include="UnitTests\Database\FakeCommandTests.cs" />
+    <Compile Include="UnitTests\Database\FakeParameterCollectionTests.cs" />
+    <Compile Include="UnitTests\Database\FakeTransactionTests.cs" />
+    <Compile Include="UnitTests\Database\NonQueryInfoTests.cs" />
     <Compile Include="UnitTests\Database\SqlInfoTests.cs" />
     <Compile Include="UnitTests\Database\FakeDatabaseTests.cs" />
+    <Compile Include="UnitTests\Database\StoredProcedureInfoTests.cs" />
+    <Compile Include="UnitTests\Database\TableInfoTests.cs" />
     <Compile Include="UnitTests\UTRandomTests.cs" />
     <Compile Include="Zzzzzz_TestCode.cs" />
   </ItemGroup>
