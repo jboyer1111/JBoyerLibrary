@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 namespace JBoyerLibaray.UnitTests.Database
 {
 
-    [ExcludeFromCodeCoverage]
     public class FakeDatabase
     {
 
@@ -28,61 +27,26 @@ namespace JBoyerLibaray.UnitTests.Database
 
         #region Public Varibles
 
-        public string[] Tables
-        {
-            get
-            {
-                return _tables.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] Tables => _tables.Keys.OrderBy(s => s).ToArray();
 
-        public string[] SqlScripts
-        {
-            get
-            {
-                return _sqlScripts.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] SqlScripts => _sqlScripts.Keys.OrderBy(s => s).ToArray();
 
-        public string[] StoredProcedures
-        {
-            get
-            {
-                return _storedProcedures.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] StoredProcedures => _storedProcedures.Keys.OrderBy(s => s).ToArray();
 
-        public string[] NonQuerySqlScripts
-        {
-            get
-            {
-                return _nonQuerySqlScripts.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] NonQuerySqlScripts => _nonQuerySqlScripts.Keys.OrderBy(s => s).ToArray();
 
-        public string[] InsertQueryCallbacks
-        {
-            get
-            {
-                return _insertQueryCallBacks.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] InsertQueryCallbacks => _insertQueryCallBacks.Keys.OrderBy(s => s).ToArray();
 
-        public string[] UpdateQueryCallbacks
-        {
-            get
-            {
-                return _updateQueryCallBacks.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] UpdateQueryCallbacks => _updateQueryCallBacks.Keys.OrderBy(s => s).ToArray();
 
-        public string[] DeleteQueryCallbacks
-        {
-            get
-            {
-                return _deleteQueryCallBacks.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] DeleteQueryCallbacks => _deleteQueryCallBacks.Keys.OrderBy(s => s).ToArray();
 
         #endregion
 
@@ -172,6 +136,12 @@ namespace JBoyerLibaray.UnitTests.Database
             }
         }
 
+        /// <summary>
+        /// Sets up results for a table. These tables are dependant on the Dapper Contrib logic or sql that matches Dapper Contrib sql.
+        /// </summary>
+        /// <typeparam name="T">The type of object to return for the table.</typeparam>
+        /// <param name="tableName">The name of the table to assign the results to.</param>
+        /// <param name="readerResults">The list of results to be assign to the table.</param>
         public void SetupTable<T>(string tableName, IEnumerable<T> readerResults) where T : class
         {
             if (String.IsNullOrWhiteSpace(tableName))
@@ -179,19 +149,27 @@ namespace JBoyerLibaray.UnitTests.Database
                 throw new ArgumentException("Cannot be null, empty, or whitespace.", nameof(tableName));
             }
 
-            if (readerResults == null)
-            {
-                readerResults = Enumerable.Empty<T>();
-            }
+            tableName = tableName.Trim();
 
             if (_tables.ContainsKey(tableName))
             {
                 throw new InvalidOperationException("The table \"" + tableName + "\" has already been setup.");
             }
 
+            if (readerResults == null)
+            {
+                readerResults = Enumerable.Empty<T>();
+            }
+            
             _tables.Add(tableName, new TableInfo<T>(readerResults));
         }
 
+        /// <summary>
+        /// Sets up results for a table. These tables are dependant on the Dapper Contrib logic or sql that matches Dapper Contrib sql.
+        /// </summary>
+        /// <typeparam name="T">The type of object to return for the table.</typeparam>
+        /// <param name="tableName">The name of the table to assign the resolver to.</param>
+        /// <param name="tableResultResolver">Called when retrieving the results for the table.</param>
         public void SetupTable<T>(string tableName, Func<IEnumerable<T>> tableResultResolver) where T : class
         {
             if (String.IsNullOrWhiteSpace(tableName))
@@ -199,16 +177,18 @@ namespace JBoyerLibaray.UnitTests.Database
                 throw new ArgumentException("Cannot be null, empty, or whitespace.", nameof(tableName));
             }
 
-            if (tableResultResolver == null)
-            {
-                tableResultResolver = () => Enumerable.Empty<T>();
-            }
+            tableName = tableName.Trim();
 
             if (_tables.ContainsKey(tableName))
             {
                 throw new InvalidOperationException("The table \"" + tableName + "\" has already been setup.");
             }
 
+            if (tableResultResolver == null)
+            {
+                tableResultResolver = () => Enumerable.Empty<T>();
+            }
+            
             _tables.Add(tableName, new TableInfo<T>(tableResultResolver));
         }
 

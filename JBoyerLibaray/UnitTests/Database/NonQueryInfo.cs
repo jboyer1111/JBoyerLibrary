@@ -1,39 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
-    [ExcludeFromCodeCoverage]
-    public class NonQueryInfo
+
+    internal class NonQueryInfo
     {
 
         #region Private Variables
 
         private Action<FakeDatabase, IDataParameterCollection> _nonQueryCallback;
-        private IEnumerable<string> _requiredParameters;
+        private IEnumerable<string> _expectedParameters;
 
         #endregion
 
         #region Constructor
 
-        public NonQueryInfo(IEnumerable<string> requiredParameters) : this((d, p) => { }, requiredParameters) { }
+        public NonQueryInfo(IEnumerable<string> expectedParameters) : this((d, p) => { }, expectedParameters) { }
 
-        public NonQueryInfo(Action<FakeDatabase, IDataParameterCollection> nonQueryCallback, IEnumerable<string> requiredParameters)
+        public NonQueryInfo(Action<FakeDatabase, IDataParameterCollection> nonQueryCallback, IEnumerable<string> expectedParameters)
         {
             if (nonQueryCallback == null)
             {
                 throw new ArgumentNullException(nameof(nonQueryCallback));
             }
 
-            if (requiredParameters == null)
+            if (expectedParameters == null)
             {
-                throw new ArgumentNullException(nameof(requiredParameters));
+                throw new ArgumentNullException(nameof(expectedParameters));
             }
 
             _nonQueryCallback = nonQueryCallback;
-            _requiredParameters = requiredParameters;
+            _expectedParameters = expectedParameters;
         }
 
         #endregion
@@ -42,16 +42,31 @@ namespace JBoyerLibaray.UnitTests.Database
 
         public void DoCallback(FakeDatabase fakeDatabase, IDataParameterCollection passedParams)
         {
-            foreach (var param in _requiredParameters)
-            {
-                var paramater = passedParams[param];
-                if (paramater == null)
-                {
-                    throw new InvalidOperationException("Sql is missing a required Parameter with the name \"" + param + "\"");
-                }
-            }
+            validationParameters(passedParams);
 
             _nonQueryCallback(fakeDatabase, passedParams);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void validationParameters(IDataParameterCollection passedParams)
+        {
+            var missingParam = _expectedParameters.FirstOrDefault(p => !passedParams.Contains(p));
+            if (!String.IsNullOrWhiteSpace(missingParam))
+            {
+                throw new InvalidOperationException($"Non query is missing a required Parameter with the name \"{missingParam}\".");
+            }
+
+            var extraParam = passedParams
+                .Cast<IDataParameter>()
+                .FirstOrDefault(p => !_expectedParameters.Contains(p.ParameterName, StringComparer.CurrentCultureIgnoreCase));
+
+            if (extraParam != null)
+            {
+                throw new InvalidOperationException($"Non query was passed an extra Parameter with the name \"{extraParam.ParameterName}\".");
+            }
         }
 
         #endregion

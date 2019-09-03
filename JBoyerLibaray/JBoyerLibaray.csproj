@@ -167,10 +167,11 @@
     <Compile Include="UnitTests\Database\StoredProcedureInfoT.cs" />
     <Compile Include="UnitTests\Database\TableInfo.cs" />
     <Compile Include="UnitTests\Database\TableInfoT.cs" />
+    <Compile Include="UnitTests\DataReader\DynamicProperties.cs" />
+    <Compile Include="UnitTests\DataReader\EnumerableDataReader.cs" />
+    <Compile Include="UnitTests\DataReader\ObjectDataReader.cs" />
     <Compile Include="UnitTests\ExpectedExceptionWithMessageAttribute.cs" />
     <Compile Include="UnitTests\IUnitTestDisposable.cs" />
-    <Compile Include="UnitTests\Database\DynamicProperties.cs" />
-    <Compile Include="UnitTests\Database\EnumerableDataReader.cs" />
     <Compile Include="UnitTests\Database\FakeCommand.cs" />
     <Compile Include="UnitTests\Database\FakeConnection.cs" />
     <Compile Include="UnitTests\Database\FakeParameter.cs" />
@@ -184,7 +185,6 @@
     <Compile Include="UnitTests\ControllerHelpers\FakeIdentity.cs" />
     <Compile Include="UnitTests\ControllerHelpers\FakeUser.cs" />
     <Compile Include="UnitTests\Database\FakeTrasaction.cs" />
-    <Compile Include="UnitTests\Database\ObjectDataReader.cs" />
     <Compile Include="UnitTests\ReturnsQueue.cs" />
     <Compile Include="UnitTests\UTRandom.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />

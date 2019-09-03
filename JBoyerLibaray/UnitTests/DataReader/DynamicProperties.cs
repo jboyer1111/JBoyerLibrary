@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace JBoyerLibaray.UnitTests
+namespace JBoyerLibaray.UnitTests.DataReader
 {
 
     [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ namespace JBoyerLibaray.UnitTests
             {
                 returnValue.Add(new Property(prop));
             }
+
             return returnValue;
         }
-
 
         public static IList<Property> CreatePropertyMethods<T>()
         {
@@ -39,6 +39,7 @@ namespace JBoyerLibaray.UnitTests
             {
                 returnValue.Add(new Property(prop));
             }
+
             return returnValue;
         }
 

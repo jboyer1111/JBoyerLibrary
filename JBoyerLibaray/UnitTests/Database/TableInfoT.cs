@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
 
-    [ExcludeFromCodeCoverage]
-    public class TableInfo<T> : TableInfo where T : class
+    internal class TableInfo<T> : TableInfo where T : class
     {
-        #region Constructor
 
         public TableInfo(IEnumerable<T> results)
         {
@@ -17,7 +14,7 @@ namespace JBoyerLibaray.UnitTests.Database
                 throw new ArgumentNullException(nameof(results));
             }
 
-            _results = results;
+            _results = () => results;
         }
 
         public TableInfo(Func<IEnumerable<T>> tableResultResolver)
@@ -26,11 +23,10 @@ namespace JBoyerLibaray.UnitTests.Database
             {
                 throw new ArgumentNullException(nameof(tableResultResolver));
             }
-            
-            _tableResultResolver = tableResultResolver;
+
+            _results = tableResultResolver;
         }
 
-        #endregion
     }
 
 }

@@ -1,63 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
-    [ExcludeFromCodeCoverage]
-    public class SqlInfo<T> : SqlInfo where T : class
+
+    internal class SqlInfo<T> : SqlInfo where T : class
     {
 
-        #region Constructor
-
-        public SqlInfo(T result, IEnumerable<string> requiredParameters)
+        public SqlInfo(T result, IEnumerable<string> expectedParameters)
         {
-            if (requiredParameters == null)
+            if (result == null)
             {
-                throw new ArgumentNullException(nameof(requiredParameters));
+                throw new ArgumentNullException(nameof(result));
+            }
+			
+			if (expectedParameters == null)
+            {
+                throw new ArgumentNullException(nameof(expectedParameters));
             }
 
-            _results = new List<T>() { result };
-            _requiredParameters = requiredParameters;
+            _results = (d, p) => new List<T>() { result };
+            _expectedParameters = expectedParameters;
         }
 
-        public SqlInfo(IEnumerable<T> results, IEnumerable<string> requiredParameters)
+        public SqlInfo(IEnumerable<T> results, IEnumerable<string> expectedParameters)
         {
             if (results == null)
             {
                 throw new ArgumentNullException(nameof(results));
             }
 
-            if (requiredParameters == null)
+            if (expectedParameters == null)
             {
-                throw new ArgumentNullException(nameof(requiredParameters));
+                throw new ArgumentNullException(nameof(expectedParameters));
             }
 
-            _results = results;
-            _requiredParameters = requiredParameters;
+            _results = (d, p) => results;
+            _expectedParameters = expectedParameters;
         }
-
-        public SqlInfo(Func<FakeDatabase, IDataParameterCollection, IEnumerable<T>> objectResultResolver, IEnumerable<string> requiredParameters)
+        public SqlInfo(Func<FakeDatabase, IDataParameterCollection, IEnumerable<T>> sqlResultResolver, IEnumerable<string> expectedParameters)
         {
-            if (objectResultResolver == null)
+            if (sqlResultResolver == null)
             {
-                throw new ArgumentNullException(nameof(objectResultResolver));
+                throw new ArgumentNullException(nameof(sqlResultResolver));
             }
 
-            if (requiredParameters == null)
+            if (expectedParameters == null)
             {
-                throw new ArgumentNullException(nameof(requiredParameters));
+                throw new ArgumentNullException(nameof(expectedParameters));
             }
 
-            _objectResultResolver = objectResultResolver;
-            _requiredParameters = requiredParameters;
+            _results = sqlResultResolver;
+            _expectedParameters = expectedParameters;
         }
-
-        #endregion
 
     }
+
 }

@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
 
-    [ExcludeFromCodeCoverage]
+
     public class FakeCommand : IDbCommand
     {
 
@@ -24,61 +20,84 @@ namespace JBoyerLibaray.UnitTests.Database
 
         #region Public Properties
 
+        [ExcludeFromCodeCoverage]
         public string CommandText { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public int CommandTimeout { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public CommandType CommandType { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public IDbConnection Connection { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public IDbTransaction Transaction { get; set; }
 
+        [ExcludeFromCodeCoverage]
         public UpdateRowSource UpdatedRowSource { get; set; }
 
-        public IDataParameterCollection Parameters
-        {
-            get { return _parameters; }
-        }
+        [ExcludeFromCodeCoverage]
+        public IDataParameterCollection Parameters => _parameters;
 
         #endregion
 
         #region Constructor
 
-        public FakeCommand(IDbConnection connection, FakeDatabase fakeDatabase)
+        /// <summary>
+        /// Initializes a new instance of the UnitTests.Common.Database.FakeCommand class with the passed data.
+        /// </summary>
+        /// <param name="fakeDatabase">The data that this command will execute against.</param>
+        public FakeCommand(FakeDatabase fakeDatabase) : this (fakeDatabase, null) { }
+
+        /// <summary>
+        /// Initializes a new instance of the UnitTests.Common.Database.FakeCommand class with passed data and connection.
+        /// </summary>
+        /// <param name="fakeDatabase">The data that this command will execute against.</param>
+        /// <param name="connection">The connection that this command is connected to.</param>
+        public FakeCommand(FakeDatabase fakeDatabase, IDbConnection connection)
         {
+            if (fakeDatabase == null)
+            {
+                throw new ArgumentNullException(nameof(fakeDatabase));
+            }
+            
+            _fakeDatabase = fakeDatabase;
+
             Connection = connection;
             _parameters = new FakeParameterCollection();
-            _fakeDatabase = fakeDatabase;
         }
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Executes a Transact-SQL statement against the FakeDatabase. Excutes an event.
+        /// </summary>
+        /// <returns>Always returns zero.</returns>
         public int ExecuteNonQuery()
         {
-            var updateRecord = new Regex(@"^update (\S+) set (\S[\S\s]+) where (\S+) = @id$", RegexOptions.IgnoreCase);
-            var deleteRecord = new Regex(@"^delete from (\S+) where (\S+) = @id$", RegexOptions.IgnoreCase);
+            var updateRecordRegex = new Regex(@"^update (\S+) set (\S[\S\s]+) where (\S+) = @id$", RegexOptions.IgnoreCase);
+            var deleteRecordRegex = new Regex(@"^delete from (\S+) where (\S+) = @id$", RegexOptions.IgnoreCase);
 
-            if (updateRecord.IsMatch(CommandText))
+            if (updateRecordRegex.IsMatch(CommandText))
             {
-                var match = updateRecord.Match(CommandText);
+                var match = updateRecordRegex.Match(CommandText);
 
                 var tableName = match.Groups[1].Value;
 
                 _fakeDatabase.CallUpdateCallback(tableName);
-
                 return 0;
             }
-            else if (deleteRecord.IsMatch(CommandText))
+            else if (deleteRecordRegex.IsMatch(CommandText))
             {
-                var match = deleteRecord.Match(CommandText);
+                var match = deleteRecordRegex.Match(CommandText);
 
                 var tableName = match.Groups[1].Value;
 
                 _fakeDatabase.CallDeleteCallback(tableName);
-
                 return 0;
             }
 
@@ -175,6 +194,7 @@ namespace JBoyerLibaray.UnitTests.Database
             return ExecuteReader();
         }
 
+        [ExcludeFromCodeCoverage] // Cancel does nothing so no need for code coverage.
         public void Cancel()
         {
             // Do nothing
