@@ -3,56 +3,56 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics.CodeAnalysis;
+using JBoyerLibaray.Exceptions;
 
 namespace JBoyerLibaray.UnitTests
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class UnitTestableRandomTests
+
+    [TestClass, ExcludeFromCodeCoverage]
+    public class UTRandomTests
     {
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void UnitTestableRandom_ConstructorThrowsArugumentNullExceptionWhenIntArrayIsNull()
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        public void UTRandom_Constructor_ThrowsArugumentNullExceptionWhenIntArrayIsNull()
         {
             // Arrange
             int[] numbers = null;
 
             // Act
-            new UnitTestableRandom(numbers);
+            new UTRandom(numbers);
 
             // Assert
         }
 
-        [TestMethod]
-        public void UnitTestableRandom_ConstructorNoArgs()
+        [TestMethod, ExpectedExceptionWithMessage(typeof(ArgumentException), "You need to have at least one number.\r\nParameter name: numbers")]
+        public void UTRandom_Constructor_NoArgs()
         {
             // Arrange
 
             // Act
-            new UnitTestableRandom();
+            new UTRandom();
 
             // Assert
         }
 
         [TestMethod]
-        public void UnitTestableRandom_ConstructorIntArgs()
+        public void UTRandom_Constructor_IntArgs()
         {
             // Arrange
 
             // Act
-            new UnitTestableRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            new UTRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
             // Assert
         }
 
         [TestMethod]
-        public void UnitTestableRandom_NextReturnsNextNumber()
+        public void UTRandom_Next_ReturnsNextNumber()
         {
             // Arrange
             var expected = new int[] { 1, 2, 3, 4 };
             var result = new List<int>();
-            var rand = new UnitTestableRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            var rand = new UTRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
             // Act
             for (int i = 0; i < 4; i++)
@@ -65,12 +65,12 @@ namespace JBoyerLibaray.UnitTests
         }
 
         [TestMethod]
-        public void UnitTestableRandom_NextReturnsNextNumberStartBackAtBeginingOfListWhenReachesEnd()
+        public void UTRandom_Next_ReturnsNextNumberStartBackAtBeginingOfListWhenReachesEnd()
         {
             // Arrange
             var expected = new int[] { 1, 2, 3, 1, 2, 3 };
             var result = new List<int>();
-            var rand = new UnitTestableRandom(1, 2, 3);
+            var rand = new UTRandom(1, 2, 3);
 
             // Act
             for (int i = 0; i < 6; i++)
@@ -83,12 +83,12 @@ namespace JBoyerLibaray.UnitTests
         }
 
         [TestMethod]
-        public void UnitTestableRandom_NextMaxValueOnlyReturnsValidNumbers()
+        public void UTRandom_Next_MaxValue_OnlyReturnsValidNumbers()
         {
             // Arrange
             var expected = new int[] { 1, 1, 1, 1 };
             var result = new List<int>();
-            var rand = new UnitTestableRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            var rand = new UTRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
             // Act
             for (int i = 0; i < 4; i++)
@@ -100,13 +100,25 @@ namespace JBoyerLibaray.UnitTests
             Assert.IsTrue(expected.SequenceEqual(result));
         }
 
+        [TestMethod, ExpectedExceptionWithMessage(typeof(ArgumentInvalidException), "List of numbers do not have value less than the max value.\r\nParameter name: maxValue\r\nActual value was 6.")]
+        public void UTRandom_Next_MaxValue_ThrowsErrorIfMaxNumberCanNotBeSupplied()
+        {
+            // Arrange
+            var rand = new UTRandom(10, 20, 30);
+
+            // Act
+            rand.Next(6);
+
+            // Assert
+        }
+
         [TestMethod]
-        public void UnitTestableRandom_NextMinMaxValueOnlyReturnsValidNumbers()
+        public void UTRandom_Next_MinValue_MaxValue_OnlyReturnsValidNumbers()
         {
             // Arrange
             var expected = new int[] { 3, 4, 5, 3 };
             var result = new List<int>();
-            var rand = new UnitTestableRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            var rand = new UTRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
             // Act
             for (int i = 0; i < 4; i++)
@@ -118,13 +130,37 @@ namespace JBoyerLibaray.UnitTests
             Assert.IsTrue(expected.SequenceEqual(result));
         }
 
+        [TestMethod, ExpectedExceptionWithMessage(typeof(ArgumentInvalidException), "List of numbers do not have a valid value with passed parameters.")]
+        public void UTRandom_Next_MinValue_MaxValue_ThrowsErrorIfMaxNumberCanNotBeSupplied()
+        {
+            // Arrange
+            var rand = new UTRandom(10, 20, 30);
+
+            // Act
+            rand.Next(1, 6);
+
+            // Assert
+        }
+
+        [TestMethod, ExpectedExceptionWithMessage(typeof(ArgumentInvalidException), "List of numbers do not have a valid value with passed parameters.")]
+        public void UTRandom_Next_MinValue_MaxValue_ThrowsErrorIfMinNumberCanNotBeSupplied()
+        {
+            // Arrange
+            var rand = new UTRandom(1, 2, 3, 4, 10, 11, 12);
+
+            // Act
+            rand.Next(5, 10);
+
+            // Assert
+        }
+
         [TestMethod]
-        public void UnitTestableRandom_NextBytesFillsByteArray()
+        public void UTRandom_NextBytes_FillsByteArray()
         {
             // Arrange
             var expected = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             var result = new byte[10];
-            var rand = new UnitTestableRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            var rand = new UTRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
             // Act
             rand.NextBytes(result);
@@ -133,14 +169,13 @@ namespace JBoyerLibaray.UnitTests
             Assert.IsTrue(expected.SequenceEqual(result));
         }
 
-
         [TestMethod]
-        public void UnitTestableRandom_NextBytesFillsByteArrayTwo()
+        public void UTRandom_NextBytes_FillsByteArrayTwo()
         {
             // Arrange
             var expected = new byte[] { 4, 5, 6, 7, 8, 9, 10, 1, 2, 3 };
             var result = new byte[10];
-            var rand = new UnitTestableRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            var rand = new UTRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
             // Get Three numbers
             rand.Next();
@@ -155,12 +190,12 @@ namespace JBoyerLibaray.UnitTests
         }
 
         [TestMethod]
-        public void UnitTestableRandom_NextDouble()
+        public void UTRandom_NextDouble_ReturnsNumbersAsDoubles()
         {
             // Arrange
             var expected = new double[] { 1, 2, 3, 4 };
             var result = new List<double>();
-            var rand = new UnitTestableRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+            var rand = new UTRandom(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
             // Act
             for (int i = 0; i < 4; i++)
@@ -173,12 +208,12 @@ namespace JBoyerLibaray.UnitTests
         }
 
         [TestMethod]
-        public void UnitTestableRandom_NextDoubleReturnsNextNumberStartBackAtBeginingOfListWhenReachesEnd()
+        public void UTRandom_NextDouble_ReturnsNextNumberStartBackAtBeginingOfListWhenReachesEnd()
         {
             // Arrange
             var expected = new double[] { 1, 2, 3, 1, 2, 3 };
             var result = new List<double>();
-            var rand = new UnitTestableRandom(1, 2, 3);
+            var rand = new UTRandom(1, 2, 3);
 
             // Act
             for (int i = 0; i < 6; i++)
@@ -189,5 +224,7 @@ namespace JBoyerLibaray.UnitTests
             // Assert
             Assert.IsTrue(expected.SequenceEqual(result));
         }
+
     }
+
 }

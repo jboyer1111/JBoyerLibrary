@@ -6,9 +6,11 @@ using System.Web;
 
 namespace JBoyerLibaray.UnitTests
 {
+
     [ExcludeFromCodeCoverage]
     public class FakeHttpResponse : HttpResponseBase
     {
+
         private HttpCookieCollection _cookieCollection = new HttpCookieCollection();
         private int _statusCode = (int)HttpStatusCode.OK;
         private bool _trySkipIISCutomErrors = false;
@@ -55,5 +57,7 @@ namespace JBoyerLibaray.UnitTests
                 return _cookieCollection;
             }
         }
+
     }
+
 }

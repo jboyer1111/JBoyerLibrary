@@ -1,14 +1,19 @@
 ﻿using JBoyerLibaray.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JBoyerLibaray.DnDDiceRoller
 {
+
     public class DnDFormulaCalc
     {
+
+        #region Private Variables
+
         private Random _rand;
         private int _numberOfDice;
         private int _numberOfSides;
@@ -19,10 +24,36 @@ namespace JBoyerLibaray.DnDDiceRoller
         private int? _maxNumber;
 
         private int _statsCalcedValue;
-        private int _perRollAddSub;
+        private int _rollModifier;
         private List<int> _rolls;
 
-        public DnDFormulaCalc(Random rand, int numberOfDice, int numberOfSides, int perRollAddSub, TopBottom topBottom, int? topBottomNumber,  int? minNumber, int? maxNumber)
+        #endregion
+
+        #region Public Properties
+
+        [ExcludeFromCodeCoverage]
+        public int NumberOfDice => _numberOfDice;
+
+        [ExcludeFromCodeCoverage]
+        public int NumberOfSides => _numberOfSides;
+
+        [ExcludeFromCodeCoverage]
+        public int RollModifier => _rollModifier;
+
+        [ExcludeFromCodeCoverage]
+        public int? MinNumber => _minNumber;
+
+        [ExcludeFromCodeCoverage]
+        public int? MaxNumber => _maxNumber;
+
+        [ExcludeFromCodeCoverage]
+        public string SubSet => _topBottom != TopBottom.None ? $"{_topBottom} {_topBottomNumber.Value}" : null;
+        
+        #endregion
+
+        #region Constructor
+
+        internal DnDFormulaCalc(Random rand, int numberOfDice, int numberOfSides, int perRollAddSub, TopBottom topBottom, int? topBottomNumber,  int? minNumber, int? maxNumber)
         {
             // "Null" Checks
             if (rand == null)
@@ -37,28 +68,28 @@ namespace JBoyerLibaray.DnDDiceRoller
 
             if (numberOfSides < 2)
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => numberOfSides, "A die needs at least two sides", numberOfSides);
+                throw ExceptionHelper.CreateArgumentInvalidException(() => numberOfSides, "A die needs at least two sides.", numberOfSides);
             }
 
             // Valid Enum Check
             if (!Enum.IsDefined(typeof(TopBottom), topBottom))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => topBottom, "An invalid Enum value has been passed", topBottom);
+                throw ExceptionHelper.CreateArgumentInvalidException(() => topBottom, "An invalid Enum value has been passed.", topBottom);
             }
 
             // Top Bottom Number validation
-            if (topBottom != TopBottom.Not)
+            if (topBottom != TopBottom.None)
             {
                 if (!topBottomNumber.HasValue)
                 {
-                    throw ExceptionHelper.CreateArgumentNullException(() => topBottomNumber, "Top-Bottom number cannot be null when you specify to take the top or bottom amount of numbers");
+                    throw ExceptionHelper.CreateArgumentNullException(() => topBottomNumber, "Top-Bottom number cannot be null when you specify to take the top or bottom amount of numbers.");
                 }
 
                 if (topBottomNumber.Value > numberOfDice)
                 {
                     throw ExceptionHelper.CreateArgumentInvalidException(
                         () => topBottomNumber,
-                        String.Format("Cannot take {0} {1} rolls only have {2} dice", topBottom == TopBottom.Top ? "Top" : "Bottom", topBottomNumber, numberOfDice),
+                        String.Format("Cannot take {0} {1} rolls only have {2} dice.", topBottom == TopBottom.Top ? "Top" : "Bottom", topBottomNumber, numberOfDice),
                         topBottomNumber
                     );
                 }
@@ -69,7 +100,7 @@ namespace JBoyerLibaray.DnDDiceRoller
                 {
                     throw ExceptionHelper.CreateArgumentInvalidException(
                         () => topBottomNumber,
-                        String.Format("Have a top bottom number but does not specify if is the top {0} rolls or bottom {0} rolls", topBottomNumber),
+                        String.Format("Have a top bottom number but does not specify if is the top {0} rolls or bottom {0} rolls.", topBottomNumber),
                         topBottomNumber
                     );
                 }
@@ -80,7 +111,7 @@ namespace JBoyerLibaray.DnDDiceRoller
             {
                 if (minNumber.Value > numberOfSides)
                 {
-                    throw ExceptionHelper.CreateArgumentInvalidException(() => minNumber, "Min number is greater than number of sides", minNumber);
+                    throw ExceptionHelper.CreateArgumentInvalidException(() => minNumber, "Min number is greater than number of sides.", minNumber);
                 }
             }
 
@@ -89,14 +120,14 @@ namespace JBoyerLibaray.DnDDiceRoller
             {
                 if (maxNumber.Value > numberOfSides)
                 {
-                    throw ExceptionHelper.CreateArgumentInvalidException(() => maxNumber, "Max number is greater than number of sides", maxNumber);
+                    throw ExceptionHelper.CreateArgumentInvalidException(() => maxNumber, "Max number is greater than number of sides.", maxNumber);
                 }
 
                 if (minNumber.HasValue)
                 {
                     if (minNumber.Value > maxNumber.Value)
                     {
-                        throw ExceptionHelper.CreateArgumentInvalidException(() => minNumber, "Min number is greater than max numbe", minNumber);
+                        throw ExceptionHelper.CreateArgumentInvalidException(() => minNumber, "Min number is greater than max number.", minNumber);
                     }
                 }
             }
@@ -120,15 +151,21 @@ namespace JBoyerLibaray.DnDDiceRoller
             _maxNumber = maxNumber;
 
             // Per roll add subtract
-            _perRollAddSub = perRollAddSub;
+            _rollModifier = perRollAddSub;
 
         }
+
+        #endregion
+
+        #region Public Methods
 
         public int Calc()
         {
             _rolls.Clear();
+
             int currentMinNumber = 1;
             int currentMaxNumber = _numberOfSides;
+
             // Setup Min. Number
             if (_minNumber.HasValue && _minNumber.Value > currentMinNumber)
             {
@@ -144,14 +181,20 @@ namespace JBoyerLibaray.DnDDiceRoller
             // Roll dice
             for (int i = 0; i < _numberOfDice; i++)
             {
-                _rolls.Add(_rand.Next(currentMinNumber, currentMaxNumber + 1) + _perRollAddSub);
+                _rolls.Add(_rand.Next(currentMinNumber, currentMaxNumber + 1) + _rollModifier);
             }
 
             // Calculate Top Bottom Sum
             int result;
-            if (_topBottom != TopBottom.Not)
+            if (_topBottom != TopBottom.None)
             {
-                _rolls = _topBottom == TopBottom.Top ? _rolls.OrderByDescending(i => i).ToList() : _rolls.OrderBy(i => i).ToList();
+                _rolls.Sort();
+                
+                if (_topBottom == TopBottom.Top)
+                {
+                    _rolls.Reverse();
+                }
+                
                 result = _rolls.Take(_topBottomNumber.Value).Sum();
             }
             else
@@ -164,7 +207,6 @@ namespace JBoyerLibaray.DnDDiceRoller
             return result;
         }
 
-
         public string Stats(bool partOfList)
         {
             if (_rolls.Count < 1)
@@ -172,53 +214,22 @@ namespace JBoyerLibaray.DnDDiceRoller
                 return null;
             }
 
-            StringBuilder sb = new StringBuilder();
-            if (partOfList)
-            {
-                if (_rolls.Count > 1)
-                {
-                    sb.AppendFormat("{0}:(", _statsCalcedValue);
-                }
-                else
-                {
-                    sb.Append("(");
-                }
-            }
-            else
-            {
-                sb.AppendFormat("{0}: ", _statsCalcedValue);
-            }
+            // New way
+            var top = _topBottom != TopBottom.None ? _topBottomNumber.Value : _rolls.Count;
+            var taken = _rolls.Take(top).ToArray();
+            var skiped = _rolls.Skip(top).ToArray();
 
-            int top = _topBottom != TopBottom.Not ? _topBottomNumber.Value : _rolls.Count;
-
-            for (int i = 0; i < top; i++)
+            string list = String.Join(", ", taken);
+            if (skiped.Length > 0)
             {
-                if (i > 0)
-                {
-                    sb.Append(", ");
-                }
-                sb.Append(_rolls[i]);
+                list += $", [{String.Join(", ", skiped)}]";
             }
-
-            if (top < _rolls.Count)
-            {
-                sb.Append(", [");
-                while (top < _rolls.Count)
-                {
-                    sb.Append(_rolls[top++]);
-                    if (top < _rolls.Count)
-                    {
-                        sb.Append(", ");
-                    }
-                }
-                sb.Append("]");
-            }
-            if (partOfList)
-            {
-                sb.Append(")");
-            }
-
-            return sb.ToString();
+            
+            return (!partOfList || _rolls.Count > 1 ? $"{_statsCalcedValue}: " : "") + (partOfList ? $"({list})" : list);
         }
+
+        #endregion
+
     }
+
 }

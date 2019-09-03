@@ -8,15 +8,29 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests
 {
+
     [ExcludeFromCodeCoverage]
     public class FakeIdentity : IIdentity
     {
-        #region Private Region
+
+        #region Private Variables
 
         private string _name;
         private bool _isAuthenticated;
 
         #endregion
+
+        #region Public Properties
+
+        public string AuthenticationType => "ApplicationCookie";
+
+        public bool IsAuthenticated => _isAuthenticated;
+
+        public string Name => _name;
+
+        #endregion
+
+        #region Constructor
 
         internal FakeIdentity()
         {
@@ -30,28 +44,8 @@ namespace JBoyerLibaray.UnitTests
             _isAuthenticated = !String.IsNullOrWhiteSpace(name);
         }
 
-        public string AuthenticationType
-        {
-            get
-            {
-                return "ApplicationCookie";
-            }
-        }
+        #endregion
 
-        public bool IsAuthenticated
-        {
-            get
-            {
-                return _isAuthenticated;
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-        }
     }
+
 }

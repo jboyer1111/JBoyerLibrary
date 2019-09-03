@@ -45,6 +45,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\TestSite\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -121,7 +122,6 @@
     <Compile Include="Extensions\CharExtentions.cs" />
     <Compile Include="Extensions\HelperExtentions.cs" />
     <Compile Include="Extensions\ObjectExtentions.cs" />
-    <Compile Include="FileSystem\NetworkConnection.cs" />
     <Compile Include="JBoyerRandom.cs" />
     <Compile Include="JBoyerRandomMode.cs" />
     <Compile Include="PluralizeString.cs" />
@@ -167,6 +167,7 @@
     <Compile Include="UnitTests\Database\StoredProcedureInfoT.cs" />
     <Compile Include="UnitTests\Database\TableInfo.cs" />
     <Compile Include="UnitTests\Database\TableInfoT.cs" />
+    <Compile Include="UnitTests\ExpectedExceptionWithMessageAttribute.cs" />
     <Compile Include="UnitTests\IUnitTestDisposable.cs" />
     <Compile Include="UnitTests\Database\DynamicProperties.cs" />
     <Compile Include="UnitTests\Database\EnumerableDataReader.cs" />
@@ -185,7 +186,7 @@
     <Compile Include="UnitTests\Database\FakeTrasaction.cs" />
     <Compile Include="UnitTests\Database\ObjectDataReader.cs" />
     <Compile Include="UnitTests\ReturnsQueue.cs" />
-    <Compile Include="UnitTests\UnitTestableRandom.cs" />
+    <Compile Include="UnitTests\UTRandom.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />
     <Compile Include="UnitTests\UnitTestStream.cs" />
     <Compile Include="Web\PageCache.cs" />

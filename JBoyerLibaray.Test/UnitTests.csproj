@@ -143,6 +143,7 @@
     <Compile Include="DeckOfCards\DeckEquatorTests.cs" />
     <Compile Include="DeckOfCards\CardComparerTests.cs" />
     <Compile Include="Dice\DieTests.cs" />
+    <Compile Include="DnDDiceRoller\DnDFormulaCalcTests.cs" />
     <Compile Include="Exceptions\ArgumentInvalidExceptionTests.cs" />
     <Compile Include="Exceptions\CouldNotConvertToNumberTests.cs" />
     <Compile Include="Exceptions\ExceptionHelperTests.cs" />
@@ -171,7 +172,7 @@
     <Compile Include="PluralizeStringTests.cs" />
     <Compile Include="UnitTests\Database\SqlInfoTests.cs" />
     <Compile Include="UnitTests\Database\FakeDatabaseTests.cs" />
-    <Compile Include="UnitTests\UnitTestableRandomTests.cs" />
+    <Compile Include="UnitTests\UTRandomTests.cs" />
     <Compile Include="Zzzzzz_TestCode.cs" />
   </ItemGroup>
   <ItemGroup>
