@@ -1,13 +1,27 @@
 using JBoyerLibaray.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace JBoyerLibaray.DeckOfCards
 {
+
+    interface ICard
+    {
+
+        string Rank { get; }
+
+        void SetAceIsHighSetting(bool value);
+
+        string Suit { get; }
+
+        int Value { get; }
+
+    }
+
     public class Card : ICard, IEquatable<Card>
     {
+
         #region Private Variables
 
         private string _suit;
@@ -18,21 +32,9 @@ namespace JBoyerLibaray.DeckOfCards
 
         #region Public Properites
 
-        public string Rank
-        {
-            get
-            {
-                return _rank;
-            }
-        }
+        public string Rank => _rank;
 
-        public string Suit
-        {
-            get
-            {
-                return _suit;
-            }
-        }
+        public string Suit => _suit;
 
         public int Value
         {
@@ -154,20 +156,11 @@ namespace JBoyerLibaray.DeckOfCards
             }
         }
 
-        public static bool Equals(Card card1, Card card2)
-        {
-            return card1 == card2;
-        }
+        public static bool Equals(Card card1, Card card2) => card1 == card2;
 
-        public static bool operator ==(Card card1, Card card2)
-        {
-            return object.Equals(card1, card2);
-        }
+        public static bool operator ==(Card card1, Card card2) => object.Equals(card1, card2);
 
-        public static bool operator !=(Card card1, Card card2)
-        {
-            return !object.Equals(card1, card2);
-        }
+        public static bool operator !=(Card card1, Card card2) => !object.Equals(card1, card2);
 
         #endregion
 
@@ -212,10 +205,8 @@ namespace JBoyerLibaray.DeckOfCards
 
         #endregion
 
-        public override string ToString()
-        {
-            return String.Format("{0} of {1}", Rank, Suit);
-        }
-
+        public override string ToString() => String.Format("{0} of {1}", Rank, Suit);
+        
     }
+
 }

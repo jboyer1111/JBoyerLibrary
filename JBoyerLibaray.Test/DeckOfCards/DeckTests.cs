@@ -1,15 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using JBoyerLibaray.HelperClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using JBoyerLibaray.HelperClasses;
+using System.Linq;
 
 namespace JBoyerLibaray.DeckOfCards
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class DeckTests : DeckStrings
     {
 
@@ -720,8 +720,7 @@ namespace JBoyerLibaray.DeckOfCards
         }
 
         #endregion
-
-
+        
         [TestMethod]
         public void Deck_GetEnumerator()
         {
@@ -734,5 +733,7 @@ namespace JBoyerLibaray.DeckOfCards
             // Assert
             Assert.IsNotNull(result);
         }
+
     }
+
 }

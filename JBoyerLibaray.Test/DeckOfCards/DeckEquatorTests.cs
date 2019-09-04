@@ -1,13 +1,14 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.DeckOfCards
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
-    public class DifferentOrderEquatorTests
+
+    [TestClass, ExcludeFromCodeCoverage]
+    public class DeckEquatorTests
     {
+
+        #region Different Order
 
         [TestMethod]
         public void DifferentOrderEquator_Equal_ReturnsTrue()
@@ -72,5 +73,9 @@ namespace JBoyerLibaray.DeckOfCards
             // Assert
             Assert.AreNotEqual(deckEquator.GetHashCode(deck1), deckEquator.GetHashCode(deck2));
         }
+
+        #endregion
+
     }
+
 }

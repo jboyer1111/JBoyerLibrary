@@ -1,23 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 
 namespace JBoyerLibaray.UnitTests
 {
+
     [ExcludeFromCodeCoverage]
     public class FakeHttpRequest : HttpRequestBase
     {
-        NameValueCollection _collection;
-        NameValueCollection _form;
-        byte[] _fileBytes = new byte[] { };
+        private HttpCookieCollection _cookieCollection = new HttpCookieCollection();
+        private NameValueCollection _collection;
+        private NameValueCollection _form;
+
+        private byte[] _fileBytes = new byte[] { };
 
         public FakeHttpRequest(bool isAjaxRequest)
         {
             _form = new NameValueCollection();
             _collection = new NameValueCollection();
+            _cookieCollection.Add(new HttpCookie("proxyId", String.Empty));
+            _cookieCollection.Add(new HttpCookie("username", String.Empty));
+
             if (isAjaxRequest)
             {
                 _collection.Add("X-Requested-With", "XMLHttpRequest");
@@ -115,5 +122,46 @@ namespace JBoyerLibaray.UnitTests
         {
             _fileBytes = fileBytes;
         }
+
+        public override HttpCookieCollection Cookies
+        {
+            get
+            {
+                return _cookieCollection;
+            }
+        }
+
+        public override string UserAgent
+        {
+            get
+            {
+                return "Unit Test User Agent String";
+            }
+        }
+
+        public override HttpBrowserCapabilitiesBase Browser
+        {
+            get
+            {
+                var factory = new BrowserCapabilitiesFactory();
+                var browserCaps = new HttpBrowserCapabilities();
+                var hashtable = new Hashtable(180, StringComparer.OrdinalIgnoreCase);
+                hashtable[string.Empty] = UserAgent;
+                browserCaps.Capabilities = hashtable;
+                factory.ConfigureBrowserCapabilities(Headers, browserCaps);
+                factory.ConfigureCustomCapabilities(Headers, browserCaps);
+
+                return new HttpBrowserCapabilitiesWrapper(browserCaps);
+            }
+        }
+
+        public override string RawUrl
+        {
+            get
+            {
+                return "/UnitTest/RawUrl";
+            }
+        }
     }
+
 }

@@ -10,6 +10,6 @@ namespace JBoyerLibaray.DnDDiceRoller
     {
         Top = 1,
         Bottom = 2,
-        Not = 3
+        None = 3
     }
 }

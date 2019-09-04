@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.Exceptions
 {
+
     [Serializable]
     public class ArgumentInvalidException : ArgumentException, ISerializable
     {
+
         #region Private Variables
 
         private bool _passedMessage = false;
@@ -112,7 +110,9 @@ namespace JBoyerLibaray.Exceptions
         }
 
         #endregion
+
     }
+
 }       
         
         

@@ -1,58 +1,62 @@
-﻿using JBoyerLibaray.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
-    public class StoredProcedureInfo<T> : StoredProcedureInfo where T : class
-    {
-        #region Constructor
 
-        public StoredProcedureInfo(T result, IEnumerable<string> requiredParameters)
+    internal class StoredProcedureInfo<T> : StoredProcedureInfo where T : class
+    {
+
+        public StoredProcedureInfo(T result, IEnumerable<string> expectedParameters)
         {
-            if (requiredParameters == null)
+            if (result == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => requiredParameters);
+                throw new ArgumentNullException(nameof(result));
             }
 
-            _results = new List<T>() { result };
-            _requiredParameters = requiredParameters.OrderBy(s => s).ToArray();
+            if (expectedParameters == null)
+            {
+                throw new ArgumentNullException(nameof(expectedParameters));
+            }
+
+            _results = (d,p) => new List<T>() { result };
+            _expectedParameters = expectedParameters;
         }
 
-        public StoredProcedureInfo(IEnumerable<T> results, IEnumerable<string> requiredParameters)
+        public StoredProcedureInfo(IEnumerable<T> results, IEnumerable<string> expectedParameters)
         {
             if (results == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => results);
+                throw new ArgumentNullException(nameof(results));
             }
 
-            if (requiredParameters == null)
+            if (expectedParameters == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => requiredParameters);
+                throw new ArgumentNullException(nameof(expectedParameters));
             }
 
-            _results = results;
-            _requiredParameters = requiredParameters.OrderBy(s => s).ToArray();
+            _results = (d, p) => results;
+            _expectedParameters = expectedParameters;
         }
 
-        public StoredProcedureInfo(Func<FakeDatabase, IDataParameterCollection, IEnumerable<T>> objectResultResolver, IEnumerable<string> requiredParameters)
+        public StoredProcedureInfo(Func<FakeDatabase, IDataParameterCollection, IEnumerable<T>> storedProcedureResultResolver, IEnumerable<string> expectedParameters)
         {
-            if (objectResultResolver == null)
+            if (storedProcedureResultResolver == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => objectResultResolver);
+                throw new ArgumentNullException(nameof(storedProcedureResultResolver));
             }
 
-            if (requiredParameters == null)
+            if (expectedParameters == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => requiredParameters);
+                throw new ArgumentNullException(nameof(expectedParameters));
             }
 
-            _objectResultResolver = objectResultResolver;
-            _requiredParameters = requiredParameters;
+            _results = storedProcedureResultResolver;
+            _expectedParameters = expectedParameters;
         }
 
-        #endregion
     }
+
 }

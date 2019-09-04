@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace JBoyerLibaray.UnitTests
 {
+
     [ExcludeFromCodeCoverage]
     public class FakeHttpServerUtility : HttpServerUtilityBase
     {
+
         private Controller _controller;
         
         public FakeHttpServerUtility(Controller controller)
@@ -30,4 +28,5 @@ namespace JBoyerLibaray.UnitTests
             return Path.Combine(Environment.CurrentDirectory, path);
         }
     }
+
 }

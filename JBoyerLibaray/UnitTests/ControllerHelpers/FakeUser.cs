@@ -1,18 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests
 {
+
     [ExcludeFromCodeCoverage]
     public class FakeUser : IPrincipal
     {
+
+        #region Private Variables
+
         private List<string> _roles = new List<string>();
         private IIdentity _identity;
+
+        #endregion
+
+        #region Public Properties
+
+        public IIdentity Identity => _identity;
+
+        #endregion
+
+        #region Constructor
 
         private FakeUser()
         {
@@ -24,13 +34,9 @@ namespace JBoyerLibaray.UnitTests
             _identity = new FakeIdentity(name);
         }
 
-        public IIdentity Identity
-        {
-            get
-            {
-                return _identity;
-            }
-        }
+        #endregion
+
+        #region Public Methods
 
         public bool IsInRole(string role)
         {
@@ -47,9 +53,10 @@ namespace JBoyerLibaray.UnitTests
             _roles.AddRange(roles);
         }
 
-        public static FakeUser Anonymous()
-        {
-            return new FakeUser();
-        }
+        public static FakeUser Anonymous() => new FakeUser();
+
+        #endregion
+
     }
+
 }

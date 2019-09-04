@@ -1,16 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Threading;
-using JBoyerLibaray.UnitTests;
 
 namespace JBoyerLibaray.Extensions
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class CharExtentionsTests
     {
+
         [TestMethod]
         public void CharExtentions_ToUpper()
         {
@@ -78,5 +75,7 @@ namespace JBoyerLibaray.Extensions
             // Assert
             Assert.AreEqual('İ', result);
         }
+
     }
+
 }

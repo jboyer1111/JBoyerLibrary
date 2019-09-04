@@ -8,8 +8,11 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
+
+    
     public class FakeConnection : IDbConnection
     {
+
         #region Private Variables
 
         private ConnectionState _state = ConnectionState.Closed;
@@ -24,37 +27,13 @@ namespace JBoyerLibaray.UnitTests.Database
 
         public string ConnectionString { get; set; }
 
-        public ConnectionState State
-        {
-            get
-            {
-                return _state;
-            }
-        }
+        public ConnectionState State => _state;
 
-        public string Database
-        {
-            get
-            {
-                return _database;
-            }
-        }
+        public string Database => _database;
 
-        public int ConnectionTimeout
-        {
-            get
-            {
-                return -1;
-            }
-        }
+        public int ConnectionTimeout => -1;
 
-        public bool IsDisposed
-        {
-            get
-            {
-                return _isDisposed;
-            }
-        }
+        public bool IsDisposed => _isDisposed;
 
         #endregion
 
@@ -82,7 +61,7 @@ namespace JBoyerLibaray.UnitTests.Database
 
         public IDbCommand CreateCommand()
         {
-            return new FakeCommand(this, _fakeDatabase);
+            return new FakeCommand(_fakeDatabase, this);
         }
 
         public void ChangeDatabase(string databaseName)
@@ -107,6 +86,7 @@ namespace JBoyerLibaray.UnitTests.Database
         public void Dispose()
         {
             _isDisposed = true;
+            _state = ConnectionState.Closed;
 
             if (_transaction != null)
             {
@@ -115,5 +95,7 @@ namespace JBoyerLibaray.UnitTests.Database
         }
 
         #endregion
+
     }
+
 }

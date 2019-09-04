@@ -1,14 +1,10 @@
 ﻿using JBoyerLibaray.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests
 {
-    public class UnitTestableRandom : Random
+    public class UTRandom : Random
     {
         #region Pirvate Region
 
@@ -19,11 +15,16 @@ namespace JBoyerLibaray.UnitTests
 
         #region Constructor
 
-        public UnitTestableRandom(params int[] numbers)
+        public UTRandom(params int[] numbers)
         {
             if (numbers == null)
             {
                 throw ExceptionHelper.CreateArgumentNullException(() => numbers);
+            }
+
+            if (numbers.Length < 1)
+            {
+                throw new ArgumentException("You need to have at least one number.", nameof(numbers));
             }
 
             _numbers = numbers;
@@ -45,6 +46,11 @@ namespace JBoyerLibaray.UnitTests
 
         public override int Next(int maxValue)
         {
+            if (!_numbers.Any(n => n < maxValue))
+            {
+                throw ExceptionHelper.CreateArgumentInvalidException(() => maxValue, "List of numbers do not have value less than the max value.", maxValue);
+            }
+
             int result;
             do
             {
@@ -56,11 +62,16 @@ namespace JBoyerLibaray.UnitTests
 
         public override int Next(int minValue, int maxValue)
         {
+            if (!_numbers.Any(n => n < maxValue && n >= minValue))
+            {
+                throw new ArgumentInvalidException(null, "List of numbers do not have a valid value with passed parameters.");
+            }
+
             int result;
             do
             {
-                result = Next(maxValue);
-            } while (result < minValue);
+                result = Next();
+            } while (result < minValue || result >= maxValue);
 
             return result;
         }

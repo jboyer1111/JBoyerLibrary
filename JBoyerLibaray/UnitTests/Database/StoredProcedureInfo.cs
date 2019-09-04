@@ -1,64 +1,29 @@
-﻿using JBoyerLibaray.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
-    public abstract class StoredProcedureInfo
+
+    internal abstract class StoredProcedureInfo
     {
-        #region Private Variables
 
-        protected Func<FakeDatabase, IDataParameterCollection, IEnumerable<object>> _objectResultResolver;
-        protected IEnumerable<object> _results;
-        protected IEnumerable<string> _requiredParameters;
-
-        #endregion
-
-        #region Public Mehtods
+        protected Func<FakeDatabase, IDataParameterCollection, IEnumerable<object>> _results;
+        protected IEnumerable<string> _expectedParameters;
 
         public IEnumerable<object> GetResults(FakeDatabase fakeDatabase, IDataParameterCollection passedParams)
         {
-            foreach (var param in _requiredParameters)
-            {
-                var paramater = passedParams[param];
-                if (paramater == null)
-                {
-                    throw new InvalidOperationException("Stored Procedure is missing a required Parameter with the name \"" + param + "\"");
-                }
-            }
+            validationParameters(passedParams);
 
-            if (_objectResultResolver != null)
-            {
-                return _objectResultResolver(fakeDatabase, passedParams);
-            }
-
-            return _results;
+            return _results(fakeDatabase, passedParams);
         }
 
         public object GetScalar(FakeDatabase fakeDatabase, IDataParameterCollection passedParams)
         {
-            foreach (var param in _requiredParameters)
-            {
-                var paramater = passedParams[param];
-                if (paramater == null)
-                {
-                    throw new InvalidOperationException("Stored Procedure is missing a required Parameter with the name \"" + param + "\"");
-                }
-            }
+            validationParameters(passedParams);
 
-            IDataReader resultReader;
-            if (_objectResultResolver != null)
-            {
-                resultReader = _objectResultResolver(fakeDatabase, passedParams).ToDataReader();
-            }
-            else
-            {
-                resultReader = _results.ToDataReader();
-            }
+            IDataReader resultReader = _results(fakeDatabase, passedParams).ToDataReader();
 
             object result;
             if (resultReader.Read())
@@ -73,6 +38,24 @@ namespace JBoyerLibaray.UnitTests.Database
             return result;
         }
 
-        #endregion
+        private void validationParameters(IDataParameterCollection passedParams)
+        {
+            var missingParam = _expectedParameters.FirstOrDefault(p => !passedParams.Contains(p));
+            if (!String.IsNullOrWhiteSpace(missingParam))
+            {
+                throw new InvalidOperationException($"Stored Procedure is missing a required Parameter with the name \"{missingParam}\".");
+            }
+
+            var extraParam = passedParams
+                .Cast<IDataParameter>()
+                .FirstOrDefault(p => !_expectedParameters.Contains(p.ParameterName, StringComparer.CurrentCultureIgnoreCase));
+
+            if (extraParam != null)
+            {
+                throw new InvalidOperationException($"Stored Procedure was passed an extra Parameter with the name \"{extraParam.ParameterName}\".");
+            }
+        }
+
     }
+
 }

@@ -1,12 +1,15 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JBoyerLibaray.DeckOfCards;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray.Extensions
 {
-    [TestClass]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class ObjectExtentionsTests
     {
+
         [TestMethod]
         public void ObjectExtentions_Is_ResturnsExptectedValueTrue()
         {
@@ -58,5 +61,7 @@ namespace JBoyerLibaray.Extensions
             // Assert
             Assert.IsTrue(result);
         }
+
     }
+
 }

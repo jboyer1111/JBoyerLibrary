@@ -1,7 +1,7 @@
-﻿using JBoyerLibaray.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests.Database
 {
+
     public class FakeDatabase
     {
+
         #region Private Variables
 
         private Dictionary<string, TableInfo> _tables = new Dictionary<string, TableInfo>(StringComparer.CurrentCultureIgnoreCase);
@@ -19,58 +21,32 @@ namespace JBoyerLibaray.UnitTests.Database
         private Dictionary<string, NonQueryInfo> _nonQuerySqlScripts = new Dictionary<string, NonQueryInfo>(StringComparer.CurrentCultureIgnoreCase);
         private Dictionary<string, Action> _insertQueryCallBacks = new Dictionary<string, Action>(StringComparer.CurrentCultureIgnoreCase);
         private Dictionary<string, Action> _updateQueryCallBacks = new Dictionary<string, Action>(StringComparer.CurrentCultureIgnoreCase);
+        private Dictionary<string, Action> _deleteQueryCallBacks = new Dictionary<string, Action>(StringComparer.CurrentCultureIgnoreCase);
 
         #endregion
 
         #region Public Varibles
 
-        public string[] Tables
-        {
-            get
-            {
-                return _tables.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] Tables => _tables.Keys.OrderBy(s => s).ToArray();
 
-        public string[] SqlScripts
-        {
-            get
-            {
-                return _sqlScripts.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] SqlScripts => _sqlScripts.Keys.OrderBy(s => s).ToArray();
 
-        public string[] StoredProcedures
-        {
-            get
-            {
-                return _storedProcedures.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] StoredProcedures => _storedProcedures.Keys.OrderBy(s => s).ToArray();
 
-        public string[] NonQuerySqlScripts
-        {
-            get
-            {
-                return _nonQuerySqlScripts.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] NonQuerySqlScripts => _nonQuerySqlScripts.Keys.OrderBy(s => s).ToArray();
 
-        public string[] InsertQueryCallbacks
-        {
-            get
-            {
-                return _insertQueryCallBacks.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] InsertQueryCallbacks => _insertQueryCallBacks.Keys.OrderBy(s => s).ToArray();
 
-        public string[] UpdateQueryCallbacks
-        {
-            get
-            {
-                return _updateQueryCallBacks.Keys.OrderBy(s => s).ToArray();
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string[] UpdateQueryCallbacks => _updateQueryCallBacks.Keys.OrderBy(s => s).ToArray();
+
+        [ExcludeFromCodeCoverage]
+        public string[] DeleteQueryCallbacks => _deleteQueryCallBacks.Keys.OrderBy(s => s).ToArray();
 
         #endregion
 
@@ -152,43 +128,67 @@ namespace JBoyerLibaray.UnitTests.Database
             }
         }
 
+        public void CallDeleteCallback(string tableName)
+        {
+            if (_deleteQueryCallBacks.ContainsKey(tableName))
+            {
+                _deleteQueryCallBacks[tableName]();
+            }
+        }
+
+        /// <summary>
+        /// Sets up results for a table. These tables are dependant on the Dapper Contrib logic or sql that matches Dapper Contrib sql.
+        /// </summary>
+        /// <typeparam name="T">The type of object to return for the table.</typeparam>
+        /// <param name="tableName">The name of the table to assign the results to.</param>
+        /// <param name="readerResults">The list of results to be assign to the table.</param>
         public void SetupTable<T>(string tableName, IEnumerable<T> readerResults) where T : class
         {
             if (String.IsNullOrWhiteSpace(tableName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace.", tableName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace.", nameof(tableName));
+            }
+
+            tableName = tableName.Trim();
+
+            if (_tables.ContainsKey(tableName))
+            {
+                throw new InvalidOperationException("The table \"" + tableName + "\" has already been setup.");
             }
 
             if (readerResults == null)
             {
                 readerResults = Enumerable.Empty<T>();
             }
-
-            if (_tables.ContainsKey(tableName))
-            {
-                throw new InvalidOperationException("The table \"" + tableName + "\" has already been setup.");
-            }
-
+            
             _tables.Add(tableName, new TableInfo<T>(readerResults));
         }
 
+        /// <summary>
+        /// Sets up results for a table. These tables are dependant on the Dapper Contrib logic or sql that matches Dapper Contrib sql.
+        /// </summary>
+        /// <typeparam name="T">The type of object to return for the table.</typeparam>
+        /// <param name="tableName">The name of the table to assign the resolver to.</param>
+        /// <param name="tableResultResolver">Called when retrieving the results for the table.</param>
         public void SetupTable<T>(string tableName, Func<IEnumerable<T>> tableResultResolver) where T : class
         {
             if (String.IsNullOrWhiteSpace(tableName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace.", tableName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace.", nameof(tableName));
+            }
+
+            tableName = tableName.Trim();
+
+            if (_tables.ContainsKey(tableName))
+            {
+                throw new InvalidOperationException("The table \"" + tableName + "\" has already been setup.");
             }
 
             if (tableResultResolver == null)
             {
                 tableResultResolver = () => Enumerable.Empty<T>();
             }
-
-            if (_tables.ContainsKey(tableName))
-            {
-                throw new InvalidOperationException("The table \"" + tableName + "\" has already been setup.");
-            }
-
+            
             _tables.Add(tableName, new TableInfo<T>(tableResultResolver));
         }
 
@@ -196,7 +196,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(sql))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(sql));
             }
 
             if (requiredParameters == null)
@@ -216,7 +216,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(sql))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(sql));
             }
 
             if (readerResults == null)
@@ -241,12 +241,12 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(sql))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(sql));
             }
 
             if (objectResultResolver == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => objectResultResolver);
+                throw new ArgumentNullException(nameof(objectResultResolver));
             }
 
             if (requiredParameters == null)
@@ -266,7 +266,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(storedProcedureName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => storedProcedureName, "Cannot be null, empty, or whitespace", storedProcedureName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(storedProcedureName));
             }
 
             if (results == null)
@@ -291,7 +291,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(storedProcedureName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => storedProcedureName, "Cannot be null, empty, or whitespace", storedProcedureName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(storedProcedureName));
             }
 
             if (requiredParameters == null)
@@ -311,12 +311,12 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(storedProcedureName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => storedProcedureName, "Cannot be null, empty, or whitespace", storedProcedureName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(storedProcedureName));
             }
 
             if (objectResultResolver == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => objectResultResolver);
+                throw new ArgumentNullException(nameof(objectResultResolver));
             }
 
             if (requiredParameters == null)
@@ -336,7 +336,7 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(sql))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(sql));
             }
 
             if (requiredParameters == null)
@@ -356,12 +356,12 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(sql))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => sql, "Cannot be null, empty, or whitespace", sql);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(sql));
             }
 
             if (nonQueryCallback == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => nonQueryCallback);
+                throw new ArgumentNullException(nameof(nonQueryCallback));
             }
 
             if (requiredParameters == null)
@@ -381,43 +381,64 @@ namespace JBoyerLibaray.UnitTests.Database
         {
             if (String.IsNullOrWhiteSpace(tableName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace", tableName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(tableName));
             }
 
             if (insertCallback == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => insertCallback);
+                throw new ArgumentNullException(nameof(insertCallback));
             }
 
             if (_insertQueryCallBacks.ContainsKey(tableName))
             {
-                throw new InvalidOperationException("The insert callback for sql \"" + tableName + "\" has already been setup.");
+                throw new InvalidOperationException("The insert callback for table \"" + tableName + "\" has already been setup.");
             }
 
             _insertQueryCallBacks.Add(tableName, insertCallback);
         }
-
+        
         public void SetupUpdateCallback(string tableName, Action insertCallback)
         {
             if (String.IsNullOrWhiteSpace(tableName))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => tableName, "Cannot be null, empty, or whitespace", tableName);
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(tableName));
             }
 
             if (insertCallback == null)
             {
-                throw ExceptionHelper.CreateArgumentNullException(() => insertCallback);
+                throw new ArgumentNullException(nameof(insertCallback));
             }
 
             if (_updateQueryCallBacks.ContainsKey(tableName))
             {
-                throw new InvalidOperationException("The update callback for sql \"" + tableName + "\" has already been setup.");
+                throw new InvalidOperationException("The update callback for table \"" + tableName + "\" has already been setup.");
             }
 
             _updateQueryCallBacks.Add(tableName, insertCallback);
         }
 
+        public void SetupDeleteCallback(string tableName, Action insertCallback)
+        {
+            if (String.IsNullOrWhiteSpace(tableName))
+            {
+                throw new ArgumentException("Cannot be null, empty, or whitespace", nameof(tableName));
+            }
+
+            if (insertCallback == null)
+            {
+                throw new ArgumentNullException(nameof(insertCallback));
+            }
+
+            if (_deleteQueryCallBacks.ContainsKey(tableName))
+            {
+                throw new InvalidOperationException("The delete callback for table \"" + tableName + "\" has already been setup.");
+            }
+
+            _deleteQueryCallBacks.Add(tableName, insertCallback);
+        }
+
         #endregion
 
     }
+
 }

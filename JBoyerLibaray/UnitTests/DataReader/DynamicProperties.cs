@@ -4,11 +4,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace JBoyerLibaray.UnitTests
+namespace JBoyerLibaray.UnitTests.DataReader
 {
+
     [ExcludeFromCodeCoverage]
     public static class DynamicProperties
     {
+
         #region Delegates
 
         public delegate object GenericGetter(object target);
@@ -25,9 +27,9 @@ namespace JBoyerLibaray.UnitTests
             {
                 returnValue.Add(new Property(prop));
             }
+
             return returnValue;
         }
-
 
         public static IList<Property> CreatePropertyMethods<T>()
         {
@@ -37,6 +39,7 @@ namespace JBoyerLibaray.UnitTests
             {
                 returnValue.Add(new Property(prop));
             }
+
             return returnValue;
         }
 
@@ -81,7 +84,6 @@ namespace JBoyerLibaray.UnitTests
             */
             return (GenericSetter)setter.CreateDelegate(typeof(GenericSetter));
         }
-
 
         /// <summary>
         /// Creates a dynamic getter for the property
@@ -140,5 +142,7 @@ namespace JBoyerLibaray.UnitTests
         }
 
         #endregion
+
     }
+
 }

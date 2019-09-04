@@ -1,15 +1,12 @@
 ﻿using JBoyerLibaray.Exceptions;
-using JBoyerLibaray.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.FileSystem
 {
@@ -758,7 +755,7 @@ namespace JBoyerLibaray.FileSystem
             {
                 try
                 {
-                    stream.Seek(0);
+                    stream.Seek(0, SeekOrigin.Begin);
                 }
                 catch
                 {

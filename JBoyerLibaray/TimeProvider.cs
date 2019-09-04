@@ -1,14 +1,27 @@
 ﻿using JBoyerLibaray.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray
 {
+
+    public interface ITimeProvider
+    {
+
+        DateTime Now { get; }
+
+        DateTime Today { get; }
+
+        DateTime UtcNow { get; }
+
+        DateTime GetTimezoneTime(TimeZoneInfo timeZoneInfo);
+
+        DateTime GetTimezoneTime(TimeZone timeZone);
+
+    }
+
     public class TimeProvider : ITimeProvider
     {
+
         #region Public Properties
 
         public DateTime Now
@@ -60,5 +73,7 @@ namespace JBoyerLibaray
         }
 
         #endregion
+
     }
+
 }

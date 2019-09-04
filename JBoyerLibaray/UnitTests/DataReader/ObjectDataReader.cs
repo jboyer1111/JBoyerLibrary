@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace JBoyerLibaray.UnitTests
+namespace JBoyerLibaray.UnitTests.DataReader
 {
+
     [ExcludeFromCodeCoverage]
     public abstract class ObjectDataReader : IDataReader
     {
+
         protected bool Closed;
         protected IList<DynamicProperties.Property> Fields;
 
@@ -238,5 +237,7 @@ namespace JBoyerLibaray.UnitTests
         {
             Fields = DynamicProperties.CreatePropertyMethods(elementType);
         }
+
     }
+
 }

@@ -11,6 +11,32 @@ using System.Threading;
 
 namespace JBoyerLibaray.Web
 {
+
+    public interface IWebDownloader
+    {
+
+        string DownloadHtml(string url, string requestMethodType = WebRequestMethods.Http.Get, params Tuple<string, string>[] formVariables);
+
+        string DownloadHtml(string url, out bool usedCache, string requestMethodType = WebRequestMethods.Http.Get, params Tuple<string, string>[] formVariables);
+
+        bool IsUsingDefaultProxy { get; set; }
+
+        bool IsUsingProxy { get; set; }
+
+        string ProxyIpAddress { get; set; }
+
+        int ProxyPortNumber { get; set; }
+
+        void PauseCache();
+
+        void StartCache();
+
+        WebDownloaderFile DownloadFile(string url);
+
+        IWebPageCache WebPageCache { get; }
+
+    }
+
     public class WebDownloader : IWebDownloader
     {
         #region Private Variables
@@ -428,4 +454,5 @@ namespace JBoyerLibaray.Web
 
         #endregion
     }
+
 }

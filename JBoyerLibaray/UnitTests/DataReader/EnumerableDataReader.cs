@@ -2,15 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace JBoyerLibaray.UnitTests
+namespace JBoyerLibaray.UnitTests.DataReader
 {
+
     [ExcludeFromCodeCoverage]
     public class EnumerableDataReader : ObjectDataReader
     {
+
         private readonly IEnumerator _enumerator;
         private readonly Type _type;
         private object _current;
@@ -110,9 +109,7 @@ namespace JBoyerLibaray.UnitTests
             if (type == null && collection.GetType().IsGenericType)
             {
                 type = collection.GetType().GetGenericArguments()[0];
-
             }
-
 
             if (type == null)
             {
@@ -121,5 +118,7 @@ namespace JBoyerLibaray.UnitTests
 
             return type;
         }
+
     }
+
 }
