@@ -1,10 +1,12 @@
 ﻿using JBoyerLibaray.Exceptions;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
 namespace JBoyerLibaray
 {
 
+    [ExcludeFromCodeCoverage]
     public static class StaticTimeProvider
     {
 
@@ -93,6 +95,26 @@ namespace JBoyerLibaray
             }
 
             return timeZone.ToLocalTime(UtcNow);
+        }
+
+        public static void SetTimeProvider(ITimeProvider timeProvider)
+        {
+            if (_timeProvider != null)
+            {
+                throw new InvalidOperationException("Time provider already setup!");
+            }
+
+            _timeProvider = timeProvider;
+        }
+
+        public static Context<ITimeProvider> SetupConnectionContext()
+        {
+            if (_timeContext.Value == null || _timeContext.Value.IsDisposed)
+            {
+                _timeContext.Value = new Context<ITimeProvider>();
+            }
+
+            return _timeContext.Value;
         }
 
         #endregion
