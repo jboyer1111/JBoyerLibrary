@@ -24,13 +24,9 @@ namespace JBoyerLibaray
 
         #region Constructor
 
-        public JBoyerRandom()
-        {
-        }
+        public JBoyerRandom() { }
 
-        public JBoyerRandom(int Seed) : base(Seed)
-        {
-        }
+        public JBoyerRandom(int seed) : base(seed) { }
 
         #endregion
 
