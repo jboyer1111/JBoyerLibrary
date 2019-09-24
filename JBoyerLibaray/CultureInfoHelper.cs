@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray
 {
+
     public class CultureInfoHelper : IDisposable
     {
+
         #region Private Variables
 
         private CultureInfo _lastCulture;
@@ -67,5 +65,7 @@ namespace JBoyerLibaray
         {
             Thread.CurrentThread.CurrentCulture = _lastCulture;
         }
+
     }
+
 }
