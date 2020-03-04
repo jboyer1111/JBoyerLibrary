@@ -1,7 +1,9 @@
 ﻿namespace JBoyerLibaray
 {
+
     public class MutableKeyValuePair<TKey, TValue>
     {
+
         public TKey Key { get; set; }
         public TValue Value { get; set; }
 
@@ -12,5 +14,7 @@
             this.Key = key;
             this.Value = val;
         }
+
     }
+
 }
