@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using System.Configuration;
-using System.IO;
+﻿using JBoyerLibaray.Exceptions;
 using JBoyerLibaray.FileSystem;
-using JBoyerLibaray.Exceptions;
+using System;
+using System.Configuration;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Web.Mvc;
 
 namespace JBoyerLibaray
 {
+
     public class CustomHandleErrorAttribute : HandleErrorAttribute
     {
+
         #region Private Variables
 
         private IFileSystemHelper _fileSystemHelper;
@@ -141,5 +140,7 @@ namespace JBoyerLibaray
         }
 
         #endregion
+
     }
+
 }
