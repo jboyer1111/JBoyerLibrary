@@ -153,5 +153,29 @@ namespace JBoyerLibaray.Extensions
 
             return hash;
         }
+
+        public static IEnumerable<T[]> ToBatches<T>(this IEnumerable<T> source, int batchSize)
+        {
+            T[] sourceArray = source.ToArray();
+            T[] yeildArray = null;
+            for (int i = 0; i < sourceArray.Length; i++)
+            {
+                int subArrayIndex = i % batchSize;
+                if (subArrayIndex == 0)
+                {
+                    if (yeildArray != null)
+                    {
+                        yield return yeildArray;
+                    }
+
+                    yeildArray = new T[Math.Min(batchSize, sourceArray.Length - i)];
+                }
+
+                yeildArray[subArrayIndex] = sourceArray[i];
+            }
+
+            yield return yeildArray;
+        }
+
     }
 }

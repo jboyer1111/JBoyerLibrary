@@ -5,6 +5,7 @@ using JBoyerLibaray.Extensions;
 using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
 using JBoyerLibaray.DeckOfCards;
+using System.Diagnostics;
 
 namespace JBoyerLibaray.Extensions
 {
@@ -262,5 +263,52 @@ namespace JBoyerLibaray.Extensions
             // Assert
             Assert.AreEqual("Value2", items.First().Value);
         }
+
+        [TestMethod]
+        public void ListExtension_ToBatches_BatchSize500()
+        {
+            // Arrange
+            int batchSize = 60;
+            int[] items = new int[1000000];
+            for (int i = 0; i < items.Length; i++)
+            {
+                items[i] = i;
+            }
+
+            // Act
+            int[][] result = items.ToBatches(batchSize).ToArray();
+
+            // Assert
+            Assert.AreEqual(40, result.Last().Length);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
