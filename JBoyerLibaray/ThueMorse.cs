@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace JBoyerLibaray
 {
+
     public static class ThueMorse
     {
+
         public static string GetSquenceLengthOf(int length)
         {
             // If zero or negative number return null
@@ -28,33 +25,33 @@ namespace JBoyerLibaray
                 return result;
             }
 
-            result = GetSquenceLengthOf(result, length);
+            result = getSquenceLengthOf(result, length);
 
             return result;
         }
 
-        private static string GetSquenceLengthOf(string sequence, int length)
+        private static string getSquenceLengthOf(string sequence, int length)
         {
-            if (sequence.Length < length)
+            if (sequence.Length >= length)
             {
-                MatchEvaluator matchEvaluator = match =>
-                {
-                    if (match.Value == "A")
-                    {
-                        return "AB";
-                    }
-                    else
-                    {
-                        return "BA";
-                    }
-                };
-
-                string newSequence = Regex.Replace(sequence, "A|B", matchEvaluator);
-
-                return GetSquenceLengthOf(newSequence, length);
+                return sequence.Substring(0, length);
             }
 
-            return sequence.Substring(0, length);
+            string newSequence = Regex.Replace(sequence, "A|B", m =>
+            {
+                if (m.Value == "A")
+                {
+                    return "AB";
+                }
+                else
+                {
+                    return "BA";
+                }
+            });
+
+            return getSquenceLengthOf(newSequence, length);
         }
+
     }
+
 }

@@ -28,7 +28,7 @@ namespace JBoyerLibaray.DeckOfCards
 
             public int Compare(Card x, Card y)
             {
-                if (x == null & y == null)
+                if (x == null && y == null)
                 {
                     return 0;
                 }

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray
 {
+
     public class RespectNumbersFilenameComparer : IComparer<string>
     {
+
         private static Regex decimalTest = new Regex(@"\d");
 
         public int Compare(string x, string y)
@@ -119,5 +119,7 @@ namespace JBoyerLibaray
 
             return resultStr;
         }
+
     }
+
 }

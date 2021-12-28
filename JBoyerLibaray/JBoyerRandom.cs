@@ -15,23 +15,38 @@ namespace JBoyerLibaray
     [ExcludeFromCodeCoverage]
     public class JBoyerRandom : Random, IDisposable
     {
+
         #region Private Variables
 
-        private static JBoyerRandomMode _randMode;
+        private JBoyerRandomMode _randMode;
         private RandomNumberGenerator _rand = RandomNumberGenerator.Create();
 
         #endregion
 
         #region Constructor
 
-        public JBoyerRandom() { }
+        public JBoyerRandom() : this(JBoyerRandomMode.CryptographyRandomNumberGenerator) { }
 
-        public JBoyerRandom(int seed) : base(seed) { }
+        public JBoyerRandom(int seed) : this(JBoyerRandomMode.CryptographyRandomNumberGenerator, seed) { }
+
+        public JBoyerRandom(JBoyerRandomMode mode) : base() => clampMode(mode);
+
+        public JBoyerRandom(JBoyerRandomMode mode, int seed) : base(seed) => clampMode(mode);
+
+        private void clampMode(JBoyerRandomMode mode)
+        {
+            if (!Enum.IsDefined(typeof(JBoyerRandomMode), mode))
+            {
+                _randMode = JBoyerRandomMode.CryptographyRandomNumberGenerator;
+            }
+
+            _randMode = mode;
+        }
 
         #endregion
 
         #region Public Methods
-        
+
         public override int Next()
         {
             byte[] bytes = new byte[4];
@@ -39,7 +54,7 @@ namespace JBoyerLibaray
             // Use NextBytes to generate the Next Random Number
             NextBytes(bytes);
 
-            return (int)BitConverter.ToUInt32(bytes, 0);
+            return Math.Abs((int)BitConverter.ToUInt32(bytes, 0));
         }
 
         public override int Next(int maxValue)
@@ -81,19 +96,6 @@ namespace JBoyerLibaray
 
         #endregion
 
-        #region Static Methods
-
-        public static void SetRandomMode(JBoyerRandomMode randMode)
-        {
-            if (!Enum.IsDefined(typeof(JBoyerRandomMode), randMode))
-            {
-                _randMode = JBoyerRandomMode.SystemRandom;
-                return;
-            }
-
-            _randMode = randMode;
-        }
-
-        #endregion
     }
+
 }

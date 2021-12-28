@@ -50,7 +50,7 @@ namespace JBoyerLibaray
 
         #endregion
 
-        #region Public Mehtods
+        #region Public Methods
 
         public DateTime GetTimezoneTime(TimeZoneInfo timeZoneInfo)
         {
