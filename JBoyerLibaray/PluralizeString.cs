@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray
 {
+
     public static class PluralizeString
     {
+
         private static PluralizerPart[] replaceables = new PluralizerPart[] {
             new PluralizerPart("{A}", "a ", ""),
             new PluralizerPart("{A-#}", "a", "#"),
@@ -100,8 +100,10 @@ namespace JBoyerLibaray
             {
                 // Cleans up replacer string to work with regex
                 Regex regCleanup = new Regex(@"\.|\$|\^|\[|\(|\||\)|\*|\+|\?|\\");
-                return regCleanup.Replace(replacer, ch => @"\" + ch);
+                return regCleanup.Replace(replacer, ch => @"\" + ch.Value);
             }
         }
+
     }
+
 }

@@ -7,6 +7,9 @@ using System.Linq;
 namespace JBoyerLibaray.UnitTests.Database
 {
 
+    /// <summary>
+    /// Collection for holding CommandParamters
+    /// </summary>
     public class FakeParameterCollection : List<IDbDataParameter>, IDataParameterCollection
     {
 

@@ -82,7 +82,7 @@ namespace JBoyerLibaray.Extensions
 
             // Cleans up tofind string to work with regex
             Regex regCleanup = new Regex(@"\.|\$|\^|\{|\[|\(|\||\)|\*|\+|\?|\\");
-            string regCleanedStr = regCleanup.Replace(toFind, ch => @"\" + ch);
+            string regCleanedStr = regCleanup.Replace(toFind, ch => @"\" + ch.Value);
 
             // Replace Sql Wild Cards To Regex wild cards
             string regString = String.Format(@"\A{0}\z", regCleanedStr.Replace('_', '.').Replace("%", ".*"));

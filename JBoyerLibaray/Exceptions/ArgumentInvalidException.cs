@@ -47,7 +47,7 @@ namespace JBoyerLibaray.Exceptions
 
                     if (ActualValue != null)
                     {
-                        result += Environment.NewLine + "Actual value was " + ActualValue + ".";
+                        result += Environment.NewLine + "Actual value was " + ActualValue.ToString() + ".";
                     }
                 }
 
@@ -79,7 +79,7 @@ namespace JBoyerLibaray.Exceptions
             _passedMessage = true;
         }
 
-        protected ArgumentInvalidException(SerializationInfo info, StreamingContext context) : base (info, context)
+        protected ArgumentInvalidException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             ActualValue = info.GetValue("ActualValue", typeof(Object));
             _passedMessage = info.GetBoolean("_passedMessage");
@@ -113,12 +113,4 @@ namespace JBoyerLibaray.Exceptions
 
     }
 
-}       
-        
-        
-        
-
-        
-        
-
-        
+}

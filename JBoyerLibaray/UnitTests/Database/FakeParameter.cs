@@ -5,6 +5,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace JBoyerLibaray.UnitTests.Database
 {
 
+    /// <summary>
+    /// Holds Paramter info
+    /// </summary>
     [ExcludeFromCodeCoverage] // Only has constructors and Properties no coverage needed
     public class FakeParameter : IDbDataParameter
     {

@@ -37,10 +37,10 @@ namespace JBoyerLibaray
             char[] xChars = x.ToCharArray();
             char[] yChars = y.ToCharArray();
 
-            return InternalComapare(xChars, yChars, 0);
+            return internalComapare(xChars, yChars, 0);
         }
 
-        private int InternalComapare(char[] x, char[] y, int pos)
+        private int internalComapare(char[] x, char[] y, int pos)
         {
             // End of String Tests
             if (x.Length == pos && y.Length == pos)
@@ -58,7 +58,7 @@ namespace JBoyerLibaray
                 return 1;
             }
             
-            // Get char at postion as String
+            // Get char at position as String
             string xChar = x[pos].ToString();
             string yChar = y[pos].ToString();
 
@@ -66,8 +66,8 @@ namespace JBoyerLibaray
             if (decimalTest.IsMatch(xChar) && decimalTest.IsMatch(yChar))
             {
                 // Get the entire number form the string at this point
-                string xNumStr = GetFullNumber(x, pos);
-                string yNumStr = GetFullNumber(y, pos);
+                string xNumStr = getFullNumber(x, pos);
+                string yNumStr = getFullNumber(y, pos);
 
                 int xNum = Int32.Parse(xNumStr);
                 int yNum = Int32.Parse(yNumStr);
@@ -83,29 +83,27 @@ namespace JBoyerLibaray
                 }
 
                 // If they are equal then Compare the remaining text
-                // Normally the lengths will be the same but this is to correctly accout for leading zeros
+                // Normally the lengths will be the same but this is to correctly account for leading zeros
                 char[] newX = x.Skip(pos + xNumStr.Length).ToArray();
                 char[] newy = y.Skip(pos + yNumStr.Length).ToArray();
 
-                return InternalComapare(newX, newy, 0);
+                return internalComapare(newX, newy, 0);
             }
-            else
+
+            // Compare values of Char. If they are different we already know the order.
+            int result = String.Compare(xChar, yChar);
+            if (result != 0)
             {
-                // Compare values of Char. If they are differnet we already know the order.
-                int result = String.Compare(xChar, yChar);
-                if (result != 0)
-                {
-                    return result;
-                }
+                return result;
             }
-            
-            // Test the next postion in the string
-            return InternalComapare(x, y, ++pos);
+
+            // Test the next position in the string
+            return internalComapare(x, y, ++pos);
         }
 
-        private string GetFullNumber(char[] chars, int startPos)
+        private string getFullNumber(char[] chars, int startPos)
         {
-            // This calculates the number over multiple charicters and returns the full value of the number
+            // This calculates the number over multiple characters and returns the full value of the number
             string resultStr = String.Empty;
             for (int i = startPos; i < chars.Length; i++)
             {

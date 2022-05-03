@@ -3,6 +3,7 @@ using NCalc;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -45,8 +46,8 @@ namespace JBoyerLibaray.DnDDiceRoller
                 if (plusMinusCount > 0)
                 {
                     string statsFormat = _formula.Replace(" + ", ", ").Replace(" - ", ", -");
-                    statsFormat = Regex.Replace(statsFormat, @"(?<!\{[^{\}]*)\b\d+?\b(?![^{\}]*\})", s => String.Format("({0})", s));
-                    result = String.Format("{0}: {1}", _lastRoll, String.Format(statsFormat, stats));
+                    statsFormat = Regex.Replace(statsFormat, @"(?<!\{[^{\}]*)\b\d+?\b(?![^{\}]*\})", s => $"({s.Value})");
+                    result = $"{_lastRoll}: {String.Format(statsFormat, stats)}";
                 }
                 else
                 {
@@ -61,13 +62,14 @@ namespace JBoyerLibaray.DnDDiceRoller
 
         #region Constructor / Init
 
+        [ExcludeFromCodeCoverage]
         public DnDFormula(string formula) : this(formula, new Random()) { }
 
         public DnDFormula(string formula, Random rand)
         {
             if (String.IsNullOrWhiteSpace(formula))
             {
-                throw ExceptionHelper.CreateArgumentInvalidException(() => formula, "Cannot be null, empty, or whitespace", formula);
+                throw ExceptionHelper.CreateArgumentInvalidException(() => formula, "Cannot be null, empty, or whitespace.", formula);
             }
 
             if (rand == null)
@@ -97,13 +99,6 @@ namespace JBoyerLibaray.DnDDiceRoller
             string[] formulaParts = Regex.Split(formula, @" [+-] ");
             var formulaText = new Regex(String.Format(@"^((\d+[{0}])*\d+d\d+([\+\-]\d|)*|\d+)$", specialChars));
 
-            // Date Changed: 7-17-2017
-            // Used Sense: 0
-            //_forumlaTest = new Regex(String.Format(@"^(((\d+[{0}])*\d+d\d+([\+\-]\d|)*|\d)( [+-] |))*$", specialChars));
-
-            //if (!_forumlaTest.IsMatch(formula))
-            //    throw new ArgumentException("Not a DnD formula");
-
             foreach (var item in formulaParts)
             {
                 if (!formulaText.IsMatch(item))
@@ -126,7 +121,7 @@ namespace JBoyerLibaray.DnDDiceRoller
                 // Validate h and l are not in same formula
                 if (item.Contains('h') && item.Contains('l'))
                 {
-                    throw ExceptionHelper.CreateArgumentInvalidException(() => formula, "Cannot have l and h in the same calculation", item);
+                    throw ExceptionHelper.CreateArgumentInvalidException(() => formula, "Cannot have l and h in the same calculation.", item);
                 }
 
                 // Process each special char
@@ -173,7 +168,7 @@ namespace JBoyerLibaray.DnDDiceRoller
                 int start = _formula.IndexOf(item);
                 int end = start + item.Length;
 
-                _formula = _formula.Substring(0, start) + String.Format("{{{0}}}", _items.Count - 1) + _formula.Substring(end); 
+                _formula = _formula.Substring(0, start) + $"{{{_items.Count - 1}}}" + _formula.Substring(end); 
             }
         }
 

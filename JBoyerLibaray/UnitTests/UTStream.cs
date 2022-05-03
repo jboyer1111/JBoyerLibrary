@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests
 {
+
     [ExcludeFromCodeCoverage]
-    public class UnitTestStream : MemoryStream, IUnitTestDisposable
+    public class UTStream : MemoryStream, IUTDisposable
     {
-        #region Private Varables
+
+        #region Private Variables
 
         private int _disposeCallAttemptCount = 0;
 
@@ -19,21 +16,9 @@ namespace JBoyerLibaray.UnitTests
 
         #region Public Properties
 
-        public bool AttemptedToDispose
-        {
-            get
-            {
-                return _disposeCallAttemptCount > 0;
-            }
-        }
+        public bool AttemptedToDispose => _disposeCallAttemptCount > 0;
 
-        public int AttemptedToDisposeCount
-        {
-            get
-            {
-                return _disposeCallAttemptCount;
-            }
-        }
+        public int AttemptedToDisposeCount => _disposeCallAttemptCount;
 
         public string ReadStreamAsText
         {
@@ -44,13 +29,13 @@ namespace JBoyerLibaray.UnitTests
                     // Save current Position
                     var pos = Position;
 
-                    // Goto begining to read it all
+                    // Goto beginning to read it all
                     this.Seek(0, SeekOrigin.Begin);
                     
                     // Read the stream
                     var result = streamReader.ReadToEnd();
 
-                    // Return stream to orignal pos
+                    // Return stream to original Position
                     this.Seek(pos, SeekOrigin.Begin);
 
                     return result;
@@ -73,10 +58,12 @@ namespace JBoyerLibaray.UnitTests
 
         protected override void Dispose(bool disposing)
         {
-            // For Unit Tesing purposes do no dispose this
+            // For Unit Testing purposes do no dispose this
             _disposeCallAttemptCount++;
         }
 
         #endregion        
+
     }
+
 }

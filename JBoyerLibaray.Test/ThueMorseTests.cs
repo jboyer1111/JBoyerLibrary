@@ -1,13 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class ThueMorseTests
     {
+
         [TestMethod]
         public void ThueMorse_NegativeNumber()
         {
@@ -79,5 +79,7 @@ namespace JBoyerLibaray
             // Assert
             Assert.AreEqual("ABBA", result);
         }
+
     }
+
 }

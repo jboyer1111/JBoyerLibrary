@@ -5,6 +5,10 @@ using System.Diagnostics.CodeAnalysis;
 namespace JBoyerLibaray.UnitTests.Database
 {
 
+    /// <summary>
+    /// Class for testing Transaction code.
+    /// 07/20/2020: Currently unsure if code is competly correct
+    /// </summary>
     public class FakeTrasaction : IDbTransaction
     {
 

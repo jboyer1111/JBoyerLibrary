@@ -5,6 +5,9 @@ using System.Data;
 namespace JBoyerLibaray.UnitTests.Database
 {
 
+    /// <summary>
+    /// Used for storing result info for a sql statement that returns a single result set
+    /// </summary>
     internal class SqlInfo<T> : SqlInfo where T : class
     {
 
@@ -14,8 +17,8 @@ namespace JBoyerLibaray.UnitTests.Database
             {
                 throw new ArgumentNullException(nameof(result));
             }
-			
-			if (expectedParameters == null)
+
+            if (expectedParameters == null)
             {
                 throw new ArgumentNullException(nameof(expectedParameters));
             }
@@ -39,6 +42,7 @@ namespace JBoyerLibaray.UnitTests.Database
             _results = (d, p) => results;
             _expectedParameters = expectedParameters;
         }
+
         public SqlInfo(Func<FakeDatabase, IDataParameterCollection, IEnumerable<T>> sqlResultResolver, IEnumerable<string> expectedParameters)
         {
             if (sqlResultResolver == null)

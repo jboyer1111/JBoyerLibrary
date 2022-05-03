@@ -7,13 +7,11 @@ using System.Text.RegularExpressions;
 namespace JBoyerLibaray.UnitTests.Database
 {
 
-
     public class FakeCommand : IDbCommand
     {
 
         #region Private Variables
 
-        private IDataParameterCollection _parameters;
         private FakeDatabase _fakeDatabase;
 
         #endregion
@@ -39,7 +37,7 @@ namespace JBoyerLibaray.UnitTests.Database
         public UpdateRowSource UpdatedRowSource { get; set; }
 
         [ExcludeFromCodeCoverage]
-        public IDataParameterCollection Parameters => _parameters;
+        public IDataParameterCollection Parameters { get; } = new FakeParameterCollection();
 
         #endregion
 
@@ -66,7 +64,6 @@ namespace JBoyerLibaray.UnitTests.Database
             _fakeDatabase = fakeDatabase;
 
             Connection = connection;
-            _parameters = new FakeParameterCollection();
         }
 
         #endregion
@@ -76,35 +73,40 @@ namespace JBoyerLibaray.UnitTests.Database
         /// <summary>
         /// Executes a Transact-SQL statement against the FakeDatabase. Excutes an event.
         /// </summary>
-        /// <returns>Always returns zero.</returns>
+        /// <returns>Returns value based on Dapper sql. Dapper-Update = 1, Dapper-Delete = 2, Anything Else = 0</returns>
         public int ExecuteNonQuery()
         {
-            var updateRecordRegex = new Regex(@"^update (\S+) set (\S[\S\s]+) where (\S+) = @id$", RegexOptions.IgnoreCase);
-            var deleteRecordRegex = new Regex(@"^delete from (\S+) where (\S+) = @id$", RegexOptions.IgnoreCase);
-
-            if (updateRecordRegex.IsMatch(CommandText))
+            var updateRecordMatch = Regex.Match(CommandText, @"^update (\S+) set (\S[\S\s]+) where (\S+) = @id$", RegexOptions.IgnoreCase);
+            if (updateRecordMatch.Success)
             {
-                var match = updateRecordRegex.Match(CommandText);
-
-                var tableName = match.Groups[1].Value;
+                var tableName = updateRecordMatch.Groups[1].Value;
 
                 _fakeDatabase.CallUpdateCallback(tableName);
-                return 0;
+                return 1;
             }
-            else if (deleteRecordRegex.IsMatch(CommandText))
-            {
-                var match = deleteRecordRegex.Match(CommandText);
 
-                var tableName = match.Groups[1].Value;
+            var deleteRecordMatch = Regex.Match(CommandText, @"^delete from (\S+) where (\S+) = @id$", RegexOptions.IgnoreCase);
+            if (deleteRecordMatch.Success)
+            {
+                var tableName = deleteRecordMatch.Groups[1].Value;
 
                 _fakeDatabase.CallDeleteCallback(tableName);
-                return 0;
+                return 2;
             }
 
-            _fakeDatabase.CallNonQuery(CommandText, Parameters);
+            if (CommandType == CommandType.StoredProcedure)
+            {
+                _fakeDatabase.CallNonQueryStoredProcedure(CommandText, Parameters);
+            }
+            else
+            {
+                _fakeDatabase.CallNonQuerySql(CommandText, Parameters);
+            }
+
             return 0;
         }
 
+        [ExcludeFromCodeCoverage] // Just calls DB object methods based on CommandType no need to test here
         public object ExecuteScalar()
         {
             if (CommandType == CommandType.StoredProcedure)
@@ -124,28 +126,21 @@ namespace JBoyerLibaray.UnitTests.Database
         /// <exception cref="KeyNotFoundException">This only occurs if you have yet to setup database sqls or objects</exception>
         public IDataReader ExecuteReader()
         {
-            var getAllReg = new Regex(@"^select [*] from (\S+)$", RegexOptions.IgnoreCase);
-            var getSingleRecord = new Regex(@"^select [*] from (\S+) where (\S+) = @id$", RegexOptions.IgnoreCase);
-            var insertRecord = new Regex(@"^insert into (\S+) \([^\)]+\) values \([^\)]+\);select scope_identity\(\) (\S+)$", RegexOptions.IgnoreCase);
-
-            if (getAllReg.IsMatch(CommandText))
+            var getAllMatch = Regex.Match(CommandText, @"^select [*] from (\S+)$", RegexOptions.IgnoreCase);
+            if (getAllMatch.Success)
             {
-                // Dapper Get all test
-                var match = getAllReg.Match(CommandText);
-
-                var tableName = match.Groups[1].Value;
+                var tableName = getAllMatch.Groups[1].Value;
 
                 return _fakeDatabase.GetTableResults(tableName).ToDataReader();
             }
-            else if (getSingleRecord.IsMatch(CommandText))
+
+            var getSingleRecordMatch = Regex.Match(CommandText, @"^select [*] from (\S+) where (\S+) = @id$", RegexOptions.IgnoreCase);
+            if (getSingleRecordMatch.Success)
             {
-                // Dapper get by Id test
-                var match = getSingleRecord.Match(CommandText);
+                var tableName = getSingleRecordMatch.Groups[1].Value;
+                var parameterName = getSingleRecordMatch.Groups[2].Value;
 
-                var tableName = match.Groups[1].Value;
-                var parameterName = match.Groups[2].Value;
-
-                var idParameter = _parameters["id"] as IDbDataParameter;
+                var idParameter = Parameters["id"] as IDbDataParameter;
                 var id = idParameter.Value;
 
                 string propertyName = null;
@@ -164,11 +159,11 @@ namespace JBoyerLibaray.UnitTests.Database
                     return Object.Equals(o.GetType().GetProperty(propertyName).GetValue(o, null), id);
                 });
             }
-            else if (insertRecord.IsMatch(CommandText))
-            {
-                var match = insertRecord.Match(CommandText);
 
-                var tableName = match.Groups[1].Value;
+            var insertRecordMatch = Regex.Match(CommandText, @"^insert into (\S+) \([^\)]+\) values \([^\)]+\);select scope_identity\(\) (\S+)$", RegexOptions.IgnoreCase);
+            if (insertRecordMatch.Success)
+            {
+                var tableName = insertRecordMatch.Groups[1].Value;
 
                 _fakeDatabase.CallInsertCallback(tableName);
                 
@@ -180,15 +175,17 @@ namespace JBoyerLibaray.UnitTests.Database
 
                 return a.ToDataReader();
             }
-            else if (CommandType == CommandType.StoredProcedure)
+            
+            if (CommandType == CommandType.StoredProcedure)
             {
-                return _fakeDatabase.GetStoredProcedureResults(CommandText, Parameters).ToDataReader();
+                return _fakeDatabase.getStoredProcedureResultsReader(CommandText, Parameters);
             }
 
             // Custom Sql logic
-            return _fakeDatabase.GetSqlScriptResults(CommandText, Parameters).ToDataReader();
+            return _fakeDatabase.getSqlScriptResultsReader(CommandText, Parameters);
         }
 
+        [ExcludeFromCodeCoverage] // Just calls other override don't need to test this
         public IDataReader ExecuteReader(CommandBehavior behavior)
         {
             return ExecuteReader();
@@ -200,16 +197,20 @@ namespace JBoyerLibaray.UnitTests.Database
             // Do nothing
         }
 
+        [ExcludeFromCodeCoverage] // CreateParameter only creates FakeParameter, so no need for code coverage.
         public IDbDataParameter CreateParameter()
         {
             return new FakeParameter();
         }
 
+        [ExcludeFromCodeCoverage] // Prepare only creates FakeParameter, so no need for code coverage.
         public void Prepare()
         {
-            throw new NotImplementedException();
+            // Do nothing
+            // Usually this is to allow database to optimize for the query before actually doing it
         }
 
+        [ExcludeFromCodeCoverage] // Dispose does nothing so no need for code coverage.
         public void Dispose()
         {
             // Do nothing

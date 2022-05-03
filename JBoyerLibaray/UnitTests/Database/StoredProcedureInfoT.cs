@@ -6,6 +6,9 @@ using System.Linq;
 namespace JBoyerLibaray.UnitTests.Database
 {
 
+    /// <summary>
+    /// Used for storing result info for a stored procedure that returns a single result set
+    /// </summary>
     internal class StoredProcedureInfo<T> : StoredProcedureInfo where T : class
     {
 

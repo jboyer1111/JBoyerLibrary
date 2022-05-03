@@ -3,15 +3,15 @@ using JBoyerLibaray.FileSystem;
 using Microsoft.Build.Framework;
 using Microsoft.Web.XmlTransform;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace JBoyerLibaray.Task
 {
+
     public class TransConfig : ITask
     {
+
         #region Private Varables
 
         private IFileSystemHelper _fileSystemHelper;
@@ -90,5 +90,7 @@ namespace JBoyerLibaray.Task
         }
 
         #endregion
+
     }
+
 }

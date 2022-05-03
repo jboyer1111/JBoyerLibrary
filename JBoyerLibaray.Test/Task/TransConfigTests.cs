@@ -73,7 +73,7 @@ namespace JBoyerLibaray.Task
 
         #endregion
 
-        private List<IUnitTestDisposable> _cleanup = new List<IUnitTestDisposable>(10);
+        private List<IUTDisposable> _cleanup = new List<IUTDisposable>(10);
 
         [TestMethod]
         public void TransConfig_ConstructorNoArg()
@@ -103,7 +103,7 @@ namespace JBoyerLibaray.Task
         public void TransConfig_Execute()
         {
             // Arrange
-            var stream = new UnitTestStream();
+            var stream = new UTStream();
 
             // This is to "Dispose" the Stream. UnitTestStream need to call UnitTestDispose to Dispose It
             _cleanup.Add(stream);
@@ -139,7 +139,7 @@ namespace JBoyerLibaray.Task
         public void TransConfig_ExecuteSavesToConfigPathIfOutputPathEmpty()
         {
             // Arrange
-            var stream = new UnitTestStream();
+            var stream = new UTStream();
 
             // This is to "Dispose" the Stream. UnitTestStream need to call UnitTestDispose to Dispose It
             _cleanup.Add(stream);
@@ -207,7 +207,7 @@ namespace JBoyerLibaray.Task
         public void TransConfig_ExecuteReturnsFalseIfExceptionOccured()
         {
             // Arrange
-            var stream = new UnitTestStream();
+            var stream = new UTStream();
 
             // This is to "Dispose" the Stream. UnitTestStream need to call UnitTestDispose to Dispose It
             _cleanup.Add(stream);

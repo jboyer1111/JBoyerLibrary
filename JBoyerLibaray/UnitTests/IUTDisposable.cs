@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JBoyerLibaray.UnitTests
 {
-    public interface IUnitTestDisposable : IDisposable
+    public interface IUTDisposable : IDisposable
     {
         void UnitTestDispose();
     }

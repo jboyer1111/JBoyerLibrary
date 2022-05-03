@@ -1,14 +1,14 @@
 ﻿using JBoyerLibaray.Exceptions;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace JBoyerLibaray.Web
 {
+
     public class WebDownloaderFile : IDisposable
     {
+
         #region Private Variables
 
         private Stream _file;
@@ -18,21 +18,11 @@ namespace JBoyerLibaray.Web
 
         #region Public Properties
 
-        public Stream File
-        {
-            get
-            {
-                return _file;
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public Stream File => _file;
 
-        public string ContentType
-        {
-            get
-            {
-                return _contentType;
-            }
-        }
+        [ExcludeFromCodeCoverage]
+        public string ContentType => _contentType;
 
         #endregion
 
@@ -56,5 +46,7 @@ namespace JBoyerLibaray.Web
         {
             _file.Dispose();
         }
+
     }
+
 }

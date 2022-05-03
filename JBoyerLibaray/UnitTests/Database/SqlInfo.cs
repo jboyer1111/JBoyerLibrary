@@ -6,24 +6,59 @@ using System.Linq;
 namespace JBoyerLibaray.UnitTests.Database
 {
 
+    /// <summary>
+    /// Used for storing result info for a sql statement
+    /// </summary>
     internal abstract class SqlInfo
     {
 
+        protected Func<FakeDatabase, IDataParameterCollection, MultiResultSet> _multiResultSet;
         protected Func<FakeDatabase, IDataParameterCollection, IEnumerable<object>> _results;
         protected IEnumerable<string> _expectedParameters;
 
+        public bool HasMulti => _multiResultSet != null; 
+
         public IEnumerable<object> GetResults(FakeDatabase fakeDatabase, IDataParameterCollection passedParams)
         {
+            if (HasMulti)
+            {
+                throw new Exception("Sql is setup as a Mutilple Result set. You need to call GetSqlScriptMultiResults.");
+            }
+            
             validationParameters(passedParams);
 
             return _results(fakeDatabase, passedParams);
+        }
+
+        public IEnumerable<IEnumerable<object>> GetMultiResulsts(FakeDatabase fakeDatabase, IDataParameterCollection passedParams)
+        {
+            if (!HasMulti)
+            {
+                throw new Exception("Sql is setup as a Single Result set. You need to call GetSqlScriptResults.");
+            }
+
+            validationParameters(passedParams);
+
+            return _multiResultSet(fakeDatabase, passedParams).ResultSets;
+        }
+
+        public IDataReader GetDataReader(FakeDatabase fakeDatabase, IDataParameterCollection passedParams)
+        {
+            validationParameters(passedParams);
+
+            if (HasMulti)
+            {
+                return _multiResultSet(fakeDatabase, passedParams).ToDataReader();
+            }
+
+            return _results(fakeDatabase, passedParams).ToDataReader();
         }
 
         public object GetScalar(FakeDatabase fakeDatabase, IDataParameterCollection passedParams)
         {
             validationParameters(passedParams);
 
-            IDataReader resultReader = _results(fakeDatabase, passedParams).ToDataReader();
+            IDataReader resultReader = GetDataReader(fakeDatabase, passedParams);
 
             object result;
             if (resultReader.Read())

@@ -4,10 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class RespectNumbersFilenameComparerTests
     {
+
         [TestMethod]
         public void RespectNumbersFilenameComparer_XAndYNullReturns0()
         {
@@ -176,5 +177,7 @@ namespace JBoyerLibaray
             // Assert
             Assert.AreEqual(1, result);
         }
+
     }
+
 }

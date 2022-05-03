@@ -131,6 +131,12 @@
     <Compile Include="DeckOfCards\NotEnoughCardsException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Task\TransConfig.cs" />
+    <Compile Include="UnitTests\Database\MultiResultSet.cs" />
+    <Compile Include="UnitTests\Database\ScalarResultSet.cs" />
+    <Compile Include="UnitTests\Database\ScalarValue.cs" />
+    <Compile Include="UnitTests\Database\SqlInfoMulti.cs" />
+    <Compile Include="UnitTests\Database\StoredProcedureInfoMulti.cs" />
+    <Compile Include="UnitTests\DataReader\MultiDataReader.cs" />
     <Compile Include="UnitTests\UTObjectCreator.cs" />
     <Compile Include="UnitTests\ControllerHelpers\FakeView.cs" />
     <Compile Include="UnitTests\ControllerHelpers\FakeViewDataContainer.cs" />
@@ -146,7 +152,7 @@
     <Compile Include="UnitTests\DataReader\EnumerableDataReader.cs" />
     <Compile Include="UnitTests\DataReader\ObjectDataReader.cs" />
     <Compile Include="UnitTests\ExpectedExceptionWithMessageAttribute.cs" />
-    <Compile Include="UnitTests\IUnitTestDisposable.cs" />
+    <Compile Include="UnitTests\IUTDisposable.cs" />
     <Compile Include="UnitTests\Database\FakeCommand.cs" />
     <Compile Include="UnitTests\Database\FakeConnection.cs" />
     <Compile Include="UnitTests\Database\FakeParameter.cs" />
@@ -163,7 +169,7 @@
     <Compile Include="UnitTests\ReturnsQueue.cs" />
     <Compile Include="UnitTests\UTRandom.cs" />
     <Compile Include="UnitTests\UnitTestHelper.cs" />
-    <Compile Include="UnitTests\UnitTestStream.cs" />
+    <Compile Include="UnitTests\UTStream.cs" />
     <Compile Include="Web\PageCache.cs" />
     <Compile Include="Web\WebDownloader.cs" />
     <Compile Include="Web\WebDownloaderFile.cs" />

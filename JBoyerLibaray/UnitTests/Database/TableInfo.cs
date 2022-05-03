@@ -4,6 +4,9 @@ using System.Collections.Generic;
 namespace JBoyerLibaray.UnitTests.Database
 {
 
+    /// <summary>
+    /// Class for storing Dapper table data.
+    /// </summary>
     internal abstract class TableInfo
     {
 

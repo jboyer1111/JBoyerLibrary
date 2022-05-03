@@ -6,6 +6,9 @@ using System.Linq;
 namespace JBoyerLibaray.UnitTests.Database
 {
 
+    /// <summary>
+    /// Holds info for NonQuery statements
+    /// </summary>
     internal class NonQueryInfo
     {
 

@@ -2,6 +2,7 @@
 using JBoyerLibaray.FileSystem;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -35,6 +36,7 @@ namespace JBoyerLibaray.Web
 
     public class WebPageCache : IWebPageCache
     {
+
         #region Private Variables
 
         private string _getPageCacheDirectoryPath;
@@ -48,13 +50,17 @@ namespace JBoyerLibaray.Web
 
         #region Public Variables
 
-        public string GetPageCacheDirectoryPath { get { return _getPageCacheDirectoryPath; } }
+        [ExcludeFromCodeCoverage]
+        public string GetPageCacheDirectoryPath => _getPageCacheDirectoryPath;
 
-        public string GetPageCacheFilePath { get { return _getPageCacheFilePath; } }
+        [ExcludeFromCodeCoverage]
+        public string GetPageCacheFilePath => _getPageCacheFilePath;
 
-        public string GetPageCacheFileName { get { return _getPageCacheFileName; } }
+        [ExcludeFromCodeCoverage]
+        public string GetPageCacheFileName => _getPageCacheFileName;
 
-        public int Count { get { return _urlToWebPageFileNameDict.Count; } }
+        [ExcludeFromCodeCoverage]
+        public int Count => _urlToWebPageFileNameDict.Count;
 
         #endregion
 
@@ -104,9 +110,9 @@ namespace JBoyerLibaray.Web
                 foreach (var page in pages)
                 {
                     var pageCache = new PageCache();
-                    var url = GetXElmentText(page, "URL");
-                    var filepath = GetXElmentText(page, "FileName");
-                    var dateStr = GetXElmentText(page, "CacheDate");
+                    var url = getXElmentText(page, "URL");
+                    var filepath = getXElmentText(page, "FileName");
+                    var dateStr = getXElmentText(page, "CacheDate");
                     if (String.IsNullOrWhiteSpace(url) || String.IsNullOrWhiteSpace(filepath) || String.IsNullOrWhiteSpace(dateStr))
                     {
                         continue;
@@ -114,7 +120,7 @@ namespace JBoyerLibaray.Web
                     pageCache.FilePath = filepath;
                     pageCache.CacheDate = DateTime.Parse(dateStr);
 
-                    var experationDate = GetXElmentText(page, "ExperationDate");
+                    var experationDate = getXElmentText(page, "ExperationDate");
                     if (!String.IsNullOrWhiteSpace(experationDate))
                     {
                         pageCache.ExperationDate = DateTime.Parse(experationDate);
@@ -133,7 +139,7 @@ namespace JBoyerLibaray.Web
             }
         }
 
-        private string GetXElmentText(XElement node, string name)
+        private string getXElmentText(XElement node, string name)
         {
             if (!node.HasElements)
             {
@@ -336,6 +342,7 @@ namespace JBoyerLibaray.Web
         }
 
         #endregion
+
     }
 
 }

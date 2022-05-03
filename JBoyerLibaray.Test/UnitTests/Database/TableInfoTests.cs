@@ -1,10 +1,10 @@
-﻿using System;
+﻿using JBoyerLibaray.HelperClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.SqlClient;
 using System.Diagnostics.CodeAnalysis;
-using JBoyerLibaray.HelperClasses;
+using System.Linq;
 
 namespace JBoyerLibaray.UnitTests.Database
 {

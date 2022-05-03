@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace JBoyerLibaray
 {
+
     public class RespectBeginingNumberFilenameSort : IComparer<string>
     {
+
         private Regex _reg = new Regex(@"^\d+");
 
         public int Compare(string x, string y)
@@ -51,5 +50,7 @@ namespace JBoyerLibaray
 
             return String.Compare(x, y);
         }
+
     }
+
 }

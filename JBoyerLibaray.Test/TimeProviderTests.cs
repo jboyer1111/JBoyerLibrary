@@ -4,8 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace JBoyerLibaray
 {
-    [TestClass]
-    [ExcludeFromCodeCoverage]
+
+    [TestClass, ExcludeFromCodeCoverage]
     public class TimeProviderTests
     {
 
@@ -69,8 +69,7 @@ namespace JBoyerLibaray
             Assert.AreEqual(expected.ToString(), result.ToString());
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TimeProvider_GetTimezoneTimeThrowsArgrumntNullExceptionWhenTimeZoneIsNull()
         {
             // Arrange
@@ -83,8 +82,7 @@ namespace JBoyerLibaray
             // Assert
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void TimeProvider_GetTimezoneTimeThrowsArgrumntNullExceptionWhenTimeZoneInfoIsNull()
         {
             // Arrange
@@ -128,5 +126,7 @@ namespace JBoyerLibaray
             // I don't care about this much of a difference
             Assert.AreEqual(expected.ToString(), result.ToString());
         }
+
     }
+
 }
