@@ -42,22 +42,6 @@ using System.Security.Principal;
 
 //        #endregion
 
-//        #region Convert List Into Data Reader
-
-//        public static EnumerableDataReader ToDataReader<T>(this IEnumerable<T> collection)
-//        {
-//            return new EnumerableDataReader(collection);
-//        }
-
-//        public static EnumerableDataReader ToDataReader<T>(this IEnumerable<T> collection, Func<T, bool> predicate)
-//        {
-//            var type = EnumerableDataReader.CalculateType(collection);
-
-//            return new EnumerableDataReader(collection.Where(predicate), type);
-//        }
-
-//        #endregion
-
 //        #region Set Up Controller For Unit Tests 
 
 //        public static void SetUpForUnitTests(this Controller controller, RouteCollection routes)
@@ -96,18 +80,6 @@ using System.Security.Principal;
 //            fakeControllerContext.AddRouteData("action", action);
 
 //            return new ExceptionContext(fakeControllerContext, exception);
-//        }
-
-//        #endregion
-
-//        #region Sql Connection
-
-//        public static T GetParam<T>(this IDataParameterCollection paramters, string name) where T : class
-//        {
-//            return paramters
-//                .Cast<IDataParameter>()
-//                .Where(p => string.Equals(p.ParameterName, name, StringComparison.CurrentCultureIgnoreCase))
-//                .FirstOrDefault() as T;
 //        }
 
 //        #endregion
