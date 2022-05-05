@@ -32,11 +32,10 @@ namespace JBoyer.Testing.Database
             // Arragne
 
             // Act 
-            using (var command = new FakeCommand(new FakeDatabase()))
-            {
-                // Assert
-                Assert.IsNull(command.Connection);
-            }
+            using var command = new FakeCommand(new FakeDatabase());
+
+            // Assert
+            Assert.IsNull(command.Connection);
         }
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
@@ -57,12 +56,11 @@ namespace JBoyer.Testing.Database
             // Arragne
 
             // Act 
-            using (var connection = new FakeConnection(new FakeDatabase()))
-            using (var command = new FakeCommand(new FakeDatabase(), connection))
-            {
-                // Assert
-                Assert.IsTrue(ReferenceEquals(command.Connection, connection), "Connection objects are not the same refernce.");
-            }
+            using var connection = new FakeConnection(new FakeDatabase());
+            using var command = new FakeCommand(new FakeDatabase(), connection);
+
+            // Assert
+            Assert.IsTrue(ReferenceEquals(command.Connection, connection), "Connection objects are not the same refernce.");
         }
 
         #endregion
@@ -73,16 +71,14 @@ namespace JBoyer.Testing.Database
         public void FakeCommand_ExecuteNonQuery_DetectsDapperUpdateSql()
         {
             // Arrange
-            using (var fakeCommand = new FakeCommand(new FakeDatabase()))
-            {
-                fakeCommand.CommandText = "Update TableName Set ColumnName = 'New Value' Where Id = @Id";
+            using var fakeCommand = new FakeCommand(new FakeDatabase());
+            fakeCommand.CommandText = "Update TableName Set ColumnName = 'New Value' Where Id = @Id";
 
-                // Act
-                var result = fakeCommand.ExecuteNonQuery();
+            // Act
+            var result = fakeCommand.ExecuteNonQuery();
 
-                // Assert
-                Assert.AreEqual(1, result);
-            }
+            // Assert
+            Assert.AreEqual(1, result);
         }
 
         [TestMethod]
@@ -94,32 +90,28 @@ namespace JBoyer.Testing.Database
             var database = new FakeDatabase();
             database.SetupNonQuerySql(updateSql);
 
-            using (var fakeCommand = new FakeCommand(database))
-            {
-                fakeCommand.CommandText = updateSql;
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = updateSql;
 
-                // Act
-                var result = fakeCommand.ExecuteNonQuery();
+            // Act
+            var result = fakeCommand.ExecuteNonQuery();
 
-                // Assert
-                Assert.AreEqual(0, result);
-            }
+            // Assert
+            Assert.AreEqual(0, result);
         }
 
         [TestMethod]
         public void FakeCommand_ExecuteNonQuery_DetectsDapperDeleteSql()
         {
             // Arrange
-            using (var fakeCommand = new FakeCommand(new FakeDatabase()))
-            {
-                fakeCommand.CommandText = "Delete From TableName Where Id = @Id";
+            using var fakeCommand = new FakeCommand(new FakeDatabase());
+            fakeCommand.CommandText = "Delete From TableName Where Id = @Id";
 
-                // Act
-                var result = fakeCommand.ExecuteNonQuery();
+            // Act
+            var result = fakeCommand.ExecuteNonQuery();
 
-                // Assert
-                Assert.AreEqual(2, result);
-            }
+            // Assert
+            Assert.AreEqual(2, result);
         }
 
         [TestMethod]
@@ -131,16 +123,14 @@ namespace JBoyer.Testing.Database
             var database = new FakeDatabase();
             database.SetupNonQuerySql(updateSql);
 
-            using (var fakeCommand = new FakeCommand(database))
-            {
-                fakeCommand.CommandText = updateSql;
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = updateSql;
 
-                // Act
-                var result = fakeCommand.ExecuteNonQuery();
+            // Act
+            var result = fakeCommand.ExecuteNonQuery();
 
-                // Assert
-                Assert.AreEqual(0, result);
-            }
+            // Assert
+            Assert.AreEqual(0, result);
         }
 
         [TestMethod]
@@ -152,16 +142,14 @@ namespace JBoyer.Testing.Database
             var database = new FakeDatabase();
             database.SetupNonQuerySql(sql);
 
-            using (var fakeCommand = new FakeCommand(database))
-            {
-                fakeCommand.CommandText = sql;
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = sql;
 
-                // Act
-                var result = fakeCommand.ExecuteNonQuery();
+            // Act
+            var result = fakeCommand.ExecuteNonQuery();
 
-                // Assert
-                Assert.AreEqual(0, result);
-            }
+            // Assert
+            Assert.AreEqual(0, result);
         }
 
         [TestMethod]
@@ -173,17 +161,15 @@ namespace JBoyer.Testing.Database
             var database = new FakeDatabase();
             database.SetupNonQueryStoredProcedure(sql);
 
-            using (var fakeCommand = new FakeCommand(database))
-            {
-                fakeCommand.CommandText = sql;
-                fakeCommand.CommandType = CommandType.StoredProcedure;
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = sql;
+            fakeCommand.CommandType = CommandType.StoredProcedure;
 
-                // Act
-                var result = fakeCommand.ExecuteNonQuery();
+            // Act
+            var result = fakeCommand.ExecuteNonQuery();
 
-                // Assert
-                Assert.AreEqual(0, result);
-            }
+            // Assert
+            Assert.AreEqual(0, result);
         }
 
         #endregion
@@ -197,26 +183,24 @@ namespace JBoyer.Testing.Database
             var database = new FakeDatabase();
             database.SetupTable("TableName", TestData.GetTeams());
 
-            using (var fakeCommand = new FakeCommand(database))
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = "Select * From TableName";
+
+            // Act
+            var dataReader = fakeCommand.ExecuteReader();
+
+            // Assert
+            var results = new List<Team>();
+            while (dataReader.Read())
             {
-                fakeCommand.CommandText = "Select * From TableName";
-
-                // Act
-                var dataReader = fakeCommand.ExecuteReader();
-
-                // Assert
-                var results = new List<Team>();
-                while (dataReader.Read())
+                results.Add(new Team
                 {
-                    results.Add(new Team
-                    {
-                        Id = dataReader.GetInt32(dataReader.GetOrdinal("Id")),
-                        Name = dataReader.GetString(dataReader.GetOrdinal("Name"))
-                    });
-                }
-
-                CollectionAssert.AreEqual(new Team[] { new Team { Id = 1, Name = "Billy" }, new Team { Id = 2, Name = "Bob" } }, results);
+                    Id = dataReader.GetInt32(dataReader.GetOrdinal("Id")),
+                    Name = dataReader.GetString(dataReader.GetOrdinal("Name"))
+                });
             }
+
+            CollectionAssert.AreEqual(new Team[] { new Team { Id = 1, Name = "Billy" }, new Team { Id = 2, Name = "Bob" } }, results);
         }
 
         [TestMethod]
@@ -228,22 +212,20 @@ namespace JBoyer.Testing.Database
             var database = new FakeDatabase();
             database.SetupSql(sql, TestData.GetTeams());
 
-            using (var fakeCommand = new FakeCommand(database))
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = sql;
+
+            // Act
+            var dataReader = fakeCommand.ExecuteReader();
+
+            // Assert
+            var results = new List<string>();
+            while (dataReader.Read())
             {
-                fakeCommand.CommandText = sql;
-
-                // Act
-                var dataReader = fakeCommand.ExecuteReader();
-
-                // Assert
-                var results = new List<string>();
-                while (dataReader.Read())
-                {
-                    results.Add(dataReader.GetString(dataReader.GetOrdinal("Name")));
-                }
-
-                CollectionAssert.AreEqual(new string[] { "Billy", "Bob" }, results);
+                results.Add(dataReader.GetString(dataReader.GetOrdinal("Name")));
             }
+
+            CollectionAssert.AreEqual(new string[] { "Billy", "Bob" }, results);
         }
 
         [TestMethod]
@@ -253,32 +235,30 @@ namespace JBoyer.Testing.Database
             var database = new FakeDatabase();
             database.SetupTable("TableName", TestData.GetTeams());
 
-            using (var fakeCommand = new FakeCommand(database))
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = "Select * From TableName Where Id = @Id";
+            var parameter = fakeCommand.CreateParameter();
+            parameter.ParameterName = "Id";
+            parameter.Value = 1;
+            parameter.DbType = DbType.Int32;
+
+            fakeCommand.Parameters.Add(parameter);
+
+            // Act
+            var dataReader = fakeCommand.ExecuteReader();
+
+            // Assert
+            var results = new List<Team>();
+            while (dataReader.Read())
             {
-                fakeCommand.CommandText = "Select * From TableName Where Id = @Id";
-                var parameter = fakeCommand.CreateParameter();
-                parameter.ParameterName = "Id";
-                parameter.Value = 1;
-                parameter.DbType = DbType.Int32;
-
-                fakeCommand.Parameters.Add(parameter);
-
-                // Act
-                var dataReader = fakeCommand.ExecuteReader();
-
-                // Assert
-                var results = new List<Team>();
-                while (dataReader.Read())
+                results.Add(new Team
                 {
-                    results.Add(new Team
-                    {
-                        Id = dataReader.GetInt32(dataReader.GetOrdinal("Id")),
-                        Name = dataReader.GetString(dataReader.GetOrdinal("Name"))
-                    });
-                }
-
-                CollectionAssert.AreEqual(new Team[] { new Team { Id = 1, Name = "Billy" } }, results);
+                    Id = dataReader.GetInt32(dataReader.GetOrdinal("Id")),
+                    Name = dataReader.GetString(dataReader.GetOrdinal("Name"))
+                });
             }
+
+            CollectionAssert.AreEqual(new Team[] { new Team { Id = 1, Name = "Billy" } }, results);
         }
 
         [TestMethod]
@@ -299,28 +279,49 @@ namespace JBoyer.Testing.Database
                 new string[] { "Id" }
             );
 
-            using (var fakeCommand = new FakeCommand(database))
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = sql;
+            var parameter = fakeCommand.CreateParameter();
+            parameter.ParameterName = "Id";
+            parameter.Value = 1;
+            parameter.DbType = DbType.Int32;
+
+            fakeCommand.Parameters.Add(parameter);
+
+            // Act
+            var dataReader = fakeCommand.ExecuteReader();
+
+            // Assert
+            var results = new List<string>();
+            while (dataReader.Read())
             {
-                fakeCommand.CommandText = sql;
-                var parameter = fakeCommand.CreateParameter();
-                parameter.ParameterName = "Id";
-                parameter.Value = 1;
-                parameter.DbType = DbType.Int32;
-
-                fakeCommand.Parameters.Add(parameter);
-
-                // Act
-                var dataReader = fakeCommand.ExecuteReader();
-
-                // Assert
-                var results = new List<string>();
-                while (dataReader.Read())
-                {
-                    results.Add(dataReader.GetString(dataReader.GetOrdinal("Name")));
-                }
-
-                CollectionAssert.AreEqual(new string[] { "Billy" }, results);
+                results.Add(dataReader.GetString(dataReader.GetOrdinal("Name")));
             }
+
+            CollectionAssert.AreEqual(new string[] { "Billy" }, results);
+        }
+
+        [TestMethod, ExpectedExceptionWithMessage(typeof(InvalidOperationException), "BillyBob does exist on JBoyer.Team.")]
+        public void FakeCommand_ExecuteReader_DapperSelectSingleThrowsExceptionWhenInvalidProperltyName()
+        {
+            // Arrange
+            var database = new FakeDatabase();
+            database.SetupTable("TableName", TestData.GetTeams());
+
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = "Select * From TableName Where BillyBob = @Id";
+            var parameter = fakeCommand.CreateParameter();
+            parameter.ParameterName = "Id";
+            parameter.Value = 1;
+            parameter.DbType = DbType.Int32;
+
+            fakeCommand.Parameters.Add(parameter);
+
+            // Act
+            var dataReader = fakeCommand.ExecuteReader();
+            dataReader.Read();
+
+            // Assert
         }
 
         [TestMethod]
@@ -329,17 +330,15 @@ namespace JBoyer.Testing.Database
             // Arrange
             var database = new FakeDatabase();
 
-            using (var fakeCommand = new FakeCommand(database))
-            {
-                fakeCommand.CommandText = "Insert Into Table (Col1, Col2) Values ('Col1', 'Col2');Select scope_identity() Text";
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = "Insert Into Table (Col1, Col2) Values ('Col1', 'Col2');Select scope_identity() Text";
 
-                // Act
-                var dataReader = fakeCommand.ExecuteReader();
+            // Act
+            var dataReader = fakeCommand.ExecuteReader();
 
-                // Assert
-                dataReader.Read();
-                Assert.AreEqual(0, dataReader.GetInt32(dataReader.GetOrdinal("SCOPE_IDENTITY")));
-            }
+            // Assert
+            dataReader.Read();
+            Assert.AreEqual(0, dataReader.GetInt32(dataReader.GetOrdinal("SCOPE_IDENTITY")));
         }
 
         [TestMethod]
@@ -357,17 +356,15 @@ namespace JBoyer.Testing.Database
                 new string[] { }
             );
 
-            using (var fakeCommand = new FakeCommand(database))
-            {
-                fakeCommand.CommandText = sql;
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = sql;
 
-                // Act
-                var dataReader = fakeCommand.ExecuteReader();
+            // Act
+            var dataReader = fakeCommand.ExecuteReader();
 
-                // Assert
-                dataReader.Read();
-                Assert.AreEqual(0, dataReader.GetInt32(dataReader.GetOrdinal("SCOPE_IDENTITY")));
-            }
+            // Assert
+            dataReader.Read();
+            Assert.AreEqual(0, dataReader.GetInt32(dataReader.GetOrdinal("SCOPE_IDENTITY")));
         }
 
         [TestMethod]
@@ -377,27 +374,25 @@ namespace JBoyer.Testing.Database
             var database = new FakeDatabase();
             database.SetupStoredProcedure("USP_SomeName", TestData.GetTeams());
 
-            using (var fakeCommand = new FakeCommand(database))
+            using var fakeCommand = new FakeCommand(database);
+            fakeCommand.CommandText = "USP_SomeName";
+            fakeCommand.CommandType = CommandType.StoredProcedure;
+
+            // Act
+            var dataReader = fakeCommand.ExecuteReader();
+
+            // Assert
+            var results = new List<Team>();
+            while (dataReader.Read())
             {
-                fakeCommand.CommandText = "USP_SomeName";
-                fakeCommand.CommandType = CommandType.StoredProcedure;
-
-                // Act
-                var dataReader = fakeCommand.ExecuteReader();
-
-                // Assert
-                var results = new List<Team>();
-                while (dataReader.Read())
+                results.Add(new Team
                 {
-                    results.Add(new Team
-                    {
-                        Id = dataReader.GetInt32(dataReader.GetOrdinal("Id")),
-                        Name = dataReader.GetString(dataReader.GetOrdinal("Name"))
-                    });
-                }
-
-                CollectionAssert.AreEqual(new Team[] { new Team { Id = 1, Name = "Billy" }, new Team { Id = 2, Name = "Bob" } }, results);
+                    Id = dataReader.GetInt32(dataReader.GetOrdinal("Id")),
+                    Name = dataReader.GetString(dataReader.GetOrdinal("Name"))
+                });
             }
+
+            CollectionAssert.AreEqual(new Team[] { new Team { Id = 1, Name = "Billy" }, new Team { Id = 2, Name = "Bob" } }, results);
         }
 
         #endregion

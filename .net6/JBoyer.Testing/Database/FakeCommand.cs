@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace JBoyer.Testing.Database
@@ -132,23 +133,18 @@ namespace JBoyer.Testing.Database
                 var tableName = getSingleRecordMatch.Groups[1].Value;
                 var parameterName = getSingleRecordMatch.Groups[2].Value;
 
-                IDbDataParameter? idParameter = Parameters["id"] as IDbDataParameter ?? throw new InvalidOperationException("id parameter is not set.");
+                IDbDataParameter idParameter = (IDbDataParameter)Parameters["id"];
                 object? id = idParameter.Value;
 
-                string? propertyName = null;
                 return _fakeDatabase.GetTableResults(tableName).ToDataReader(o =>
                 {
-                    if (propertyName == null)
-                    {
-                        var type = o.GetType();
-                        propertyName = type
-                            .GetProperties()
-                            .Where(p => string.Equals(p.Name, parameterName, StringComparison.CurrentCultureIgnoreCase))
-                            .Select(p => p.Name)
-                            .FirstOrDefault() ?? throw new InvalidOperationException($"{parameterName} does exist on {type.FullName}.");
-                    }
+                    Type type = o.GetType();
+                    PropertyInfo propertyInfo = type
+                        .GetProperties()
+                        .Where(p => string.Equals(p.Name, parameterName, StringComparison.CurrentCultureIgnoreCase))
+                        .FirstOrDefault() ?? throw new InvalidOperationException($"{parameterName} does exist on {type.FullName}.");
 
-                    return Equals(o.GetType().GetProperty(propertyName)?.GetValue(o, null), id);
+                    return Equals(propertyInfo.GetValue(o, null), id);
                 });
             }
 

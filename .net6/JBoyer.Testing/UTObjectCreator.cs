@@ -15,10 +15,7 @@ namespace JBoyer.Testing
         /// </summary>
         /// <param name="errorCode">The number that identifies the type of error.</param>
         /// <returns>A SqlEception with the specified ErrorCode</returns>
-        public static SqlException NewSqlException(int errorCode)
-        {
-            return NewSqlException(errorCode, "This is a Unit Test Generated SqlException.");
-        }
+        public static SqlException NewSqlException(int errorCode) => newSqlExceptionLogic(errorCode, "This is a Unit Test Generated SqlException.");
 
         /// <summary>
         /// Uses reflection to create an instance of System.Data.SqlClient.SqlException with the specified error code number and message.
@@ -26,33 +23,7 @@ namespace JBoyer.Testing
         /// <param name="errorCode">The number that identifies the type of error.</param>
         /// <param name="message">The message that is applied to the SqlException</param>
         /// <returns>A SqlEception with the specified ErrorCode and message</returns>
-        public static SqlException NewSqlException(int errorCode, string message)
-        {
-            SqlErrorCollection collection = construct<SqlErrorCollection>();
-            SqlError error = construct<SqlError>(errorCode, (byte)2, (byte)3, "server name", message, "proc", 100, new Exception(message));
-
-            typeof(SqlErrorCollection)
-                .GetMethod("Add", BindingFlags.NonPublic | BindingFlags.Instance)?
-                .Invoke(collection, new object[] { error });
-
-            SqlException exception = typeof(SqlException)
-                .GetMethod(
-                    "CreateException",
-                    BindingFlags.NonPublic | BindingFlags.Static,
-                    null,
-                    CallingConventions.ExplicitThis,
-                    new[] { typeof(SqlErrorCollection), typeof(string) },
-                    new ParameterModifier[] { }
-                )?
-                .Invoke(null, new object[] { collection, "7.0.0" }) as SqlException ?? throw new InvalidOperationException("Test");
-
-            typeof(SqlException)
-                .GetProperty("HResult")?
-                .SetMethod?
-                .Invoke(exception, new object[] { errorCode });
-
-            return exception;
-        }
+        public static SqlException NewSqlException(int errorCode, string message) => newSqlExceptionLogic(errorCode, message);
 
         #endregion
 
@@ -98,6 +69,35 @@ namespace JBoyer.Testing
             }
 
             return (T)construtorInfoUse.Invoke(args);
+        }
+
+        [ExcludeFromCodeCoverage]
+        private static SqlException newSqlExceptionLogic(int errorCode, string message)
+        {
+            SqlErrorCollection collection = construct<SqlErrorCollection>();
+            SqlError error = construct<SqlError>(errorCode, (byte)2, (byte)3, "server name", message, "proc", 100, new Exception(message));
+
+            typeof(SqlErrorCollection)
+                .GetMethod("Add", BindingFlags.NonPublic | BindingFlags.Instance)?
+                .Invoke(collection, new object[] { error });
+
+            SqlException exception = typeof(SqlException)
+                .GetMethod(
+                    "CreateException",
+                    BindingFlags.NonPublic | BindingFlags.Static,
+                    null,
+                    CallingConventions.ExplicitThis,
+                    new[] { typeof(SqlErrorCollection), typeof(string) },
+                    new ParameterModifier[] { }
+                )?
+                .Invoke(null, new object[] { collection, "7.0.0" }) as SqlException ?? throw new InvalidOperationException("Test");
+
+            typeof(SqlException)
+                .GetProperty("HResult")?
+                .SetMethod?
+                .Invoke(exception, new object[] { errorCode });
+
+            return exception;
         }
 
         #endregion
