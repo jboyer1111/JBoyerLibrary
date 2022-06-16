@@ -9,6 +9,7 @@ namespace JBoyerLibaray.Extensions
 {
     public static class ListExtensions
     {
+
         // These 2 lines make the random thread safe. It also increments the seed value by one each time
         // This is not a problem with my code. I don't care about how predictable each random is.
         // This is an inherit trate of the Random class. If true random is needed then use
@@ -175,6 +176,11 @@ namespace JBoyerLibaray.Extensions
             }
 
             yield return yeildArray;
+        }
+
+        public static void Sort<T>(this List<T> list, Func<T, T, int> compare)
+        {
+            list.Sort(new DeferComparer<T>(compare));
         }
 
     }
